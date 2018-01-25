@@ -1,0 +1,18 @@
+.info-sentence{
+    display: flex;
+    font-size: 15px;
+}
+
+.sentence-title{
+    margin-right: 10px;
+    font-weight: 500;
+}
+
+.sentence-value{
+    font-weight: 400;
+}
+
+.ticket-container{
+    min-height: calc(100% - 60px - 78px)!important;
+}
+

@@ -1,0 +1,35 @@
+.check{
+    position: fixed;
+    height: 200px;
+    width: 200px;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    z-index: 100;
+
+    border: 1px solid #8a8a8a;
+
+    display: none;
+}
+
+.check-success{
+    background-color: #28a745;
+}
+
+.check-danger{
+    background-color: #dc3545;
+}
+
+.check-content{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.check-content i{
+    font-size: 150px;
+    color: white;
+}

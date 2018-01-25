@@ -1,0 +1,105 @@
+body{
+    position: relative;
+    min-height: 100%;
+}
+
+
+footer{
+    position: relative;
+    bottom: 0px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.container{
+    position: relative;
+    min-height: calc(100% - 60px - 78px);
+}
+
+.page-title-head{
+    display: flex;
+}
+
+.ticket-card{
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.unset-link{
+    color: unset;
+    text-decoration: none;
+}
+
+.unset-link:hover{
+    color: unset;
+    text-decoration: none;
+}
+
+.unset-link:active{
+    -webkit-box-shadow: inset 0px 0px 16px 0px rgba(245,245,245,1);
+    -moz-box-shadow: inset 0px 0px 16px 0px rgba(245,245,245,1);
+    box-shadow: inset 0px 0px 16px 0px rgba(245,245,245,1);
+}
+
+.unset-webkit-btn{
+    -webkit-appearance: unset!important;
+}
+
+.nav-right{
+    margin-right: 10px;
+}
+
+.btn-outline-success-hover{
+    color: #fff!important;
+    background-color: #28a745!important;
+    border-color: #28a745!important;
+}
+
+.add-btn{
+    position: static;
+    top: 98px;
+    right: 10px;
+    text-decoration: none;
+    display: flex;
+    list-style: none;
+}
+
+.color-block{
+    float: right;
+    width: 50px;
+    height: 50px;
+    border-radius: 3px;
+}
+
+.card-link-color{
+    line-height: 3;
+}
+
+.card-footer-color{
+    bottom: 0;
+}
+
+/*
+.card-body-color{
+    vertical-align: top;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 250px;
+}
+*/
+
+.form-control-color{
+    display: block;
+    width: 75px;
+    height: 75px;
+    font-size: 1rem;
+    line-height: 1.5;
+    background-color: transparent;
+    background-clip: padding-box;
+    border: unset;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
