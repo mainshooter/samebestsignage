@@ -8,6 +8,7 @@
                    class="form-control"
                    placeholder="Username"
                 <?= (!empty($user))? 'value="' . $user['username'] . '"' : '' ?>
+                    autocomplete="username"
                    required>
         </div>
         <div class="form-group">
@@ -37,6 +38,7 @@
                    placeholder="Confirm Password"
                    min="8"
                    max="16"
+                   autocomplete="confirm-password"
                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                 <?= (empty($user))? 'required' : '' ?>>
             <div class="cnfrm_pw"></div>
@@ -48,6 +50,7 @@
                    id="email"
                    class="form-control"
                    placeholder="Email"
+                   autocomplete="email"
                 <?= (!empty($user))? 'value="' . $user['email'] . '"' : '' ?>
                    required>
         </div>
@@ -61,7 +64,7 @@
                     <?php
                     foreach ($roles as $role) {
                         ?>
-                        <option value="<?= $role['id'] ?>" <?= (!empty($user) && ($user['role_id'] == $role['id'])) ? 'selected' : '' ?>><?= $role['name'] ?></option>
+                        <option value="<?= $role['role_id'] ?>" <?= (!empty($user) && ($user['role_id'] == $role['role_id'])) ? 'selected' : '' ?>><?= $role['role_name'] ?></option>
                         <?php
                     }
                     ?>
@@ -70,7 +73,7 @@
             <?php
         }
         ?>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-outline-success">Submit</button>
     </form>
 </div>
 <script>
@@ -96,7 +99,6 @@
             $('#confirm_password').prop('name', '').val('nochange');
         }
         ": '' ?>
-        var formData = $(this).serialize();
 
         if(<?= (!empty($user))? "$('#password').val() != 'nochange' && ": '' ?>($('#confirm_password').val() != $('#password').val())){
             if($('#confirm_password').val().length > $('#password').val().length){
@@ -105,15 +107,7 @@
                 $('.cnfrm_pw').html('<?= alert('warning', '', 'The password doesn&apos;t match'); ?>');
             }
         } else {
-            $.ajax({
-                type: 'POST',
-                url: "<?= base_url(); ?>ajax/<?= (!empty($user))? 'edituser/' . $user['id'] : 'adduser' ?>",
-                data: formData,
-                success: function (data) {
-                    var msg = $('#msg');
-                    msg.html(data);
-                }
-            });
+            <?= ajax('POST', 'edituser', '$(this).serialize()', $user['id']) ?>
         }
     });
 </script>

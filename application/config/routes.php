@@ -53,7 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 //$this->ctr->load->library('DX_Auth');
 
 /*** Defaults ***/
-$route['default_controller'] = 'auth/index';
+$route['default_controller'] = 'main/login';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
@@ -61,6 +61,8 @@ $route['translate_uri_dashes'] = FALSE;
 $route['login'] = 'auth/login';
 $route['logout'] = 'auth/logout';
 $route['register'] = 'auth/register';
+$route['forgotpassword/sent'] = 'auth/forgot';
+$route['forgotpassword/reset/(:any)'] = 'auth/reset/$1';
 
 /*** Pages ***/
 $route['(:any)'] = 'pages/view/$1';
@@ -69,12 +71,10 @@ $route['(:any)'] = 'pages/view/$1';
 $route['test/x/y/z/(:any)'] = 'test/view/$1';
 
 /*** Tickets ***/
-$route['add/ticket'] = 'tickets/add';
-$route['ticket/:num'] = 'tickets/view/$1';
-$route['ticket/:num/validate'] = 'tickets/validate/$1';
+$route['ticket/(:num)'] = 'tickets/view/$1';
 
 /*** User ***/
-$route['user/profile'] = 'user/edituser';
+$route['user/profile'] = 'users/edituser';
 
 /** Admin* ***/
 $route['admin/(:any)'] = 'admin/view/$1';

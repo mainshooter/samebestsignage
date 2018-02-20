@@ -1,10 +1,10 @@
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="<?= asset('google/charts/chart.js') ?>"></script>
 <script>
     google.charts.load('current', {'packages': ['line']});
     google.charts.setOnLoadCallback(drawLineChart);
     google.charts.setOnLoadCallback(drawLineChartLogins);
 
-    function drawLineChart(daysBack = 14) {
+    function drawLineChart(daysBack = 31) {
         var jsonData = $.ajax({
             url: "<?php echo base_url(); ?>" + "ajax/linechartticket/" + daysBack,
             dataType: "json",
@@ -47,6 +47,29 @@
     }
 
     google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawPieChartClient);
+
+    function drawPieChartClient() {
+        var jsonData = $.ajax({
+            url: "<?php echo base_url(); ?>" + "ajax/piechartclient/",
+            dataType: "json",
+            async: false
+        }).responseText;
+
+        var data = new google.visualization.DataTable(jsonData);
+
+        var options = {
+            title: 'Clients',
+            subtitle: 'A quick view of which clients have the most problems',
+            is3D: true,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart-client'));
+
+        chart.draw(data, options);
+    }
+
+    google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawPieChartCat);
 
     function drawPieChartCat() {
@@ -65,6 +88,29 @@
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+    }
+
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawPieChartImp);
+
+    function drawPieChartImp() {
+        var jsonData = $.ajax({
+            url: "<?php echo base_url(); ?>" + "ajax/piechartimp/",
+            dataType: "json",
+            async: false
+        }).responseText;
+
+        var data = new google.visualization.DataTable(jsonData);
+
+        var options = {
+            title: 'Ticket Importances',
+            subtitle: 'A quick view of which importance levels occur most',
+            is3D: true,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart-impor'));
 
         chart.draw(data, options);
     }
@@ -96,15 +142,21 @@
 
 <div class="col-12">
     <div id="curve_chart_tick" style="width: 100%; min-height: 400px"></div>
-    <input onchange="drawLineChart($(this).val());" type="range" min="2" max="365" value="14">
+    <input onchange="drawLineChart($(this).val());" type="range" min="2" max="365" value="31">
 </div>
 
 <div class="row">
-    <div class="col-md-6 col-sm-12">
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div id="curve_chart_log" style="width: 100%; min-height: 300px;"></div>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12">
         <div id="piechart" style="width: 100%; min-height: 300px;"></div>
     </div>
-    <div class="col-md-6 col-sm-12">
-        <div id="curve_chart_log" style="width: 100%; min-height: 300px;"></div>
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div id="piechart-client" style="width: 100%; min-height: 300px;"></div>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div id="piechart-impor" style="width: 100%; min-height: 300px;"></div>
     </div>
 </div>
 

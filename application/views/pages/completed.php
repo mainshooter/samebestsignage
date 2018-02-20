@@ -22,8 +22,8 @@
             <a href="ticket/<?= $ticket['ticket_id'] ?>" class="unset-link">
                 <div class="card ticket-card" style="width: 18rem;">
                     <div class="card-body">
-                        <h5 class="card-title"><?= $ticket['alert_name'] ?></h5>
-                        <h6 class="card-subtitle mb-2 text-muted"><?= $ticket['email'] ?>  - <importance style="color:<?= $ticket['importance_color'] ?>"><?= $ticket['importance_name'] ?></importance></h6>
+                        <h5 class="card-title"><?= ucfirst($ticket['client_name']) ?></h5>
+                        <h6 class="card-subtitle mb-2 text-muted"><?= '<importance style="color:' . $ticket['importance_color'] . ';">' . $ticket['importance_name'] . '</importance><br/>'.$ticket['cat_name'].'<br/>'.$ticket['email']; ?></h6>
                         <p class="card-text dotted"><?= $ticket['ticket_problem'] ?></p>
                         <a href="ticket/<?= $ticket['ticket_id'] ?>" class="card-link">More...</a>
                     </div>

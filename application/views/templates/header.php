@@ -2,45 +2,41 @@
 <head>
     <title><?= $title ?> - IdSignage</title>
 
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          rel="stylesheet">
 
     <link href="<?= asset('css/main.css') ?>" type="text/css" rel="stylesheet"/>
     <link href="<?= asset('css/ticket.css') ?>" type="text/css" rel="stylesheet"/>
     <link href="<?= asset('css/sticky-footer.css') ?>" type="text/css" rel="stylesheet"/>
-    <link href="<?= asset('css/icon.css') ?>" type="text/css" rel="stylesheet"/>
+    <link href="<?= asset('css/icon.css.php') ?>" type="text/css" rel="stylesheet"/>
     <link href="<?= asset('css/check.css') ?>" type="text/css" rel="stylesheet"/>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="<?= asset('jquery/jquery.js') ?>"></script>
+    <script src="<?= asset('popper/popper.js') ?>" ></script>
 
     <link href="<?= asset('bootstrap/css/bootstrap.min.css');?>" type="text/css" rel="stylesheet">
     <script src="<?= asset('bootstrap/js/bootstrap.min.js');?>"></script>
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="<?= asset('datatables/css/dtBS4.css');?>">
 
-    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" language="javascript" src="<?= asset('datatables/js/jqDT.js');?>"></script>
+    <script src="<?= asset('datatables/js/dtBS4.js');?>"></script>
 
-    <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.bootstrap4.min.css"/>
-    <script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.1/js/responsive.bootstrap4.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="<?= asset('datatables/css/rBS4.css');?>"/>
+    <script src="<?= asset('datatables/js/dtR.js');?>"></script>
+    <script src="<?= asset('datatables/js/rBS4.js');?>"></script>
 
-    <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/select/1.2.4/css/select.bootstrap4.min.css"/>
-    <script src="https://cdn.datatables.net/select/1.2.4/js/dataTables.select.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="<?= asset('datatables/css/sBS4.css');?>"/>
+    <script src="<?= asset('datatables/js/dtS.js');?>"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery.dotdotdot/3.2.1/jquery.dotdotdot.js"></script>
-
-    <link rel="stylesheet" type="text/css" href=//cdn.datatables.net/select/1.2.4/css/select.bootstrap4.min.css">
 
     <script src="<?= asset('js/main.js');?>"></script>
     <script src="<?= asset('js/check.js');?>"></script>
 
+    <link href="<?= asset('css/dark-theme.css') ?>" type="text/css" rel="stylesheet"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark">
     <a class="navbar-brand" href="/home">
         <img src="<?= asset('img/logo-idsignage.png') ?>">
     </a>
@@ -57,10 +53,13 @@
                     <a class="nav-link" href="/home">Home</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="/overview">Overview</a>
+                    <a class="nav-link" href="/mytickets">My tickets</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="/completed">Completed</a>
+                    <a class="nav-link" href="/completed">Completed tickets</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/overview">All tickets</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -69,10 +68,9 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
                         <h6 class="dropdown-header">My Account</h6>
                         <a class="dropdown-item" href="/user/profile">Profile</a>
-                        <a class="dropdown-item" href="/mytickets">My tickets</a>
                         <a class="dropdown-item" href="/settings">Settings</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/auth/logout">Logout</a>
+                        <a class="dropdown-item" href="/ajaxlogin/logout">Logout</a>
                     </div>
                 </li>
                 <?php
@@ -86,7 +84,7 @@
         <?php
         if (!empty($this_user['DX_logged_in']) && $this_user['DX_logged_in'] === true) {
             ?>
-            <a href="/add/ticket"
+            <a href="#" onclick="$('#add-ticket-modal').modal('toggle')"
                onmouseenter="$('#add-ticket').toggleClass('btn-outline-success-hover');"
                onmouseleave="$('#add-ticket').toggleClass('btn-outline-success-hover');">
                 <ul class="navbar-nav">
@@ -100,6 +98,64 @@
                     </li>
                 </ul>
             </a>
+            <ul class="navbar-nav">
+                <li class="nav-right nav-item active">
+                    <div class="dropdown">
+
+                        <button class="dropdown-toggle icon-dropdown position-relative" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="alert-count badge badge-warning"></span>
+                            <i id="settings" class="btn btn-outline-warning rounded-circle material-icons">warning</i>
+                        </button>
+
+                        <div class="dropdown-menu dropdown-menu-right alert-dropdown" aria-labelledby="dropdownMenuButton">
+                            <div class="dropdown-head">
+
+                                    <h6 class="dropdown-header">
+                                        <span>Alerts</span>
+                                        <span class="float-right">
+                                            <a class="set-read" onclick="setReadAll()">
+                                                Mark as read
+                                            </a>
+                                        </span>
+                                    </h6>
+                            <script>
+                                function setReadAll() {
+                                    <?= ajax('POST', 'markAsReadAll', '[]') ?>
+                                }
+                                function setRead(alert_id, customHref) {
+                                    <?= ajax('POST', 'markAsRead', '{id : alert_id}', null, 'customHref') ?>
+                                }
+                            </script>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-body">
+                                <?php
+                                foreach ($alerts as $alert){
+                                    if ($alert['alert_seen'] == 0) {
+                                        ?>
+                                        <a href="#" onclick="setRead(<?= $alert['alert_id'] ?>, '<?= $alert['alert_href'] ?>')" class="alert-item dropdown-item unseen">
+                                            <div class="alert-icon">
+                                                <i class="material-icons"><?= $alert['alert_icon'] ?></i>
+                                            </div>
+                                            <div class="alert-content">
+                                                <div class="alert-title">
+                                                    <?= $alert['alert_title'] ?>
+                                                </div>
+
+                                                <div class="alert-desc">
+                                                    <?= $alert['alert_desc'] ?>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <?php
+                                    }
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
             <?php
             if ((int)$this_user['DX_role_id'] >= 2) {
                 ?>
@@ -117,14 +173,4 @@
     </div>
 </nav>
 <div id="msg"></div>
-<div class="container">
-    <div class="page-title-head">
-        <div class="page-title-title">
-            <p class="lead" style="font-size: 2.5rem;"><?= $page_title ?>
-                <br />
-                <small class="lead">
-                    <?= $page_title_desc ?>
-                </small>
-            </p>
-        </div>
-    </div>
+<div class="container" style="padding-top: 30px">

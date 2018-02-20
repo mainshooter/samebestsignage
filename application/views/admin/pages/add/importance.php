@@ -39,16 +39,6 @@
     $('form').submit(function(event) {
         event.preventDefault();
         var formData = $(this).serialize();
-
-        $.ajax({
-            type: 'POST',
-            url: "<?php echo base_url(); ?>" + "ajax/addimportance",
-            data: formData,
-            success: function(data)
-            {
-                var msg = $('#msg');
-                msg.html(data);
-            }
-        })
+        <?= ajax('POST', 'addimportance', '$(this).serialize()') ?>
     });
 </script>

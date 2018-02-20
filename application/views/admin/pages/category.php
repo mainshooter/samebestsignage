@@ -17,15 +17,15 @@
         <?php
         foreach ($array as $key => $item) {
             ?>
-            <tr category="<?= $item['alert_id'] ?>" onclick="sessionStorage.id = '<?= $item['alert_id'] ?>'">
+            <tr category="<?= $item['cat_id'] ?>" onclick="sessionStorage.id = '<?= $item['cat_id'] ?>'">
                 <td>
-                    <?= ucfirst($item['alert_id']) ?>
+                    <?= ucfirst($item['cat_id']) ?>
                 </td>
                 <td>
-                    <?= ucfirst($item['alert_name']) ?>
+                    <?= ucfirst($item['cat_name']) ?>
                 </td>
                 <td>
-                    <?= $item['alert_info'] ?>
+                    <?= $item['cat_info'] ?>
                 </td>
             </tr>
             <?php

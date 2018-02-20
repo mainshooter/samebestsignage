@@ -24,7 +24,7 @@ class Backend extends CI_Controller
 	
 	function users()
 	{
-		$this->load->model('dx_auth/users', 'users');			
+		$this->load->model('dx_auth/users', 'user');
 		
 		// Search checkbox in post array
 		foreach ($_POST as $key => $value)
@@ -82,7 +82,7 @@ class Backend extends CI_Controller
 		$row_count = 10;
 		
 		// Get all users
-		$data['users'] = $this->users->get_all($offset, $row_count)->result();
+		$data['user'] = $this->users->get_all($offset, $row_count)->result();
 		
 		// Pagination config
 		$p_config['base_url'] = '/backend/users/';
@@ -133,7 +133,7 @@ class Backend extends CI_Controller
 		$row_count = 10;
 		
 		// Get all unactivated users
-		$data['users'] = $this->user_temp->get_all($offset, $row_count)->result();
+		$data['user'] = $this->user_temp->get_all($offset, $row_count)->result();
 		
 		// Pagination config
 		$p_config['base_url'] = '/backend/unactivated_users/';

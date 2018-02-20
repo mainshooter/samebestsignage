@@ -27,6 +27,7 @@
         var table = $('table').DataTable( {
             "columns": [
                 { "title": "Ticket" },
+                { "title": "Client" },
                 { "title": "Category" },
                 { "title": "Problem" },
                 { "title": "Created" },

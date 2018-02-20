@@ -34,16 +34,6 @@
     $('form').submit(function(event) {
         event.preventDefault();
         var formData = $(this).serialize();
-
-        $.ajax({
-            type: 'POST',
-            url: "<?php echo base_url(); ?>" + "ajax/addstatus",
-            data: formData,
-            success: function(data)
-            {
-                var msg = $('#msg');
-                msg.html(data);
-            }
-        })
+        <?= ajax('POST', 'addstatus', '$(this).serialize()') ?>
     });
 </script>

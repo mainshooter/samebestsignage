@@ -3,12 +3,12 @@
         <form id="form" method="post">
             <div class="form-group">
                 <label for="exampleSelect1">Category Name</label>
-                <input type="text" class="form-control" name="name" placeholder="Type the category name here" value="<?= $array['alert_name'] ?>">
+                <input type="text" class="form-control" name="name" placeholder="Type the category name here" value="<?= $array['cat_name'] ?>">
             </div>
 
             <div class="form-group">
                 <label for="exampleTextarea">Info</label>
-                <textarea class="form-control" id="exampleTextarea" rows="3" name="info" required><?= $array['alert_info'] ?></textarea>
+                <textarea class="form-control" id="exampleTextarea" rows="3" name="info" required><?= $array['cat_info'] ?></textarea>
             </div>
 
             <button type="submit" class="btn btn-outline-success">Submit</button>
@@ -20,16 +20,6 @@
     $('form').submit(function(event) {
         event.preventDefault();
         var formData = $(this).serialize();
-
-        $.ajax({
-            type: 'POST',
-            url: "<?php echo base_url(); ?>" + "ajax/editcategory/<?= $array['alert_id'] ?>",
-            data: formData,
-            success: function(data)
-            {
-                var msg = $('#msg');
-                msg.html(data);
-            }
-        })
+        <?= ajax('POST', 'editcategory', '$(this).serialize()', $array['alert_id']) ?>
     });
 </script>

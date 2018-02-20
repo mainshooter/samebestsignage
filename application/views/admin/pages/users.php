@@ -19,13 +19,13 @@
         <?php
         foreach ($array as $key => $item) {
             ?>
-            <tr category="<?= $item['id'] ?>" onclick="sessionStorage.id = '<?= $item['id'] ?>'">
+            <tr category="<?= $item['user_id'] ?>" onclick="sessionStorage.id = '<?= $item['user_id'] ?>'">
                 <td>
-                    <?= ucfirst($item['id']) ?>
+                    <?= ucfirst($item['user_id']) ?>
                 </td>
                 <td>
                     <?= ucfirst($item['username']) ?>
-                    <?php if($this_user['DX_user_id'] == $item['id']){ echo "<small>(You)</small>";} ?>
+                    <?php if($this_user['DX_user_id'] == $item['user_id']){ echo "<small>(You)</small>";} ?>
                 </td>
                 <td>
                     <?= $item['email'] ?>
@@ -34,7 +34,7 @@
                     <?= date('d F Y', strtotime($item['created']))?>
                 </td>
                 <td>
-                    <?= date('d F Y', strtotime($item['last_login'])).' '.date('H:m', strtotime($item['last_login'])) ?>
+                    <?= date('d F Y', strtotime($item['date'])).' '.date('H:m', strtotime($item['date'])) ?>
                 </td>
             </tr>
             <?php

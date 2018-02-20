@@ -6,262 +6,268 @@
  * Time: 13:24
  */
 
-class Ajax extends CI_Controller{
+class Ajax extends CI_Controller
+{
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->load->library('DX_Auth');
-        if (! $this->dx_auth->is_logged_in()){
+        if (!$this->session->userdata('DX_logged_in')) {
             $this->session->sess_destroy();
             redirect('auth/login');
         }
 
         $this->load->helper('main_helper');
         $this->load->database();
+
+        $this->load->model('ticket');
+        $this->load->model('clients');
+        $this->load->model('user');
+        $this->load->model('category');
+        $this->load->model('status');
+        $this->load->model('importance');
+        $this->load->model('logins');
+        $this->load->model('mail');
+        $this->load->model('alert');
     }
 
-    public function login(){
-        if ($this->dx_auth->login(html_entity_decode($_POST['username']), $_POST['password'], false)){
-            echo check('check-success', 'check', '/home');
-        } else{
+    public function login()
+    {
+        if ($this->dx_auth->login(html_entity_decode($_POST['username']), $_POST['password'], false)) {
+            echo '/home';
+        } else {
             echo alert('danger', '', 'Password or username is incorrect');
         }
     }
 
-    public function addTicket(){
-       if ( ! $query = $this->db->query('
-          INSERT INTO tickets (ticket_type, ticket_status, ticket_importance, ticket_problem, ticket_creator, ticket_master)
-          VALUES (
-          '.$this->db->escape($_POST['category']).',
-           '.$this->db->escape($_POST['status']).',
-            '.$this->db->escape($_POST['importance']).',
-             '.$this->db->escape($_POST['problem']).',
-             '.$this->session->userdata('DX_user_id').',
-              '.$this->db->escape($_POST['user']).')
-               
-           '))
-        {
-            echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
-        } else{
-           $this->load->library('email');
-           $this->load->library('mailtemplates');
+    public function addTicket()
+    {
+        $config = array(
+            'upload_path' => 'public/img/uploads/',
+            'allowed_types' => 'gif|jpg|png',
+            'file_ext_tolower' => TRUE,
+            'max_size' => 4096,
+            'max_width' => 0,
+            'max_height' => 0,
+            'max_filename' => 1000,
+        );
+
+        $this->load->library('upload');
+        $this->upload->initialize($config);
+
+        $upload = false;
+
+        $files_uploaded = array();
+        $number_of_files_uploaded = count($_FILES['image']['name']);
+        for ($i = 0; $i < $number_of_files_uploaded; $i++) {
+            $_FILES['userfile']['name'] = $_FILES['image']['name'][$i];
+            $_FILES['userfile']['type'] = $_FILES['image']['type'][$i];
+            $_FILES['userfile']['tmp_name'] = $_FILES['image']['tmp_name'][$i];
+            $_FILES['userfile']['error'] = $_FILES['image']['error'][$i];
+            $_FILES['userfile']['size'] = $_FILES['image']['size'][$i];
+
+            if (!$this->upload->do_upload('userfile')) {
+                echo alert('danger', 'UPLOAD::ERROR!!!!', $this->upload->display_errors());
+
+                $upload = false;
+            } else {
+                $data = $this->upload->data();
+                $data['file_path'] = $config['upload_path'];
+                $data['full_path'] = $config['upload_path'].$data['file_name'];
+                $files_uploaded[] = $data;
+                $upload = true;
+            }
+        }
+
+        if ($upload != false) {
+            $group = $this->image->generate_new_group();
+
+            $insert = true;
+            foreach ($files_uploaded as $key => $item) {
+                if (!$this->image->insert_entry($group, $item['file_name'], $item['file_path'], $item['file_size'])) {
+                    $insert = false;
+                }
+            }
+
+            if ($insert !== false) {
+
+                if (!$this->ticket->insert_entry(
+                    $_POST['client'],
+                    $_POST['category'],
+                    $_POST['status'],
+                    $_POST['importance'],
+                    $_POST['problem'],
+                    $group,
+                    $this->session->userdata('DX_user_id'),
+                    $_POST['user']
+                )) {
+                    echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
+                } else {
 
 
-           $insertId = $this->db->insert_id();
-           $config = array();
+                    $this->load->library('email');
+                    $this->load->library('mailtemplates');
 
 
-           $query = $this->db->query('SELECT * FROM mail_config WHERE id = 1');
-           $array = $query->row_array();
-           foreach ($array as $key => $item){
-               $config[$key] = $item;
-           }
-           $this->email->initialize($config);
+                    $insertId = $this->db->insert_id();
+                    $config = array();
+
+                    //all config items
+                    foreach ($this->mail->get_all_entries() as $key => $item) {
+                        $config[$key] = $item;
+                    }
+                    $this->email->initialize($config);
+
+                    $data = $this->user->get_single_entry_mail($_POST['user']);
+                    $cat = $this->category->get_single_entry($_POST['category']);
+
+                    $values = array(
+                        '({[!TITLE!]})' => $cat['cat_name'],
+                        '({[!TICKETID!]})' => $insertId,
+                        '({[!PROBLEM!]})' => $_POST['problem'],
+                        '({[!CATEGORY!]})' => $cat['cat_name'],
+                        '({[!BASEURL!]})' => base_url(),
+                    );
+
+                    $this->mailtemplates->setTemplate(1);
+                    $this->mailtemplates->setCustomSubject($cat['cat_name']);
+                    $this->mailtemplates->writeData($values);
 
 
-           $query = $this->db->query('SELECT username, email FROM users WHERE id = '.$this->db->escape($_POST['user']));
-           $data = $query->row_array();
+                    $this->email->from('info@idsignage.nl', 'IdSignage');
+                    $this->email->to($data['email']);
+                    $this->email->subject($this->mailtemplates->subject());
+                    $this->email->message($this->mailtemplates->getData());
 
-
-           $query = $this->db->query('SELECT * FROM alert_types WHERE alert_id = '.$this->db->escape($_POST['category']));
-           $cat = $query->row_array();
-
-
-           $values = array(
-               '({[!TITLE!]})' => $cat['alert_name'],
-               '({[!TICKETID!]})' => $insertId,
-               '({[!PROBLEM!]})' => $_POST['problem'],
-               '({[!CATEGORY!]})' => $cat['alert_name'],
-               '({[!BASEURL!]})' => base_url(),
-           );
-           $this->mailtemplates->setTemplate(1);
-           $this->mailtemplates->setCustomSubject($cat['alert_name']);
-           $this->mailtemplates->writeData($values);
-
-
-           $this->email->from('info@idsignage.nl', 'IdSignage');
-           $this->email->to($data['email']);
-           $this->email->subject($this->mailtemplates->subject());
-           $this->email->message($this->mailtemplates->getData());
-
-           if ($this->email->send()){
-               echo check('check-success', 'check', '/home');
-           } else{
-               echo alert('danger', 'MAIL::ERROR!!!!', $this->email->print_debugger());
-           }
+                    if ($this->email->send()) {
+                        $this->alert->insert_entry($_POST['user'], 'Assigned', 'A ticket is assigned to you.', 'redo', '/ticket/' . $insertId);
+                        $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Created', 'Ticket no.' . $insertId . ' is created.', 'add', '/ticket/' . $insertId);
+                        echo '/home';
+                    } else {
+                        echo alert('danger', 'MAIL::ERROR!!!!', $this->email->print_debugger());
+                    }
+                }
+            }
         }
     }
 
     public function completeTicket($id){
-        if (!empty($_POST['solution']) && !empty($_POST['status'])){
-            if ( ! $query = $this->db->query('UPDATE tickets
-                                                SET ticket_solution = '.$this->db->escape($_POST['solution']).',
-                                                 ticket_status = '.$this->db->escape($_POST['status']).',
-                                                 ticket_edited_at = NOW(),
-                                                 ticket_completed_at = NOW()
-                                                WHERE ticket_id = '.$this->db->escape($id)))
-            {
-                echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
-            } else{
-                echo check('check-success', 'check', '/ticket/' . $id);
-            }
-        } elseif (!empty($_POST['failed']) && !empty($_POST['status'])){
-            if ( ! $query = $this->db->query('UPDATE tickets
-                                                SET ticket_comment = '.$this->db->escape($_POST['failed']).',
-                                                 ticket_status = '.$this->db->escape($_POST['status']).',
-                                                 ticket_edited_at = NOW(),
-                                                 ticket_completed_at = NOW()
-                                                WHERE ticket_id = '.$this->db->escape($id)))
-            {
-                echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
-            } else{
-                echo check('check-success', 'check', '/ticket/' . $id);
-            }
+        if ( ! $this->ticket->complete_entry($id, $_POST['solution'], $_POST['status'])){
+            echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
         } else{
-            echo alert('warning', '', 'You didn\'t explain how you completed this ticket');
+            $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Completed', 'Ticket no.' . $id . ' is complete.', 'check', '/ticket/' . $id);
+            echo '/ticket/' . $id;
         }
     }
 
     public function getLevel($id){
-        if ( $query = $this->db->query('SELECT status_level FROM status_types 
-                                            WHERE status_id = '.$this->db->escape($id)))
-        {
-            $row = $query->row_array();
-            echo $row['status_level'];
-        } else{
-            echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
-        }
+        $row = $this->status->get_single_entry($id);
+        echo $row['status_level'];
     }
 
     public function editTicket($id){
-        if (!empty($_POST['problem']) && !empty($_POST['status'])){
-            if ( ! $query = $this->db->query('UPDATE tickets
-                                                SET ticket_problem = '.$this->db->escape($_POST['problem']).'
-                                                 ticket_edited_at = NOW()
-                                                WHERE ticket_id = '.$this->db->escape($id)))
-            {
+        if (!empty($_POST['problem']) ){
+            if ( ! $this->ticket->update_entry($id, $_POST['problem'])){
                 echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
             } else{
-                echo check('check-success', 'check', '/ticket/' . $id);
+                $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Update', 'Ticket no.' . $id . ' is updated.', 'create', '/ticket/' . $id);
+                echo '/ticket/' . $id;
             }
-        } else{
-            echo alert('warning', '', 'You didn\'t explain what the problem is');
+        }
+    }
+
+    public function assignTicket($id){
+        if (!empty($_POST['comment']) ){
+            if ( ! $this->ticket->update_entry_assign($id, $_POST['user'] ,$_POST['comment'])){
+                echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
+            } else{
+                $this->alert->insert_entry($_POST['user'], 'Re-Assigned', 'A ticket is assigned to you.', 'redo', '/ticket/' . $id);
+                $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Re-Assigned', 'Ticket no.' . $id . ' is re-assigned.', 'redo', '/ticket/' . $id);
+                echo '/ticket/' . $id;
+            }
         }
     }
 
     public function restoreTicket($id){
-        if ( ! $query = $this->db->query('UPDATE tickets
-                                          SET ticket_status = 1, 
-                                           ticket_completed_at = NULL, 
-                                           ticket_edited_at = NOW()
-                                          WHERE ticket_id = '.$this->db->escape($id)))
-        {
+        if ( ! $this->ticket->restore_entry($id)){
             echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
         } else{
-            echo check('check-success', 'check', '/ticket/' . $id);
+            $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Restored', 'Ticket no.' . $id . ' is restored.', 'autorenew', '/ticket/' . $id);
+            echo '/ticket/' . $id;
         }
     }
 
     public function addCategory(){
-       if ( ! $query = $this->db->query('
-          INSERT INTO alert_types (alert_name, alert_info)
-          VALUES (
-          '.$this->db->escape($_POST['name']).',
-           '.$this->db->escape($_POST['info']).')
-           '))
-        {
+       if ( ! $this->category->insert_entry($_POST['name'], $_POST['info'])){
             echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
         } else{
-           echo check('check-success', 'check', '/admin/category');
+           $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Created', 'Category is created.', 'add', '/admin/category/');
+           echo '/admin/category';
         }
     }
 
     public function editCategory($id){
-       if ( ! $query = $this->db->query('UPDATE alert_types
-            SET alert_name = '.$this->db->escape($_POST['name']).',
-             alert_info = '.$this->db->escape($_POST['info']).'
-            WHERE alert_id = '.$this->db->escape($id)))
-        {
+       if ( ! $this->category->update_entry($id, $_POST['name'], $_POST['info'])){
             echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
         } else{
-           echo check('check-success', 'check', '/admin/category');
+           $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Update', 'Category no.' . $id . ' is updated.', 'create', '/admin/category/');
+           echo '/admin/category';
         }
     }
 
     public function addStatus(){
-       if ( ! $query = $this->db->query('
-          INSERT INTO status_types (status_name, status_level, status_info)
-          VALUES (
-          '.$this->db->escape($_POST['name']).',
-           '.$this->db->escape($_POST['level']).',
-            '.$this->db->escape($_POST['info']).')
-           '))
-        {
+       if ( ! $this->status->insert_entry($_POST['name'], $_POST['level'], $_POST['info'])) {
             echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
         } else{
-           echo check('check-success', 'check', '/admin/status');
+           $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Created', 'Status is created.', 'add', '/admin/status/');
+           echo '/admin/status';
         }
     }
 
     public function editStatus($id){
-       if ( ! $query = $this->db->query('UPDATE status_types
-            SET 
-             status_name = '.$this->db->escape($_POST['name']).',
-             status_info = '.$this->db->escape($_POST['info']).',
-             status_level = '.$this->db->escape($_POST['level']).'
-            WHERE 
-             status_id = '.$this->db->escape($id)))
-        {
+       if ( ! $this->status->insert_entry($id, $_POST['name'], $_POST['level'], $_POST['info'])) {
             echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
         } else{
-           echo check('check-success', 'check', '/admin/status');
+           $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Update', 'Status no.' . $id . ' is updated.', 'create', '/admin/status/');
+           echo '/admin/status';
         }
     }
 
     public function addImportance(){
-       if ( ! $query = $this->db->query('
-          INSERT INTO importance_types (importance_name, importance_info, importance_color, importance_level)
-          VALUES (
-          '.$this->db->escape($_POST['name']).',
-           '.$this->db->escape($_POST['info']).',
-            '.$this->db->escape($_POST['color']).',
-             '.$this->db->escape($_POST['level']).')
-           '))
-        {
+       if ( ! $this->importance->insert_entry($_POST['name'], $_POST['info'], $_POST['color'], $_POST['level'])){
             echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
         } else{
-           echo check('check-success', 'check', '/admin/importance');
+           $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Created', 'Importance is created.', 'add', '/admin/importance/');
+           echo '/admin/importance';
         }
     }
 
     public function editImportance($id){
-       if ( ! $query = $this->db->query('UPDATE importance_types
-            SET 
-             importance_name = '.$this->db->escape($_POST['name']).',
-             importance_info = '.$this->db->escape($_POST['info']).',
-             importance_color = '.$this->db->escape($_POST['color']).',
-             importance_level = '.$this->db->escape($_POST['level']).'
-            WHERE 
-             importance_id = '.$this->db->escape($id)))
-        {
+       if ( ! $this->importance->update_entry($id, $_POST['name'], $_POST['info'], $_POST['color'], $_POST['level'])){
             echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
         } else{
-            echo check('check-success', 'check', '/admin/importance');
+           $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Update', 'Importance no.' . $id . ' is updated.', 'create', '/admin/importance/');
+            echo '/admin/importance';
         }
     }
 
     public function addUser(){
-        if (! $this->dx_auth->is_logged_in()){
+        if (! $this->session->userdata('DX_logged_in')){
             $this->session->sess_destroy();
             redirect('auth/login');
         } else {
             if ((int)$this->session->userdata('DX_role_id') >= 2) {
                 if ($_POST['password'] == $_POST['confirm_password']) {
-                    $this->dx_auth->register($_POST['username'], $_POST['password'], $_POST['email'], $_POST['role']);
+                    $pass = crypt($this->_encode($_POST['password']), '');
+                    if (!$this->user->insert_entry($_POST['username'], $_POST['email'], $pass, $_POST['role'])) {
+                        echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
+                    } else{
+                        $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Created', 'User is created.', 'add', '/admin/users/');
+                        echo '/admin/users';
+                    }
                 } else {
-                    echo alert('warning', '', 'The password must be the same');
+                    echo alert('warning', '', 'The passwords must be the same');
                 }
             } else {
                 $this->session->sess_destroy();
@@ -271,64 +277,27 @@ class Ajax extends CI_Controller{
     }
 
     public function editUser($id){
-        if (! $this->dx_auth->is_logged_in()){
+        if (! $this->session->userdata('DX_logged_in')){
             $this->session->sess_destroy();
             redirect('auth/login');
         } else {
             if ((int)$this->session->userdata('DX_role_id') >= 2) {
-                if (empty($_POST['password'])) {
-                    if (empty($_POST['role'])){
-                        if ( ! $query = $this->db->query('UPDATE users
-                            SET username = '.$this->db->escape($_POST['username']).', email = '.$this->db->escape($_POST['email']).'
-                            WHERE id = '.$this->db->escape($id)))
-                        {
-                            echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
-                        } else{
-                            echo check('check-success', 'check', '/user/profile');
+                if (!$this->user->update_entry($id, $_POST['username'], $_POST['email'], $_POST['role'])) {
+                    echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
+                } else {
+                    if (!empty($_POST['password'])) {
+                        if ($_POST['password'] == $_POST['confirm_password']) {
+                            $pass = crypt($this->_encode($_POST['password']), '');
+                            if (!$this->user->update_password($id, $pass)){
+                                echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
+                            } else{
+                                $this->alert->insert_entry($id, 'Update', 'Your account is updated.', 'create', '/user/profile');
+                                $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Update', 'User no.' . $id . ' is updated.', 'create', '/admin/users/');
+                                echo '/admin/users';
+                            }
                         }
                     } else{
-                        if ( ! $query = $this->db->query('UPDATE users
-                            SET 
-                             username = '.$this->db->escape($_POST['username']).',
-                             email = '.$this->db->escape($_POST['email']).',
-                             role_id = '.$this->db->escape($_POST['role']).'
-                            WHERE 
-                             id = '.$this->db->escape($id)))
-                        {
-                            echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
-                        } else{
-                            echo check('check-success', 'check', '/admin/users');
-                        }
-                    }
-                } else {
-                    if ($_POST['password'] == $_POST['confirm_password']) {
-                        if (empty($_POST['role'])){
-                            if ( ! $query = $this->db->query('UPDATE users
-                            SET username = '.$this->db->escape($_POST['username']).', email = '.$this->db->escape($_POST['email']).'
-                            WHERE id = '.$this->db->escape($id)))
-                            {
-                                echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
-                            } else{
-                                echo check('check-success', 'check', '/user/profile');
-                            }
-                        } else{
-                            if ( ! $query = $this->db->query('UPDATE users
-                            SET 
-                             username = '.$this->db->escape($_POST['username']).',
-                             email = '.$this->db->escape($_POST['email']).',
-                             role_id = '.$this->db->escape($_POST['role']).'
-                            WHERE 
-                             id = '.$this->db->escape($id)))
-                            {
-                                echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
-                            } else{
-                                echo check('check-success', 'check', '/admin/users');
-                            }
-                        }
-
-                        $this->dx_auth->change_password_user($id, $_POST['password']);
-                    } else {
-                        echo alert('warning', '', 'The password must be the same');
+                        echo '/admin/users';
                     }
                 }
             } else{
@@ -338,9 +307,69 @@ class Ajax extends CI_Controller{
         }
     }
 
-    public function lineChartTicket($daysBack = 14){
-        $query = $this->db->query('SELECT * FROM tickets');
-        $array = $query->result_array();
+    public function editUserFront($id){
+        if (! $this->session->userdata('DX_logged_in')){
+            $this->session->sess_destroy();
+            redirect('auth/login');
+        } else {
+            if ((int)$this->session->userdata('DX_role_id') >= 2) {
+                if (!$this->user->update_entry_user($id, $_POST['username'], $_POST['email'])) {
+                    echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
+                } else {
+                    if (!empty($_POST['password'])) {
+                        if ($_POST['password'] == $_POST['confirm_password']) {
+                            $pass = crypt($this->_encode($_POST['password']), '');
+                            if (!$this->user->update_password($id, $pass)){
+                                echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
+                            } else{
+                                $this->alert->insert_entry($id, 'Update', 'Your account is updated.', 'create', '/user/profile/');
+                                echo '/user/profile';
+                            }
+                        }
+                    } else{
+                        echo '/user/profile';
+                    }
+                }
+            } else{
+                $this->session->sess_destroy();
+                redirect('auth/login');
+            }
+        }
+    }
+
+    function _encode($password)
+    {
+        $majorsalt = 'UITY&O*7d8u09pasolkJGDT))polkhjg879SOI';
+
+        // if PHP5
+        if (function_exists('str_split'))
+        {
+            $_pass = str_split($password);
+        } /*if PHP4*/
+        else {
+            $_pass = array();
+            if (is_string($password))
+            {
+                for ($i = 0; $i < strlen($password); $i++)
+                {
+                    array_push($_pass, $password[$i]);
+                }
+            }
+        }
+
+        // encrypts every single letter of the password
+        foreach ($_pass as $_hashpass)
+        {
+            $majorsalt .= md5($_hashpass);
+        }
+
+        // encrypts the string combinations of every single encrypted letter
+        // and finally returns the encrypted password
+        return md5($majorsalt);
+    }
+
+    public function lineChartTicket($daysBack = 31){
+        $array = $this->ticket->get_all_ticket_no_join();
 
         $tmp = array();
 
@@ -368,9 +397,8 @@ class Ajax extends CI_Controller{
         echo $json;
     }
 
-    public function lineChartLogins($daysBack = 14){
-        $query = $this->db->query('SELECT date FROM logins');
-        $array = $query->result_array();
+    public function lineChartLogins($daysBack = 31){
+        $array = $this->logins->get_all_entries();
 
         $tmp = array();
 
@@ -399,16 +427,63 @@ class Ajax extends CI_Controller{
     }
 
     public function pieChartCat(){
-        $query = $this->db->query('SELECT a.alert_name FROM tickets AS t JOIN alert_types AS a  ON t.ticket_type = a.alert_id');
-        $array = $query->result_array();
+        $array = $this->ticket->get_pie_chart();
 
         $tmp = array();
 
         foreach ($array as $item){
-            if (!array_key_exists($item['alert_name'], $tmp)) {
-                $tmp[$item['alert_name']] = 1;
+            if (!array_key_exists($item['cat_name'], $tmp)) {
+                $tmp[$item['cat_name']] = 1;
             } else{
-                $tmp[$item['alert_name']] = ($tmp[$item['alert_name']] + 1);
+                $tmp[$item['cat_name']] = ($tmp[$item['cat_name']] + 1);
+            }
+        }
+
+        $json = '{"cols": [{"id":"","label":"Date","pattern":"","type":"string"},{"id":"","label":"Ticket","pattern":"","type":"number"}],"rows": [';
+
+        foreach ($tmp as $key => $item){
+            $json .= '{"c":[{"v":"' . $key . '","f":null},{"v":' . $item . ',"f":null}]},';
+        }
+
+        $json .= ']}';
+
+        echo $json;
+    }
+
+    public function pieChartClient(){
+        $array = $this->ticket->get_pie_chart_client();
+
+        $tmp = array();
+
+        foreach ($array as $item){
+            if (!array_key_exists($item['client_name'], $tmp)) {
+                $tmp[$item['client_name']] = 1;
+            } else{
+                $tmp[$item['client_name']] = ($tmp[$item['client_name']] + 1);
+            }
+        }
+
+        $json = '{"cols": [{"id":"","label":"Date","pattern":"","type":"string"},{"id":"","label":"Ticket","pattern":"","type":"number"}],"rows": [';
+
+        foreach ($tmp as $key => $item){
+            $json .= '{"c":[{"v":"' . $key . '","f":null},{"v":' . $item . ',"f":null}]},';
+        }
+
+        $json .= ']}';
+
+        echo $json;
+    }
+
+    public function pieChartImp(){
+        $array = $this->ticket->get_pie_chart_imp();
+
+        $tmp = array();
+
+        foreach ($array as $item){
+            if (!array_key_exists($item['importance_name'], $tmp)) {
+                $tmp[$item['importance_name']] = 1;
+            } else{
+                $tmp[$item['importance_name']] = ($tmp[$item['importance_name']] + 1);
             }
         }
 
@@ -424,50 +499,112 @@ class Ajax extends CI_Controller{
     }
 
     public function resetMail(){
-        if ($query = $this->db->query('SELECT * FROM mail_config WHERE id = 0')) {
-            foreach ($query->row_array() as $key => $item) {
-                if ($key != 'id'){
-                    if (!$query = $this->db->query('UPDATE mail_config SET ' . $key . ' = ' . $this->db->escape($item) . ' WHERE id = 1')) {
-                        echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
-                    }
+        foreach ($this->mail->get_default_entry() as $key => $item) {
+            if ($key != 'id') {
+                if (! $this->mail->update_entry($key, $item)) {
+                    echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
                 }
             }
         }
-
-        echo check('check-success', 'check', '');
+        $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Reset', 'The mail configuration is set to default.', 'redo', '/admin/mail/');
+        echo '';
     }
 
 
     public function updateMail(){
         foreach ($_POST as $key => $item){
-            if ( ! $query = $this->db->query('UPDATE mail_config SET ' . $key . ' = '.$this->db->escape($item).' WHERE id = 1')) {
+            if ( ! $this->mail->update_entry($key, $item)) {
                 echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
             }
         }
-
-        echo check('check-success', 'check', '');
+        $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Update', 'The mail configuration is updated.', 'create', '/admin/mail/');
+        echo '';
     }
 
     public function addMailTemp(){
-        if ( ! $query = $this->db->query('
-          INSERT INTO mail_templates ( subject, content ) 
-            VALUES ('.$this->db->escape($_POST["subject"]).',
-             '.$this->db->escape($_POST["content"]).')'))
-        {
+        if ( ! $this->templates->insert_entry($_POST["subject"], $_POST["content"])) {
             echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
         } else{
-            echo check('check-success', 'check', '/admin/templates');
+            $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Reset', 'The mail configuration is set to default.', 'redo', '/admin/templates/');
+            echo '/admin/templates';
         }
     }
 
     public function updateMailTemp($id){
 
         foreach ($_POST as $key => $item){
-            if ( ! $query = $this->db->query('UPDATE mail_templates SET ' . $key . ' = '.$this->db->escape($item).' WHERE id = '.$id)) {
+            if ( ! $this->templates->update_entry($id, $key, $item)) {
                 echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
+            } else{
+                $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Update', 'Mail template no.'. $id .' is updated.', 'create', '/admin/templates/');
             }
         }
 
-        echo check('check-success', 'check', '');
+        echo '';
+    }
+
+    public function addClient(){
+        if (! $this->dx_auth->is_logged_in()){
+            $this->session->sess_destroy();
+            redirect('auth/login');
+        } else {
+            if ( ! $this->templates->insert_entry(
+                $_POST["username"],
+                $_POST["tel"],
+                $_POST["email"],
+                $_POST["country"],
+                $_POST["state"],
+                $_POST["town"],
+                $_POST["street"],
+                $_POST["number"],
+                $_POST["zip"]
+            )) {
+                echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
+            } else{
+                $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Created', 'Client is created.', 'add', '/admin/clients/');
+                echo '/admin/clients';
+            }
+        }
+    }
+
+    public function editClient($id){
+        if (! $this->dx_auth->is_logged_in()){
+            $this->session->sess_destroy();
+            redirect('auth/login');
+        } else {
+            if ( ! $this->templates->insert_entry(
+                $id,
+                $_POST["username"],
+                $_POST["tel"],
+                $_POST["email"],
+                $_POST["country"],
+                $_POST["state"],
+                $_POST["town"],
+                $_POST["street"],
+                $_POST["number"],
+                $_POST["zip"]
+            )){
+                echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
+            } else{
+                $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Update', 'Client no.'. $id .' is updated.', 'create', '/admin/clients/');
+                echo '/admin/clients';
+            }
+        }
+    }
+
+    public function markAsRead(){
+        if ( ! $this->alert->set_read($_POST['id'])){
+            echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
+        } else{
+            echo '';
+        }
+    }
+
+    public function markAsReadAll(){
+        if ( ! $this->alert->set_read_all($this->session->userdata('DX_user_id'))){
+            echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
+        } else{
+            echo '';
+        }
     }
 }

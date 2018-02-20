@@ -18,13 +18,13 @@
                 <?php
             }
             ?>
-            <a href="ticket/<?= $ticket['ticket_id'] ?>" class="ticket unset-link">
+            <a href="/ticket/<?= $ticket['ticket_id'] ?>" class="ticket unset-link">
                 <div class="card ticket-card" style="width: 18rem;">
                     <div class="card-body">
-                        <h5 class="card-title"><?= $ticket['alert_name'] ?></h5>
-                        <h6 class="card-subtitle mb-2 text-muted"><?= $ticket['email'] ?><?php echo  checkShowOrHide($ticket['status_level'], 'pending', ' - <importance style="color:' . $ticket['importance_color'] . ';">' . $ticket['importance_name'] . '</importance>'); ?></h6>
+                        <h5 class="card-title"><?= ucfirst($ticket['client_name']) ?></h5>
+                        <h6 class="card-subtitle mb-2 text-muted"><?= checkShowOrHide($ticket['status_level'], 'pending', '<importance style="color:' . $ticket['importance_color'] . ';">' . $ticket['importance_name'] . '</importance>').'<br/>'.$ticket['cat_name'].'<br/>'.$ticket['email']; ?></h6>
                         <p class="card-text dotted"><?= $ticket['ticket_problem'] ?></p>
-                        <a href="ticket/<?= $ticket['ticket_id'] ?>" class="card-link">More...</a>
+                        <a href="/ticket/<?= $ticket['ticket_id'] ?>" class="card-link">More...</a>
                     </div>
                 </div>
             </a>
@@ -40,7 +40,7 @@
         ?>
     </div>
     <div class="row justify-content-center pages">
-        <ul class="pagination">
+        <ul class="pagination bg-dark">
             <li class="page-item"><a class="page-link" onclick="previous()">Previous</a></li>
             <?php
             foreach ($pages as $key => $page){
@@ -50,7 +50,7 @@
                 <?php
             }
             ?>
-            <li class="page-item"><a class="page-link" onclick="next()">Next</a></li>
+            <li class="page-item"><a class="page-link bg-dark text-light" onclick="next()">Next</a></li>
         </ul>
         <script>
             $(function () {

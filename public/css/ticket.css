@@ -13,6 +13,6 @@
 }
 
 .ticket-container{
-    min-height: calc(100% - 60px - 78px)!important;
+    min-height: calc(100% - 60px - 78px - 20px);
 }
 

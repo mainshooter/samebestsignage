@@ -14,8 +14,7 @@ class Admin extends CI_Controller
     {
         parent::__construct();
 
-        $this->load->library('DX_Auth');
-        if (! $this->dx_auth->is_logged_in()){
+        if (! $this->session->userdata('DX_logged_in') ){
             $this->session->sess_destroy();
             redirect('auth/login');
         } else{
@@ -28,6 +27,17 @@ class Admin extends CI_Controller
         }
         $data['this_user'] = $this->session->userdata();
         $this->load->database();
+
+        $this->load->model('ticket');
+        $this->load->model('clients');
+        $this->load->model('user');
+        $this->load->model('category');
+        $this->load->model('status');
+        $this->load->model('importance');
+        $this->load->model('mail');
+        $this->load->model('templates');
+        $this->load->model('rights');
+        $this->load->model('roles');
     }
 
     public function view($page = 'dashboard')
@@ -40,25 +50,28 @@ class Admin extends CI_Controller
 
         switch ($page){
             case ('category'):
-                $data['array'] = $this->category();
+                $data['array'] = $this->category->get_all_entries();
                 break;
             case ('status'):
-                $data['array'] = $this->status();
+                $data['array'] = $this->status->get_all_entries();
                 break;
             case ('importance'):
-                $data['array'] = $this->importance();
+                $data['array'] = $this->importance->get_all_entries();
                 break;
             case ('users'):
-                $data['array'] = $this->users();
+                $data['array'] = $this->user->get_all_entries_table();
                 break;
             case ('rights'):
-                $data['array'] = $this->rights();
+                $data['array'] = $this->rights->get_all_entries();
                 break;
             case ('mail'):
-                $data['array'] = $this->mail();
+                $data['array'] = $this->mail->get_all_entries();
                 break;
             case ('templates'):
-                $data['array'] = $this->templates();
+                $data['array'] = $this->templates->get_all_entries();
+                break;
+            case ('clients'):
+                $data['array'] = $this->clients->get_all_entries_full();
                 break;
             default:
                 break;
@@ -66,7 +79,6 @@ class Admin extends CI_Controller
 
         $data['title'] = ucfirst($page);
         $data["company"] = '';
-        $data["page_title_desc"] = '';
 
         $data['this_user'] = $this->session->userdata();
 
@@ -85,13 +97,16 @@ class Admin extends CI_Controller
 
         switch ($page){
             case ('status'):
-                $data['array'] = $this->addStatus();
+                $data['array'] = $this->status->get_enum();
                 break;
             case ('importance'):
-                $data['array'] = $this->addImportance();
+                $data['array'] = $this->importance->get_enum();
                 break;
             case ('user'):
-                $data['roles'] = $this->addUser();
+                $data['roles'] = $this->roles->get_all_entries();
+                break;
+            case ('client'):
+                $data['roles'] = $this->roles->get_all_entries();
                 break;
             default:
                 break;
@@ -99,7 +114,6 @@ class Admin extends CI_Controller
 
         $data['title'] = ucfirst($page);
         $data["company"] = '';
-        $data["page_title_desc"] = '';
 
         $data['this_user'] = $this->session->userdata();
 
@@ -118,19 +132,25 @@ class Admin extends CI_Controller
 
         switch ($page){
             case ('category'):
-                $this->data['array'] = $this->editCategory( $id );
+                $this->data['array'] = $this->category->get_single_entry($id);
                 break;
             case ('status'):
-                $this->data['array'] = $this->editStatus( $id );
+                $this->data['levels'] = $this->status->get_enum();
+                $this->data['status'] = $this->status->get_single_entry($id);
                 break;
             case ('importance'):
-                $this->data['array'] = $this->editImportance( $id );
+                $this->data['levels'] = $this->importance->get_enum();
+                $this->data['status'] = $this->importance->get_single_entry($id);
                 break;
             case ('user'):
-                $this->data['array'] = $this->editUser( $id );
+                $this->data['roles'] = $this->roles->get_all_entries();
+                $this->data['user'] = $this->user->get_single_entry($id);
                 break;
             case ('template'):
-                $this->data['array'] = $this->editTemplate( $id );
+                $this->data['array'] = $this->templates->get_single_entry($id);
+                break;
+            case ('client'):
+                $this->data['client'] = $this->clients->get_single_entry($id);
                 break;
             default:
                 break;
@@ -140,7 +160,6 @@ class Admin extends CI_Controller
 
         $data['title'] = ucfirst($page);
         $data["company"] = '';
-        $data["page_title_desc"] = '';
 
         $data['this_user'] = $this->session->userdata();
 
@@ -148,175 +167,5 @@ class Admin extends CI_Controller
         $this->load->view('admin/templates/header', $data);
         $this->load->view('admin/pages/edit/'.$page, $data);
         $this->load->view('admin/templates/footer', $data);
-    }
-
-    public function delete($page = 'dashboard', $id)
-    {
-        /*
-        if ( ! file_exists(APPPATH.'views/admin/pages/'.$page.'.php'))
-        {
-            // Whoops, we don't have a page for that!
-            show_404();
-        }
-
-        switch ($page){
-            case ('category'):
-                $data['array'] = $this->category();
-                break;
-            case ('status'):
-                $data['array'] = $this->status();
-                break;
-            case ('importance'):
-                $data['array'] = $this->importance();
-                break;
-            case ('user'):
-                $data['array'] = $this->users();
-                break;
-            default:
-                break;
-        }
-
-        $data['title'] = ucfirst($page);
-        $data["company"] = '';
-        $data["page_title_desc"] = '';
-
-        $data['this_user'] = $this->session->userdata();
-
-
-        $this->load->view('admin/templates/header', $data);
-        $this->load->view('admin/pages/'.$page, $data);
-        $this->load->view('admin/templates/footer', $data);
-        */
-    }
-
-    public function category(){
-        $query = $this->db->query('SELECT * FROM alert_types');
-        return $query->result_array();
-    }
-
-    public function editCategory($id = null){
-        $query = $this->db->query('SELECT * FROM alert_types WHERE alert_id = '.$this->db->escape($id));
-        return $query->row_array();
-    }
-
-    public function status(){
-        $query = $this->db->query('SELECT * FROM status_types');
-        return $query->result_array();
-    }
-
-    public function addstatus(){
-        $query = $this->db->query('
-            SELECT COLUMN_TYPE 
-            FROM INFORMATION_SCHEMA.COLUMNS 
-            WHERE TABLE_SCHEMA = "ticket"
-            AND TABLE_NAME = "status_types" 
-            AND COLUMN_NAME = "status_level"');
-        $x = $query->result_array();
-        $x = $x[0]['COLUMN_TYPE'];
-        $x = str_replace('enum(', '', $x);
-        $x = str_replace(')', '', $x);
-        $x = str_replace('\'', '', $x);
-        $x = explode(','. '', $x);
-        return $x;
-    }
-
-    public function editStatus($id = null){
-    // docs
-        $query = $this->db->query('
-            SELECT COLUMN_TYPE 
-            FROM INFORMATION_SCHEMA.COLUMNS 
-            WHERE TABLE_SCHEMA = "ticket"
-            AND TABLE_NAME = "status_types" 
-            AND COLUMN_NAME = "status_level"');
-        $x = $query->result_array();
-        $x = $x[0]['COLUMN_TYPE'];
-        $x = str_replace('enum(', '', $x);
-        $x = str_replace(')', '', $x);
-        $x = str_replace('\'', '', $x);
-        $x = explode(','. '', $x);
-        $this->data['levels'] = $x;
-
-        $query = $this->db->query('SELECT * FROM status_types WHERE status_id = '.$this->db->escape($id));
-        $this->data['status'] = $query->result_array();
-    }
-
-    public function importance(){
-        $query = $this->db->query('SELECT * FROM importance_types');
-        return $query->result_array();
-    }
-
-    public function addImportance(){
-        $query = $this->db->query('
-            SELECT COLUMN_TYPE 
-            FROM INFORMATION_SCHEMA.COLUMNS 
-            WHERE TABLE_SCHEMA = "ticket"
-            AND TABLE_NAME = "importance_types" 
-            AND COLUMN_NAME = "importance_level"');
-        $x = $query->result_array();
-        $x = $x[0]['COLUMN_TYPE'];
-        $x = str_replace('enum(', '', $x);
-        $x = str_replace(')', '', $x);
-        $x = str_replace('\'', '', $x);
-        $x = explode(','. '', $x);
-        return $x;
-    }
-
-    public function editImportance($id = null){
-        $query = $this->db->query('
-            SELECT COLUMN_TYPE 
-            FROM INFORMATION_SCHEMA.COLUMNS 
-            WHERE TABLE_SCHEMA = "ticket"
-            AND TABLE_NAME = "importance_types" 
-            AND COLUMN_NAME = "importance_level"');
-        $x = $query->result_array();
-        $x = $x[0]['COLUMN_TYPE'];
-        $x = str_replace('enum(', '', $x);
-        $x = str_replace(')', '', $x);
-        $x = str_replace('\'', '', $x);
-        $x = explode(','. '', $x);
-        $this->data['levels'] = $x;
-
-        $query = $this->db->query('SELECT * FROM importance_types WHERE importance_id = '.$this->db->escape($id));
-        $this->data['importance'] = $query->result_array();
-    }
-
-    public function users(){
-        $query = $this->db->query('SELECT u.id, u.username, u.email, u.created, u.last_login, r.name FROM users as u
-            JOIN roles as r ON u.role_id = r.id');
-        return $query->result_array();
-    }
-
-    public function addUser(){
-        $data['this_user'] = $this->session->userdata();
-        $query = $this->db->query('SELECT * FROM roles');
-        return $query->result_array();
-    }
-
-    public function editUser($id = null){
-        $query = $this->db->query('SELECT * FROM roles');
-        $this->data['roles'] = $query->result_array();
-
-        $query = $this->db->query('SELECT * FROM users WHERE id = '.$this->db->escape($id));
-        $this->data['user'] = $query->row_array();
-    }
-
-    public function rights(){
-        $query = $this->db->query('SELECT * FROM roles');
-        return $query->result_array();
-    }
-
-    public function mail(){
-        $query = $this->db->query('SELECT * FROM mail_config WHERE id = 1');
-        return $query->row_array();
-    }
-
-    public function templates(){
-        $query = $this->db->query('SELECT * FROM mail_templates');
-        return $query->result_array();
-    }
-
-    public function editTemplate($id){
-        $query = $this->db->query('SELECT * FROM mail_templates WHERE id = '.$id);
-        return $query->row_array();
     }
 }
