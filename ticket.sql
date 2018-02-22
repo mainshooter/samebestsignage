@@ -350,7 +350,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `role_id`, `username`, `password`, `email`, `last_ip`, `created`, `modified`, `hash`) VALUES
 (6, 3, 'Admin', '$1$.86Fj7qb$OtwsyD.mI3AJfX8PzZTpJ/', 'jordi.schaap@outlook.com', '127.0.0.1', '2018-01-25 14:23:18', '2018-02-22 12:07:11', NULL),
 (10, 2, 'Piet 2.0', '$1$sgpkJHPY$CCKuqpUR8Mi.72/AcoXia0', 'piet@a.nl', '127.0.0.1', '2018-01-31 15:10:35', '2018-02-13 09:24:09', NULL),
-(11, 2, 'Test', '$1$Rj3c.EL5$DKQflkbyiN/Be6ydPyKXE1', 'a@a.a', '127.0.0.1', '0000-00-00 00:00:00', '2018-02-09 13:42:31', NULL);
+(11, 2, 'Test', '$1$Rj3c.EL5$DKQflkbyiN/Be6ydPyKXE1', 'a@a.a', '127.0.0.1', '0000-00-00 00:00:00', '2018-02-09 13:42:31', NULL),
+(12, '3', 'Peter', '$1$N.ewH/KC$hMSxRSkCsWwgWpN3pr8WN.', 'peter@idsignage.nl', '', '0000-00-00 00:00:00', '2018-02-22 13:56:32', NULL);
 
 --
 -- Indexen voor geëxporteerde tabellen
