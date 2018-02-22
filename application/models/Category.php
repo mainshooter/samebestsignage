@@ -25,14 +25,24 @@ class Category extends CI_Model
           '.$this->db->escape($nam).',
            '.$this->db->escape($inf).')
            ');
+
+        if($query){
+            $this->logs->insert_entry("INSERT", "Category created", ($this->session->userdata('DX_user_id') != null)? $this->session->userdata('DX_user_id') : $this->input->ip_address());
+        }
+
         return $query;
     }
 
     public function update_entry($id, $nam, $inf){
         $query = $this->db->query('UPDATE categorys
-            SET cat_name = '.$this->db->escape($_POST['name']).',
-             cat_info = '.$this->db->escape($_POST['info']).'
+            SET cat_name = '.$this->db->escape($nam).',
+             cat_info = '.$this->db->escape($inf).'
             WHERE cat_id = '.$this->db->escape($id));
+
+        if($query){
+            $this->logs->insert_entry("UPDATE", "Category no.".$id." updated", ($this->session->userdata('DX_user_id') != null)? $this->session->userdata('DX_user_id') : $this->input->ip_address());
+        }
+
         return $query;
     }
 }

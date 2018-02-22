@@ -171,7 +171,7 @@ footer{
     padding: 0.55rem 1.5rem!important;
 }
 
-.alert-item, .alert-content{
+.alert-item{
     display: inline-flex!important;
 }
 
@@ -201,7 +201,12 @@ footer{
     right: 0;
 }
 
+.dropdown-item {
+    background-color: #343a40;
+}
+
 .alert-title{
+    width: max-content;
     padding-right: 10px;
     border-right: 1px solid #4a4a4a ;
 }
@@ -248,6 +253,7 @@ footer{
 }
 
 .slider-item:hover{
+    cursor: pointer;
     border: 2px solid #8a8a8a;
     border-radius: 2px;
 }
@@ -305,6 +311,17 @@ button.close-img {
     -webkit-appearance: none;
 }
 
+.share{
+    margin-top: 6px;
+    position: absolute;
+    right: 0;
+}
+
+.share:hover{
+    cursor: pointer;
+    color: #e4e4e4;
+}
+
 ::-webkit-scrollbar
 {
     width: 3px;
@@ -316,4 +333,41 @@ button.close-img {
 {
     background-color: #464646;
     border-radius: 5px;
+}
+
+.menu-icons{
+    display: flex;
+}
+
+.add-ticket-row{
+    display: flex;
+    flex-direction: row!important;
+}
+
+.alert-content {
+    display: unset!important;
+}
+
+.dropdown-menu{
+    right: 2px;
+    left: 2px!important;
+}
+
+.alert-desc{
+    display: flex;
+}
+
+@media (min-width: 992px) {
+    .alert-content {
+        display: inline-flex!important;
+    }
+
+    .dropdown-menu{
+        right: 2px;
+        left: unset!important;
+    }
+
+    .alert-desc{
+        display: inline-block;
+    }
 }

@@ -33,3 +33,33 @@ input[type="range"] {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.side-menu-trigger{
+    color: #cacaca;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.side-menu-trigger:focus{
+    background: #272b30;
+}
+
+.side-menu-trigger:hover{
+    background: #272b30;
+}
+
+.side-menu-trigger i{
+    font-size: 36px;
+}
+
+.nav-top{
+    display: flex;
+}
+
+.navbar-brand{
+    background-color: unset;
+    box-shadow: unset;
+}
+@media (max-width: 768px) {
+
+}

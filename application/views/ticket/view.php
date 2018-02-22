@@ -1,13 +1,19 @@
+<?php if (empty($ticket)){redirect('/home');} ?>
 <div class="card flex-row row">
     <div class="card-left col-sm-12 col-md-6 col-lg-4">
         <div class="card-body">
-            <h3 class="card-title"><?= $ticket['cat_name'] ?></h3>
+            <div class="row w-100">
+                <h3 class="card-title"><?= $ticket['cat_name'] ?></h3>
+                <div class="material-icons share" onclick="$('#ticket-share').modal('toggle')">share</div>
+            </div>
+
             <h6 class="card-subtitle mb-2 text-muted">
                 <a href="#" onclick="$('#ticket-modal-comp').modal('toggle')"> <?= $ticket['client_name'] ?> &#9432; </a>
             </h6>
             <h6 class="card-subtitle mb-2 text-muted" style="color:<?= $ticket['importance_color'] ?>!important;">
                 <?= $ticket['importance_name'] ?>
             </h6>
+
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">Handler: <?= ($this_user['DX_user_id'] == $ticket['ticket_master'])? '(You)' : $ticket['email'] ?></li>
@@ -59,7 +65,7 @@
                         foreach ($images as $image){
                             ?>
                             <a class="slider-item" data-toggle="modal" data-target="#exampleModal" onclick="$('.modal-item-img').attr('src', '<?= $image['img_path'].$image['img_name'] ?>'), $('.modal-title-img').html('<?= $image['img_name'] ?>')">
-                                <img class="slider-item-img d-block" src="<?= $image['img_path'].$image['img_name'] ?>" alt="<?= $image['img_name'] ?>">
+                                <img class="slider-item-img d-block" src="<?= $image['img_path'].$image['img_thumb'] ?>" alt="<?= $image['img_name'] ?>">
                             </a>
                             <?php
                         }
@@ -266,6 +272,32 @@ if (!empty($ticket['ticket_completed_at'])){
     </div>
 </div>
 
+
+<!-- Modal -->
+<div class="modal fade" id="ticket-share" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <form id="share">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Share</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body form-group">
+                    <div class="modal-msg"></div>
+                    <label for="email">Sent to</label>
+                    <input type="email" name="email" id="email" class="form-control" placeholder="Email">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-outline-success">Sent</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 <?php
 if ($this_user['DX_user_id'] == $ticket['ticket_master']) {
     ?>
@@ -343,5 +375,11 @@ if ($this_user['DX_user_id'] == $ticket['ticket_master']) {
     $('#edit').submit(function(event) {
         event.preventDefault();
         <?= ajax('POST', 'editticket', '$(this).serialize()', $ticket['ticket_id']) ?>
+    });
+
+    // Set up an event listener for the contact form.
+    $('#share').submit(function(event) {
+        event.preventDefault();
+        <?= ajax('POST', 'shareticket', '$(this).serialize()', $ticket['ticket_id']) ?>
     });
 </script>

@@ -73,6 +73,9 @@ class Admin extends CI_Controller
             case ('clients'):
                 $data['array'] = $this->clients->get_all_entries_full();
                 break;
+            case ('log'):
+                $data['array'] = $this->logs->get_all_entries();
+                break;
             default:
                 break;
         }
@@ -140,7 +143,7 @@ class Admin extends CI_Controller
                 break;
             case ('importance'):
                 $this->data['levels'] = $this->importance->get_enum();
-                $this->data['status'] = $this->importance->get_single_entry($id);
+                $this->data['importance'] = $this->importance->get_single_entry($id);
                 break;
             case ('user'):
                 $this->data['roles'] = $this->roles->get_all_entries();

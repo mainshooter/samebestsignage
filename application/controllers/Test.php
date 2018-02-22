@@ -16,13 +16,6 @@ class Test extends CI_Controller
 
         $this->load->helper('url_helper');
         $this->load->helper('main_helper');
-
-        $this->load->library('DX_Auth');
-        if (! $this->dx_auth->is_logged_in()){
-            $this->session->sess_destroy();
-            redirect('auth/login');
-        }
-
         $data['this_user'] = $this->session->userdata();
         $this->load->database();
     }

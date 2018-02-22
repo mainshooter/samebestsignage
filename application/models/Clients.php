@@ -38,6 +38,11 @@ class Clients extends CI_Model
             '.$this->db->escape($zip).'
             )
             ');
+
+        if($query){
+            $this->logs->insert_entry("INSERT", "Client created", ($this->session->userdata('DX_user_id') != null)? $this->session->userdata('DX_user_id') : $this->input->ip_address());
+        }
+
         return $query;
     }
 
@@ -54,6 +59,11 @@ class Clients extends CI_Model
            client_street_number = '.$this->db->escape($num).', 
            client_zipcode = '.$this->db->escape($zip).'
           WHERE client_id =  '. $id );
+
+        if($query){
+            $this->logs->insert_entry("UPDATE", "Client updated", ($this->session->userdata('DX_user_id') != null)? $this->session->userdata('DX_user_id') : $this->input->ip_address());
+        }
+
         return $query;
     }
 }

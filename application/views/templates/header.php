@@ -1,4 +1,4 @@
-<html>
+<html lang="en">
 <head>
     <title><?= $title ?> - IdSignage</title>
 
@@ -15,19 +15,6 @@
     <link href="<?= asset('bootstrap/css/bootstrap.min.css');?>" type="text/css" rel="stylesheet">
     <script src="<?= asset('bootstrap/js/bootstrap.min.js');?>"></script>
 
-    <link rel="stylesheet" type="text/css" href="<?= asset('datatables/css/dtBS4.css');?>">
-
-    <script type="text/javascript" language="javascript" src="<?= asset('datatables/js/jqDT.js');?>"></script>
-    <script src="<?= asset('datatables/js/dtBS4.js');?>"></script>
-
-    <link type="text/css" rel="stylesheet" href="<?= asset('datatables/css/rBS4.css');?>"/>
-    <script src="<?= asset('datatables/js/dtR.js');?>"></script>
-    <script src="<?= asset('datatables/js/rBS4.js');?>"></script>
-
-    <link type="text/css" rel="stylesheet" href="<?= asset('datatables/css/sBS4.css');?>"/>
-    <script src="<?= asset('datatables/js/dtS.js');?>"></script>
-
-
     <script src="<?= asset('js/main.js');?>"></script>
     <script src="<?= asset('js/check.js');?>"></script>
 
@@ -38,7 +25,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <a class="navbar-brand" href="/home">
-        <img src="<?= asset('img/logo-idsignage.png') ?>">
+        <img src="<?= asset('img/logo-idsignage.png') ?>" alt="IdSignage">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -68,7 +55,6 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
                         <h6 class="dropdown-header">My Account</h6>
                         <a class="dropdown-item" href="/user/profile">Profile</a>
-                        <a class="dropdown-item" href="/settings">Settings</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/ajaxlogin/logout">Logout</a>
                     </div>
@@ -81,95 +67,93 @@
             }
             ?>
         </ul>
-        <?php
-        if (!empty($this_user['DX_logged_in']) && $this_user['DX_logged_in'] === true) {
-            ?>
-            <a href="#" onclick="$('#add-ticket-modal').modal('toggle')"
-               onmouseenter="$('#add-ticket').toggleClass('btn-outline-success-hover');"
-               onmouseleave="$('#add-ticket').toggleClass('btn-outline-success-hover');">
-                <ul class="navbar-nav">
-                    <li class="nav-right nav-item active">
-                        <div class="navbar-text">
-                            Add ticket
-                        </div>
-                    </li>
-                    <li class="nav-right nav-item active">
-                        <i id="add-ticket" class="btn btn-outline-success rounded-circle material-icons">add</i>
-                    </li>
-                </ul>
-            </a>
-            <ul class="navbar-nav">
-                <li class="nav-right nav-item active">
-                    <div class="dropdown">
-
-                        <button class="dropdown-toggle icon-dropdown position-relative" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="alert-count badge badge-warning"></span>
-                            <i id="settings" class="btn btn-outline-warning rounded-circle material-icons">warning</i>
-                        </button>
-
-                        <div class="dropdown-menu dropdown-menu-right alert-dropdown" aria-labelledby="dropdownMenuButton">
-                            <div class="dropdown-head">
-
-                                    <h6 class="dropdown-header">
-                                        <span>Alerts</span>
-                                        <span class="float-right">
-                                            <a class="set-read" onclick="setReadAll()">
-                                                Mark as read
-                                            </a>
-                                        </span>
-                                    </h6>
-                            <script>
-                                function setReadAll() {
-                                    <?= ajax('POST', 'markAsReadAll', '[]') ?>
-                                }
-                                function setRead(alert_id, customHref) {
-                                    <?= ajax('POST', 'markAsRead', '{id : alert_id}', null, 'customHref') ?>
-                                }
-                            </script>
-                            </div>
-                            <div class="dropdown-divider"></div>
-                            <div class="dropdown-body">
-                                <?php
-                                foreach ($alerts as $alert){
-                                    if ($alert['alert_seen'] == 0) {
-                                        ?>
-                                        <a href="#" onclick="setRead(<?= $alert['alert_id'] ?>, '<?= $alert['alert_href'] ?>')" class="alert-item dropdown-item unseen">
-                                            <div class="alert-icon">
-                                                <i class="material-icons"><?= $alert['alert_icon'] ?></i>
-                                            </div>
-                                            <div class="alert-content">
-                                                <div class="alert-title">
-                                                    <?= $alert['alert_title'] ?>
-                                                </div>
-
-                                                <div class="alert-desc">
-                                                    <?= $alert['alert_desc'] ?>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <?php
-                                    }
-                                }
-                                ?>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
+        <div class="menu-icons dropdown">
             <?php
-            if ((int)$this_user['DX_role_id'] >= 2) {
+            if (!empty($this_user['DX_logged_in']) && $this_user['DX_logged_in'] === true) {
                 ?>
-                <a href="/admin/dashboard">
-                    <ul class="navbar-nav">
+                <a href="#" onclick="$('#add-ticket-modal').modal('toggle')"
+                   onmouseenter="$('#add-ticket').toggleClass('btn-outline-success-hover');"
+                   onmouseleave="$('#add-ticket').toggleClass('btn-outline-success-hover');">
+                    <ul class="navbar-nav add-ticket-row">
                         <li class="nav-right nav-item active">
-                            <i id="settings" class="btn btn-outline-danger rounded-circle material-icons">settings</i>
+                            <div class="navbar-text">
+                                Add ticket
+                            </div>
+                        </li>
+                        <li class="nav-right nav-item active">
+                            <i id="add-ticket" class="btn btn-outline-success rounded-circle material-icons">add</i>
                         </li>
                     </ul>
                 </a>
+                <ul class="navbar-nav">
+                    <li class="nav-right nav-item active">
+                        <button class="dropdown-toggle icon-dropdown position-relative" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="$('#alerts').toggleClass('show')">
+                            <span class="alert-count badge badge-warning"></span>
+                            <i id="settings" class="btn btn-outline-warning rounded-circle material-icons">warning</i>
+                        </button>
+                    </li>
+                </ul>
                 <?php
+                if ((int)$this_user['DX_role_id'] >= 2) {
+                    ?>
+                    <a href="/admin/dashboard">
+                        <ul class="navbar-nav">
+                            <li class="nav-right nav-item active">
+                                <i id="settings" class="btn btn-outline-danger rounded-circle material-icons">settings</i>
+                            </li>
+                        </ul>
+                    </a>
+                    <?php
+                }
             }
-        }
-        ?>
+            ?>
+            <div id="alerts" class="dropdown-menu dropdown-menu-right alert-dropdown" aria-labelledby="dropdownMenuButton">
+                <div class="dropdown-head">
+
+                    <h6 class="dropdown-header">
+                        <span>Alerts</span>
+                        <span class="float-right">
+                                                <a class="set-read" onclick="setReadAll()">
+                                                    Mark as read
+                                                </a>
+                                            </span>
+                    </h6>
+                    <script>
+                        function setReadAll() {
+                            <?= ajax('POST', 'markAsReadAll', '[]') ?>
+                        }
+                        function setRead(alert_id, customHref) {
+                            <?= ajax('POST', 'markAsRead', '{id : alert_id}', null, 'customHref') ?>
+                        }
+                    </script>
+                </div>
+                <div class="dropdown-divider"></div>
+                <div class="dropdown-body">
+                    <?php
+                    foreach ($alerts as $alert){
+                        if ($alert['alert_seen'] == 0) {
+                            ?>
+                            <a href="#" onclick="setRead(<?= $alert['alert_id'] ?>, '<?= $alert['alert_href'] ?>')" class="alert-item dropdown-item unseen">
+                                <div class="alert-icon">
+                                    <i class="material-icons"><?= $alert['alert_icon'] ?></i>
+                                </div>
+                                <div class="alert-content">
+                                    <div class="alert-title">
+                                        <?= $alert['alert_title'] ?>
+                                    </div>
+
+                                    <div class="alert-desc">
+                                        <?= $alert['alert_desc'] ?>
+                                    </div>
+                                </div>
+                            </a>
+                            <?php
+                        }
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
     </div>
 </nav>
 <div id="msg"></div>

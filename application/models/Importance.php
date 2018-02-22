@@ -15,7 +15,7 @@ class Importance extends CI_Model
 
     public function get_single_entry($id){
         $query = $this->db->query('SELECT * FROM importance_types WHERE importance_id = '.$this->db->escape($id));
-        return $query->result_array();
+        return $query->row_array();
     }
 
     public function get_enum(){
@@ -43,6 +43,11 @@ class Importance extends CI_Model
             '.$this->db->escape($col).',
              '.$this->db->escape($lvl).')
            ');
+
+        if($query){
+            $this->logs->insert_entry("INSERT", "Importance created", ($this->session->userdata('DX_user_id') != null)? $this->session->userdata('DX_user_id') : $this->input->ip_address());
+        }
+
         return $query;
     }
 
@@ -55,6 +60,11 @@ class Importance extends CI_Model
              importance_level = '.$this->db->escape($lvl).'
             WHERE 
              importance_id = '.$this->db->escape($id));
+
+        if($query){
+            $this->logs->insert_entry("UPDATE", "Importance no.".$id." updated", ($this->session->userdata('DX_user_id') != null)? $this->session->userdata('DX_user_id') : $this->input->ip_address());
+        }
+
         return $query;
     }
 }

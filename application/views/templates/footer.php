@@ -1,7 +1,7 @@
 </div>
 <loader style="display: none">
     <div id="demo">
-        <div class="check demo" onclick="LazyMode()">
+        <div class="check demo " onclick="LazyMode()">
             <div class="check-child check-success rounded-circle loader"></div>
         </div>
         <div class="check-content loader-child demo" onclick="LazyMode()">
@@ -14,7 +14,7 @@
 <footer class="footer">
     <div class="container">
         <span class="text-muted">&copy;IdSignage <?= date('Y') ?></span>
-        <span class="text-muted float-right font-italic" style="cursor: pointer;" onclick="LazyMode()"><u>Lazy Mode</u></span>
+        <span class="text-muted float-right font-italic d-none d-md-block" style="cursor: pointer;" onclick="LazyMode()"><u>Lazy Mode</u></span>
     </div>
 </footer>
 <?php if (!empty($this_user['DX_logged_in']) && $this_user['DX_logged_in'] === true){ ?>
@@ -74,11 +74,11 @@
 
                     <div class="form-group">
                         <label for="status">Status</label>
-                        <select class="form-control" id="status" name="status" required>
+                        <select class="form-control" id="status" name="ticket-status" required>
                             <?php
                             foreach ($statuses as $item){
                                 ?>
-                                <option value="<?= $item['status_id'] ?>"><?= $item['status_name'] ?></option>
+                                <option value="<?= $item['status_id'] ?>" <?= ($item['status_name'] == 'Pending')? 'selected' : '' ?>><?= $item['status_name'] ?></option>
                                 <?php
                             }
                             ?>
@@ -123,7 +123,7 @@
                     data.append('client', $('[name="client"]').val());
                     data.append('user', $('[name="user"]').val());
                     data.append('category', $('[name="category"]').val());
-                    data.append('status', $('[name="status"]').val());
+                    data.append('status', $('[name="ticket-status"]').val());
                     data.append('importance', $('[name="importance"]').val());
                     data.append('problem', $('[name="problem"]').val());
 
@@ -131,8 +131,6 @@
                     for (var x = 0; x < ins; x++) {
                         data.append("image[]", document.getElementById('image').files[x]);
                     }
-
-                    //data.append( 'image', $( '#image' )[0].files[0] );
 
                     <?= ajax('POST', 'addticket', 'data', null, null, 'enctype: "multipart/form-data", processData: false, contentType: false,') ?>
                 });

@@ -43,20 +43,25 @@
     <div id="msg"></div>
 
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">
-            <?php
-            if (empty($company)){
-                ?>
-                <img src="<?= asset('img/logo-idsignage.png') ?>" class="logo">
+        <div class="nav-top">
+            <div class="side-menu-trigger d-md-none d-block" onclick="$('.sidebar').toggle().toggleClass('d-none')">
+                <i class="material-icons">menu</i>
+            </div>
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/home">
                 <?php
-            } else{
+                if (empty($company)){
+                    ?>
+                    <img src="<?= asset('img/logo-idsignage.png') ?>" class="logo">
+                    <?php
+                } else{
+                    ?>
+                    <?= $company ?>
+                    <?php
+                }
                 ?>
-                <?= $company ?>
-                <?php
-            }
-            ?>
-        </a>
-        <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+            </a>
+        </div>
+        <input class="form-control form-control-dark w-100 d-none" type="text" placeholder="Search" aria-label="Search">
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
                 <a class="nav-link" href="/auth/logout">Sign out</a>
@@ -120,6 +125,12 @@
                             <a class="nav-link" href="/admin/mail">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail" color="#384047" data-reactid="716"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                                 Mail Configuration
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/log">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-database" color="#384047"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                                Logs
                             </a>
                         </li>
                     </ul>

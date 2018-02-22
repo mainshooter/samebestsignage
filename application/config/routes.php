@@ -81,3 +81,6 @@ $route['admin/(:any)'] = 'admin/view/$1';
 $route['admin/(:any)/add'] = 'admin/add/$1';
 $route['admin/(:any)/edit/(:num)'] = 'admin/edit/$1/$2';
 $route['admin/(:any)/delete/(:num)'] = 'admin/delete/$1/$2';
+
+/*** Image ***/
+$route['image/add/(:any)'] = 'images/add/$1';

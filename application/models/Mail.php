@@ -20,6 +20,11 @@ class Mail extends CI_Model
 
     public function update_entry($key, $item){
         $query = $this->db->query('UPDATE mail_config SET ' . $key . ' = ' . $this->db->escape($item) . ' WHERE id = 1');
+
+        if($query){
+            $this->logs->insert_entry("UPDATE", "Mail config(".$key.") updated", ($this->session->userdata('DX_user_id') != null)? $this->session->userdata('DX_user_id') : $this->input->ip_address());
+        }
+
         return $query;
     }
 }

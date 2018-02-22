@@ -67,6 +67,11 @@ class User extends CI_Model
               '.$this->db->escape($rol).'
               ) 
         ');
+
+        if($query){
+            $this->logs->insert_entry("INSERT", "User created", ($this->session->userdata('DX_user_id') != null)? $this->session->userdata('DX_user_id') : $this->input->ip_address());
+        }
+
         return $query;
     }
 
@@ -79,6 +84,11 @@ class User extends CI_Model
             role_id = '.$this->db->escape($rol).'
            WHERE 
             id = '.$this->db->escape($id));
+
+        if($query){
+            $this->logs->insert_entry("UPDATE", "User no.".$id." updated", ($this->session->userdata('DX_user_id') != null)? $this->session->userdata('DX_user_id') : $this->input->ip_address());
+        }
+
         return $query;
     }
 
@@ -90,6 +100,11 @@ class User extends CI_Model
             email = '.$this->db->escape($ema).'
            WHERE 
             id = '.$this->db->escape($id));
+
+        if($query){
+            $this->logs->insert_entry("UPDATE", "User no.".$id." updated", ($this->session->userdata('DX_user_id') != null)? $this->session->userdata('DX_user_id') : $this->input->ip_address());
+        }
+
         return $query;
     }
 
@@ -102,6 +117,11 @@ class User extends CI_Model
             last_ip = "'.$this->input->ip_address().'"
            WHERE 
             id = '.$this->db->escape($id));
+
+        if($query){
+            $this->logs->insert_entry("LOGIN", "User no.".$id." logged in", ($this->session->userdata('DX_user_id') != null)? $this->session->userdata('DX_user_id') : $this->input->ip_address());
+        }
+
         return $query;
     }
 

@@ -44,19 +44,20 @@ class Ajax extends CI_Controller
     public function addTicket()
     {
         $config = array(
-            'upload_path' => 'public/img/uploads/',
-            'allowed_types' => 'gif|jpg|png',
+            'upload_path'      => 'public/img/uploads/',
+            'allowed_types'    => 'gif|jpg|png',
             'file_ext_tolower' => TRUE,
-            'max_size' => 4096,
-            'max_width' => 0,
-            'max_height' => 0,
-            'max_filename' => 1000,
+            'max_size'         => 4096,
+            'max_width'        => 0,
+            'max_height'       => 0,
+            'max_filename'     => 1000,
         );
 
         $this->load->library('upload');
+        $this->load->library('image_lib');
         $this->upload->initialize($config);
 
-        $upload = false;
+        $upload = true;
 
         $files_uploaded = array();
         $number_of_files_uploaded = count($_FILES['image']['name']);
@@ -73,10 +74,25 @@ class Ajax extends CI_Controller
                 $upload = false;
             } else {
                 $data = $this->upload->data();
+
+                $config_lib = array(
+                    'image_library'  => 'gd2',
+                    'source_image'   => $config['upload_path'] . $data['file_name'],
+                    'create_thumb'   => TRUE,
+                    'thumb_marker'   => '_thumb',
+                    'maintain_ratio' => TRUE,
+                    'width'          => 200,
+                    'height'         => 200
+                );
+
+                $this->image_lib->initialize($config_lib);
+                $this->image_lib->resize();
+
+                $data['thumb'] = $data['raw_name'].$config_lib['thumb_marker'].$data['file_ext'];
                 $data['file_path'] = $config['upload_path'];
-                $data['full_path'] = $config['upload_path'].$data['file_name'];
+                $data['file_path'] = $config['upload_path'];
+                $data['full_path'] = $config['upload_path'] . $data['file_name'];
                 $files_uploaded[] = $data;
-                $upload = true;
             }
         }
 
@@ -85,13 +101,12 @@ class Ajax extends CI_Controller
 
             $insert = true;
             foreach ($files_uploaded as $key => $item) {
-                if (!$this->image->insert_entry($group, $item['file_name'], $item['file_path'], $item['file_size'])) {
+                if (!$this->image->insert_entry($group, $item['file_name'], $item['thumb'], $item['file_path'], $item['file_size'])) {
                     $insert = false;
                 }
             }
 
             if ($insert !== false) {
-
                 if (!$this->ticket->insert_entry(
                     $_POST['client'],
                     $_POST['category'],
@@ -100,7 +115,8 @@ class Ajax extends CI_Controller
                     $_POST['problem'],
                     $group,
                     $this->session->userdata('DX_user_id'),
-                    $_POST['user']
+                    $_POST['user'],
+                    $this->hash($_POST['category'].$_POST['problem'])
                 )) {
                     echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
                 } else {
@@ -149,6 +165,49 @@ class Ajax extends CI_Controller
                     }
                 }
             }
+        }
+    }
+
+    public function shareTicket($id){
+        $ticket = $this->ticket->get_single_entry($id);
+
+        $this->load->library('email');
+        $this->load->library('mailtemplates');
+
+
+        $insertId = $this->db->insert_id();
+        $config = array();
+
+        //all config items
+        foreach ($this->mail->get_all_entries() as $key => $item) {
+            $config[$key] = $item;
+        }
+
+        $this->email->initialize($config);
+
+        $data = $this->user->get_single_entry_mail(6);
+
+        $values = array(
+            '({[!TITLE!]})' => "Er is een ticket met u gedeelt",
+            '({[!LINK!]})' => "/image/add/".$ticket['ticket_hash'],
+            '({[!BASEURL!]})' => base_url(),
+        );
+
+        $this->mailtemplates->setTemplate(3);
+        $this->mailtemplates->setCustomSubject("Uw ticket");
+        $this->mailtemplates->writeData($values);
+
+
+        $this->email->from('info@idsignage.nl', 'IdSignage');
+        $this->email->to($_POST['email']);
+        $this->email->subject($this->mailtemplates->subject());
+        $this->email->message($this->mailtemplates->getData());
+
+        if ($this->email->send()) {
+            $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Shared', 'You shared ticket no.' . $ticket["ticket_id"] . '.', 'share', '/ticket/' . $ticket["ticket_id"]);
+            echo '';
+        } else {
+            echo alert('danger', 'MAIL::ERROR!!!!', $this->email->print_debugger());
         }
     }
 
@@ -226,7 +285,7 @@ class Ajax extends CI_Controller
     }
 
     public function editStatus($id){
-       if ( ! $this->status->insert_entry($id, $_POST['name'], $_POST['level'], $_POST['info'])) {
+       if ( ! $this->status->update_entry($id, $_POST['name'], $_POST['level'], $_POST['info'])) {
             echo alert('danger', 'DATABASE::ERROR!!!!', var_dump($this->db->error()));
         } else{
            $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Update', 'Status no.' . $id . ' is updated.', 'create', '/admin/status/');
@@ -607,4 +666,47 @@ class Ajax extends CI_Controller
             echo '';
         }
     }
+
+    function hash($data){
+        $majorsalt = '';
+
+        // if PHP5
+        if (function_exists('str_split'))
+        {
+            $_data = str_split($data);
+        }
+
+        foreach ($_data as $_hashdata)
+        {
+            $majorsalt .= crypt(
+                crypt(
+                    md5($_hashdata.random_int(1, 100)),
+                    $data
+                ),
+                crypt(
+                    md5(
+                        json_encode($_data)
+                    ),
+                    date('Y/F\W-l H:m:s e+c')
+                )
+            );
+        }
+
+        //just some fun
+        $majorsalt .= sha1(
+                md5($majorsalt.random_int(8946, 89465)),
+                false
+            )
+            .sha1(
+                crypt(
+                    md5($majorsalt.random_int(100, 1000)),
+                    '$6$rounds=5000$iDoNotKnowWhatiAmDoingButiAmHavingFun$'
+                ),
+                false
+            );
+
+        return str_replace('/', random_int(10, 55), $majorsalt);
+    }
+
+
 }

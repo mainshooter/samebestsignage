@@ -23,11 +23,21 @@ class Templates extends CI_Model
           INSERT INTO mail_templates ( subject, content ) 
             VALUES ('.$this->db->escape($sub).',
              '.$this->db->escape($con).')');
+
+        if($query){
+            $this->logs->insert_entry("INSERT", "Mail template created", ($this->session->userdata('DX_user_id') != null)? $this->session->userdata('DX_user_id') : $this->input->ip_address());
+        }
+
         return $query;
     }
 
     public function update_entry($id, $key, $item){
         $query = $this->db->query('UPDATE mail_templates SET ' . $key . ' = '.$this->db->escape($item).' WHERE id = '.$id);
+
+        if($query){
+            $this->logs->insert_entry("UPDATE", "Mail template no.".$id." updated", ($this->session->userdata('DX_user_id') != null)? $this->session->userdata('DX_user_id') : $this->input->ip_address());
+        }
+
         return $query;
     }
 }

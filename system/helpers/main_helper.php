@@ -67,14 +67,35 @@ if ( ! function_exists('ajax'))
     function ajax($method = 'POST', $url, $data, $id = null, $customHref = null, $customParameters = null){
         $return = '$.ajax({ type: "' . $method . '", url: "'.base_url().'ajax/'.$url.'/'.$id.'", ' . $customParameters . 'data: '.$data.', beforeSend: function() { var msg = $("#msg"); msg.html(\'';
         $return .= check('success', 'cached');
-        $return .= '\'); animateCheck($(".check"), 0); }, success: function (data) { /*window.location = ';
+        $return .= '\'); animateCheck($(".check"), 0); }, success: function (data) { window.location = ';
         if ($customHref != null){
             $return .= $customHref;
         } else{
             $return .= 'data';
         }
 
-        $return .= '*/;}});';
+        $return .= ';}});';
+
+        return $return;
+    }
+}
+
+if ( ! function_exists('image'))
+{
+    /**
+     * checkShowOrHide
+     */
+    function image($method = 'POST', $url, $data, $id = null, $customHref = null, $customParameters = null){
+        $return = '$.ajax({ type: "' . $method . '", url: "'.base_url().'images/'.$url.'/'.$id.'", ' . $customParameters . 'data: '.$data.', beforeSend: function() { var msg = $("#msg"); msg.html(\'';
+        $return .= check('success', 'cached');
+        $return .= '\'); animateCheck($(".check"), 0); }, success: function (data) { window.location = ';
+        if ($customHref != null){
+            $return .= $customHref;
+        } else{
+            $return .= 'data';
+        }
+
+        $return .= ';}});';
 
         return $return;
     }

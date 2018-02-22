@@ -40,22 +40,29 @@ class Image extends CI_Model
         return $data;
     }
 
-    public function insert_entry($gro, $nam, $pat, $siz){
+    public function insert_entry($gro, $nam, $thu, $pat, $siz){
         $query = $this->db->query('
           INSERT INTO 
            images (
             img_con,
             img_name, 
+            img_thumb, 
             img_path, 
             img_size
            )
           VALUES (
            '.$this->db->escape($gro).',
            '.$this->db->escape($nam).',
+           '.$this->db->escape($thu).',
            '.$this->db->escape($pat).',
            '.$this->db->escape($siz).'
           )
         ');
+
+        if($query){
+            $this->logs->insert_entry("INSERT", "Image uploaded", ($this->session->userdata('DX_user_id') != null)? $this->session->userdata('DX_user_id') : $this->input->ip_address());
+        }
+
         return $query;
     }
 
@@ -69,15 +76,22 @@ class Image extends CI_Model
            img_size = '.$this->db->escape($siz).'
           WHERE 
            img_id = '.$this->db->escape($id));
+        if($query){
+            $this->logs->insert_entry("UPDATE", "Image no.".$id." updated", ($this->session->userdata('DX_user_id') != null)? $this->session->userdata('DX_user_id') : $this->input->ip_address());
+        }
         return $query;
     }
 
     public function generate_new_group(){
-        $this->db->query('
+        $query = $this->db->query('
           INSERT INTO 
            image_connections ( con_array )
           VALUES ( "[]" )
         ');
+
+        if($query){
+            $this->logs->insert_entry("INSERT", "Group created", ($this->session->userdata('DX_user_id') != null)? $this->session->userdata('DX_user_id') : $this->input->ip_address());
+        }
         return $this->db->insert_id();;
     }
 }
