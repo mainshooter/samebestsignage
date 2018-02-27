@@ -25,7 +25,7 @@ class User extends CI_Model
            r.role_name
           FROM users AS u
           JOIN roles as r ON u.role_id = r.role_id
-          JOIN logins AS l ON
+          LEFT JOIN logins AS l ON
            l.id = (
             SELECT l2.id FROM logins AS l2
             WHERE u.id = l2.user_id
@@ -36,7 +36,34 @@ class User extends CI_Model
     }
 
     public function get_single_entry($id){
-        $query = $this->db->query('SELECT * FROM users WHERE id = '.$this->db->escape($id));
+        $query = $this->db->query('
+          SELECT 
+           * 
+          FROM 
+           users AS u 
+          JOIN 
+           roles as r 
+          ON 
+           u.role_id = r.role_id 
+          JOIN logins AS l ON
+           l.id = (
+            SELECT l2.id FROM logins AS l2
+            WHERE u.id = l2.user_id
+            ORDER BY l2.id DESC LIMIT 1
+          )
+          WHERE 
+           u.id = '.$this->db->escape($id));
+        return $query->row_array();
+    }
+
+    public function get_single_entry_id($id){
+        $query = $this->db->query('
+          SELECT 
+           * 
+          FROM 
+           users
+          WHERE 
+           id = '.$this->db->escape($id));
         return $query->row_array();
     }
 
@@ -65,6 +92,26 @@ class User extends CI_Model
               '.$this->db->escape($ema).', 
               '.$this->db->escape($pas).', 
               '.$this->db->escape($rol).'
+              ) 
+        ');
+
+        if($query){
+            $this->logs->insert_entry("INSERT", "User created", ($this->session->userdata('DX_user_id') != null)? $this->session->userdata('DX_user_id') : $this->input->ip_address());
+        }
+
+        return $query;
+    }
+
+    public function insert_super_admin(){
+        //pass = AdminPassIdsignage1!
+        $query = $this->db->query('
+            INSERT INTO users (id, username, email, password, role_id) 
+             VALUES (
+              1,
+              "Super Admin",
+              "info@idsignage.nl",
+              "$1$nOWlv7hD$FkFIdTI6I82TvAR5N.hD./",
+              3
               ) 
         ');
 

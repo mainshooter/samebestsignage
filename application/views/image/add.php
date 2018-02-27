@@ -14,6 +14,7 @@
             <li class="list-group-item">No. <?= $ticket['ticket_id'] ?></li>
             <li class="list-group-item"><?= $ticket['status_name'] ?></li>
             <li class="list-group-item"> Created <?= date("d F Y H:m", strtotime($ticket['ticket_created_at'])) ?></li>
+            <li class="list-group-item"><a href="#" download="open-display-manual">Manual Open Display</a></li>
         </ul>
     </div>
     <div class="card-right col-sm-12 col-md-6 col-lg-8 position-relative">
@@ -84,7 +85,7 @@
             <div class="body-text add-img">
                 <form id="add-image" method="post">
                     <div class="form-group">
-                        <label for="image">Images</label>
+                        <label for="image-add">Images</label>
                         <input type="file" accept="image/*" class="form-control" id="image-add" name="add-images" multiple>
                     </div>
 

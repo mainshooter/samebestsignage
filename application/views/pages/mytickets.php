@@ -59,7 +59,7 @@
                 $('#modal').modal('show');
             }
         } );
-
+        $('table').addClass('w-100');
         $('.table-trigger').toggleClass('d-none');
     });
 </script>

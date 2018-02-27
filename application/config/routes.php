@@ -78,6 +78,7 @@ $route['user/profile'] = 'users/edituser';
 
 /** Admin* ***/
 $route['admin/(:any)'] = 'admin/view/$1';
+$route['admin/(:any)/view/(:num)'] = 'admin/viewsingle/$1/$2';
 $route['admin/(:any)/add'] = 'admin/add/$1';
 $route['admin/(:any)/edit/(:num)'] = 'admin/edit/$1/$2';
 $route['admin/(:any)/delete/(:num)'] = 'admin/delete/$1/$2';

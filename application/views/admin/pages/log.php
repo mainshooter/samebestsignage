@@ -6,6 +6,7 @@
                 <th>Action</th>
                 <th>Description</th>
                 <th>User/IP</th>
+                <th>Date</th>
             </tr>
         </thead>
         <tbody>
@@ -23,7 +24,10 @@
                     <?= $item['log_desc'] ?>
                 </td>
                 <td>
-                    <?= $item['log_user'] ?>
+                    <?= (is_numeric($item['log_user']))? "<a href='/admin/user/view/".$item['log_user']."'>User no.".$item['log_user']."</a>" : $item['log_user'] ?>
+                </td>
+                <td>
+                    <?= date('d F Y H:m:s', strtotime($item['log_date'])) ?>
                 </td>
             </tr>
             <?php
@@ -37,6 +41,7 @@
     $(function() {
         var table = $('#log').DataTable( {
             responsive: true,
+            "pageLength": 16,
             "order": [[ 0, "desc" ]]
         });
     });

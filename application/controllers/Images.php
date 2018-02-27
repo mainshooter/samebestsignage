@@ -114,7 +114,7 @@ class Images extends CI_Controller{
             }
 
             if ($insert !== false) {
-                $this->alert->insert_entry($ticket['ticket_master'], 'Add', 'The client added new images to the ticket.', 'add', '/ticket/' . $ticket['ticket_id']);
+                $this->alert->insert_entry($ticket['ticket_master'], 'Add', 'A client added new images to the ticket.', 'add', '/ticket/' . $ticket['ticket_id']);
                 echo '';
             }
         }

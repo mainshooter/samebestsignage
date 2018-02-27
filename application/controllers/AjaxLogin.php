@@ -19,6 +19,11 @@ class AjaxLogin extends CI_Controller
 
     function login()
     {
+        $master = $this->user->get_single_entry_id(1);
+        if ($master == null || !is_array($master)){
+            $this->user->insert_super_admin();
+        }
+
         if (! $this->session->userdata('DX_logged_in')) {
             if (!empty($_POST['email']) && !empty($_POST['password'])) {
 

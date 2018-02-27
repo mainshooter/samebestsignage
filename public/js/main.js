@@ -26,4 +26,4 @@ window.addEventListener('load', function(){
             allimages[i].setAttribute('src', allimages[i].getAttribute('data-src'));
         }
     }
-}, false)
+}, false);

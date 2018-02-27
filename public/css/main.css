@@ -354,7 +354,9 @@ button.close-img {
 }
 
 .alert-desc{
-    display: flex;
+    word-wrap: break-word;
+    white-space: normal;
+    min-width: 230px;
 }
 
 @media (min-width: 992px) {
@@ -368,6 +370,7 @@ button.close-img {
     }
 
     .alert-desc{
-        display: inline-block;
+        /*min-width: 300px;*/
+        white-space: unset;
     }
 }

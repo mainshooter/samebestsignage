@@ -1,121 +1,128 @@
+<link href="<?= asset("admin/css/slider.css") ?>" type="text/css" rel="stylesheet"/>
 <script type="text/javascript" src="<?= asset('google/charts/chart.js') ?>"></script>
 <script>
     $(window).bind('load', function(){
         google.charts.load('current', {'packages': ['line']});
         google.charts.setOnLoadCallback(drawLineChart);
         google.charts.setOnLoadCallback(drawLineChartLogins);
+    });
 
-        function drawLineChart(daysBack = 31) {
-            var jsonData = $.ajax({
-                url: "<?php echo base_url(); ?>" + "ajax/linechartticket/" + daysBack,
-                dataType: "json",
-                async: false
-            }).responseText;
+    function drawLineChart(daysBack = 31) {
+        var jsonData = $.ajax({
+            url: "<?php echo base_url(); ?>" + "ajax/linechartticket/" + daysBack,
+            dataType: "json",
+            async: false
+        }).responseText;
 
-            var data = new google.visualization.DataTable(jsonData);
+        var data = new google.visualization.DataTable(jsonData);
 
-            var options = {
-                title: 'Tickets',
-                subtitle: 'The amount of tickets ar shown by day',
-                curveType: 'function',
-                legend: {position: 'bottom'}
-            };
+        var options = {
+            title: 'Tickets',
+            subtitle: 'The amount of tickets are shown by day',
+            curveType: 'function',
+            legend: {position: 'bottom'}
+        };
 
-            var chart = new google.charts.Line(document.getElementById('curve_chart_tick'));
+        var chart = new google.charts.Line(document.getElementById('curve_chart_tick'));
 
-            chart.draw(data, google.charts.Line.convertOptions(options));
-        }
+        chart.draw(data, google.charts.Line.convertOptions(options));
+    }
 
-        function drawLineChartLogins() {
-            var jsonData = $.ajax({
-                url: "<?php echo base_url(); ?>" + "ajax/linechartlogins/",
-                dataType: "json",
-                async: false
-            }).responseText;
+    function drawLineChartLogins() {
+        var jsonData = $.ajax({
+            url: "<?php echo base_url(); ?>" + "ajax/linechartlogins/",
+            dataType: "json",
+            async: false
+        }).responseText;
 
-            var data = new google.visualization.DataTable(jsonData);
+        var data = new google.visualization.DataTable(jsonData);
 
-            var options = {
-                title: 'Logins',
-                subtitle: 'The amount of logins ar shown by day',
-                curveType: 'function',
-                legend: {position: 'bottom'}
-            };
+        var options = {
+            title: 'Logins',
+            subtitle: 'The amount of logins are shown by day',
+            curveType: 'function',
+            legend: {position: 'bottom'}
+        };
 
-            var chart = new google.charts.Line(document.getElementById('curve_chart_log'));
+        var chart = new google.charts.Line(document.getElementById('curve_chart_log'));
 
-            chart.draw(data, google.charts.Line.convertOptions(options));
-        }
+        chart.draw(data, google.charts.Line.convertOptions(options));
+    }
 
+    $(window).bind('load', function() {
         google.charts.load('current', {'packages': ['corechart']});
         google.charts.setOnLoadCallback(drawPieChartClient);
+    });
 
-        function drawPieChartClient() {
-            var jsonData = $.ajax({
-                url: "<?php echo base_url(); ?>" + "ajax/piechartclient/",
-                dataType: "json",
-                async: false
-            }).responseText;
+    function drawPieChartClient() {
+        var jsonData = $.ajax({
+            url: "<?php echo base_url(); ?>" + "ajax/piechartclient/",
+            dataType: "json",
+            async: false
+        }).responseText;
 
-            var data = new google.visualization.DataTable(jsonData);
+        var data = new google.visualization.DataTable(jsonData);
 
-            var options = {
-                title: 'Clients',
-                subtitle: 'A quick view of which clients have the most problems',
-                is3D: true,
-            };
+        var options = {
+            title: 'Clients',
+            subtitle: 'A quick view of which clients have the most problems',
+            is3D: true,
+        };
 
-            var chart = new google.visualization.PieChart(document.getElementById('piechart-client'));
+        var chart = new google.visualization.PieChart(document.getElementById('piechart-client'));
 
-            chart.draw(data, options);
-        }
+        chart.draw(data, options);
+    }
 
+    $(window).bind('load', function() {
         google.charts.load('current', {'packages': ['corechart']});
         google.charts.setOnLoadCallback(drawPieChartCat);
+    });
 
-        function drawPieChartCat() {
-            var jsonData = $.ajax({
-                url: "<?php echo base_url(); ?>" + "ajax/piechartcat/",
-                dataType: "json",
-                async: false
-            }).responseText;
+    function drawPieChartCat() {
+        var jsonData = $.ajax({
+            url: "<?php echo base_url(); ?>" + "ajax/piechartcat/",
+            dataType: "json",
+            async: false
+        }).responseText;
 
-            var data = new google.visualization.DataTable(jsonData);
+        var data = new google.visualization.DataTable(jsonData);
 
-            var options = {
-                title: 'Ticket Category\'s',
-                subtitle: 'A quick view of which category\'s occur most',
-                is3D: true,
-            };
+        var options = {
+            title: 'Ticket Category\'s',
+            subtitle: 'A quick view of which category\'s occur most',
+            is3D: true,
+        };
 
-            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
-            chart.draw(data, options);
-        }
+        chart.draw(data, options);
+    }
 
+    $(window).bind('load', function() {
         google.charts.load('current', {'packages': ['corechart']});
         google.charts.setOnLoadCallback(drawPieChartImp);
-
-        function drawPieChartImp() {
-            var jsonData = $.ajax({
-                url: "<?php echo base_url(); ?>" + "ajax/piechartimp/",
-                dataType: "json",
-                async: false
-            }).responseText;
-
-            var data = new google.visualization.DataTable(jsonData);
-
-            var options = {
-                title: 'Ticket Importances',
-                subtitle: 'A quick view of which importance levels occur most',
-                is3D: true,
-            };
-
-            var chart = new google.visualization.PieChart(document.getElementById('piechart-impor'));
-
-            chart.draw(data, options);
-        }
     });
+
+    function drawPieChartImp() {
+        var jsonData = $.ajax({
+            url: "<?php echo base_url(); ?>" + "ajax/piechartimp/",
+            dataType: "json",
+            async: false
+        }).responseText;
+
+        var data = new google.visualization.DataTable(jsonData);
+
+        var options = {
+            title: 'Ticket Importances',
+            subtitle: 'A quick view of which importance levels occur most',
+            is3D: true,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart-impor'));
+
+        chart.draw(data, options);
+    }
 </script>
 
 <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">

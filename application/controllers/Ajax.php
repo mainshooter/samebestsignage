@@ -204,6 +204,7 @@ class Ajax extends CI_Controller
         $this->email->message($this->mailtemplates->getData());
 
         if ($this->email->send()) {
+            $this->logs->insert_entry("SHARE", "Ticket no.".$id." Shared", ($this->session->userdata('DX_user_id') != null)? $this->session->userdata('DX_user_id') : $this->input->ip_address());
             $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Shared', 'You shared ticket no.' . $ticket["ticket_id"] . '.', 'share', '/ticket/' . $ticket["ticket_id"]);
             echo '';
         } else {
@@ -708,5 +709,14 @@ class Ajax extends CI_Controller
         return str_replace('/', random_int(10, 55), $majorsalt);
     }
 
+    public function getTicketsHome(){
+        $html = '';
+        $data = $this->ticket->get_pending_entries();
 
+        foreach ($data as $item){
+            $html .= '<div class="card ticket-card" style="width: 18rem;" onclick="window.location = \'/ticket/'.$item['ticket_id'] .'\'"><div class="card-body"><h5 class="card-title">'. ucfirst($item['client_name']) .'</h5><h6 class="card-subtitle mb-2 text-muted">'. checkShowOrHide($item['status_level'], 'pending', '<importance style="color:' . $item['importance_color'] . '">' . $item['importance_name'] . '</importance>').'<br/>'.$item['cat_name'].'<br/>'.$item['email'].'</h6><p class="card-text dotted">'. $item['ticket_problem'] .'</p><a href="/ticket/'. $item['ticket_id'] .'" class="card-link">More...</a></div></div>';
+        }
+
+        echo $html;
+    }
 }

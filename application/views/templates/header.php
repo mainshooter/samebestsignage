@@ -20,6 +20,8 @@
 
     <link href="<?= asset('css/dark-theme.css') ?>" type="text/css" rel="stylesheet"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#343a40">
+    <meta name="author" content="Jordi Schaap">
 </head>
 <body>
 
@@ -81,15 +83,15 @@
                             </div>
                         </li>
                         <li class="nav-right nav-item active">
-                            <i id="add-ticket" class="btn btn-outline-success rounded-circle material-icons">add</i>
+                            <i id="add-ticket" class="btn btn-outline-success rounded-circle material-icons">&#xE145;</i>
                         </li>
                     </ul>
                 </a>
                 <ul class="navbar-nav">
                     <li class="nav-right nav-item active">
                         <button class="dropdown-toggle icon-dropdown position-relative" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="$('#alerts').toggleClass('show')">
-                            <span class="alert-count badge badge-warning"></span>
-                            <i id="settings" class="btn btn-outline-warning rounded-circle material-icons">warning</i>
+                            <span class="alert-count badge badge-danger"></span>
+                            <i id="settings" class="btn btn-outline-warning rounded-circle material-icons">&#xE002;</i>
                         </button>
                     </li>
                 </ul>
@@ -99,7 +101,7 @@
                     <a href="/admin/dashboard">
                         <ul class="navbar-nav">
                             <li class="nav-right nav-item active">
-                                <i id="settings" class="btn btn-outline-danger rounded-circle material-icons">settings</i>
+                                <i class="btn btn-outline-danger rounded-circle material-icons">&#xE8B8;</i>
                             </li>
                         </ul>
                     </a>

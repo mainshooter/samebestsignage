@@ -15,7 +15,6 @@
         <?= $table ?>
     </div>
 </div>
-
 <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
@@ -59,6 +58,7 @@
                 $('#modal').modal('show');
             }
         } );
+        $('table').addClass('w-100');
         $('.table-trigger').toggleClass('d-none');
     });
 </script>

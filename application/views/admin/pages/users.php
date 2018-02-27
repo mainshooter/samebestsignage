@@ -34,7 +34,7 @@
                     <?= date('d F Y', strtotime($item['created']))?>
                 </td>
                 <td>
-                    <?= date('d F Y', strtotime($item['date'])).' '.date('H:m', strtotime($item['date'])) ?>
+                    <?= ($item['date'] != null)? date('d F Y', strtotime($item['date'])).' '.date('H:m', strtotime($item['date'])) : 'Never' ?>
                 </td>
             </tr>
             <?php
@@ -54,14 +54,9 @@
                 </button>
             </div>
             <div class="modal-footer">
-                <!--
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="agree">
-                    <label class="form-check-label" for="agree">I authorize this.</label>
-                </div>
-                -->
                 <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
-                <button onclick="Href('edit')" class="btn btn-outline-success unset-webkit-btn modal-btn">Edit</button>
+                <button onclick="Href('edit')" class="btn btn-outline-warning unset-webkit-btn modal-btn">Edit</button>
+                <button onclick="Href('view')" class="btn btn-outline-success unset-webkit-btn modal-btn">View</button>
             </div>
         </div>
     </div>

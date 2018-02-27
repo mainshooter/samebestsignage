@@ -60,6 +60,7 @@ input[type="range"] {
     background-color: unset;
     box-shadow: unset;
 }
-@media (max-width: 768px) {
+
+input::-webkit-slider-runnable-track {
 
 }

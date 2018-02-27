@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
-        <meta name="author" content="">
+        <meta name="author" content="Jordi Schaap">
+        <meta name="theme-color" content="#343a40">
 
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
               rel="stylesheet">
@@ -51,7 +52,7 @@
                 <?php
                 if (empty($company)){
                     ?>
-                    <img src="<?= asset('img/logo-idsignage.png') ?>" class="logo">
+                    <img src="<?= asset('img/logo-idsignage.png') ?>" class="logo" alt="IdSignage">
                     <?php
                 } else{
                     ?>
@@ -143,12 +144,6 @@
                             <a class="nav-link" href="/home">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-corner-down-left" color="#384047"><polyline points="9 10 4 15 9 20"></polyline><path d="M20 4v7a4 4 0 0 1-4 4H4"></path></svg>
                                 Front-end
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/add/ticket">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-corner-down-left" color="#384047"><polyline points="9 10 4 15 9 20"></polyline><path d="M20 4v7a4 4 0 0 1-4 4H4"></path></svg>
-                                Add Ticket
                             </a>
                         </li>
                         <li class="nav-item">

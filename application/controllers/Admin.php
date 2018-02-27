@@ -90,6 +90,35 @@ class Admin extends CI_Controller
         $this->load->view('admin/templates/footer', $data);
     }
 
+    public function viewSingle($page = 'user', $id)
+    {
+        if ( ! file_exists(APPPATH.'views/admin/pages/view/'.$page.'.php'))
+        {
+            // Whoops, we don't have a page for that!
+            show_404();
+        }
+
+        switch ($page){
+            case ('user'):
+                $this->data['roles'] = $this->roles->get_all_entries();
+                $this->data['user'] = $this->user->get_single_entry($id);
+                break;
+            default:
+                break;
+        }
+
+        $data = $this->data;
+
+        $data['title'] = ucfirst($page);
+        $data["company"] = '';
+
+        $data['this_user'] = $this->session->userdata();
+
+        $this->load->view('admin/templates/header', $data);
+        $this->load->view('admin/pages/view/'.$page, $data);
+        $this->load->view('admin/templates/footer', $data);
+    }
+
     public function add($page = 'dashboard')
     {
         if ( ! file_exists(APPPATH.'views/admin/pages/add/'.$page.'.php'))

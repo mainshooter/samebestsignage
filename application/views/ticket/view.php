@@ -78,7 +78,7 @@
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header-img">
-                            <h5 class="modal-title-img">Modal title</h5>
+                            <h5 class="modal-title-img" style="text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">Modal title</h5>
                             <button type="button" class="close-img" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -299,7 +299,7 @@ if (!empty($ticket['ticket_completed_at'])){
 </div>
 
 <?php
-if ($this_user['DX_user_id'] == $ticket['ticket_master']) {
+if ($this_user['DX_user_id'] == $ticket['ticket_master'] || $this_user['DX_role_id'] >= 2) {
     ?>
     <!-- Modal -->
     <div class="modal fade" id="ticket-modal-assign" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
