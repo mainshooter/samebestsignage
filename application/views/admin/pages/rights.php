@@ -1,7 +1,7 @@
 <div class="row button-row">
-    <button href="/admin/right/add" class="btn btn-outline-success" disabled>
+    <a href="/admin/right/add" class="btn btn-outline-success">
         Add Right Level
-    </button>
+    </a>
 </div>
 
 <div class="table-responsive">
@@ -17,15 +17,15 @@
         <?php
         foreach ($array as $item) {
             ?>
-            <tr onclick="sessionStorage.id = '<?= $item['id'] ?>'">
+            <tr onclick="sessionStorage.id = '<?= $item['role_id'] ?>'">
                 <td>
-                    <?= $item['id'] ?>
+                    <?= $item['role_id'] ?>
                 </td>
                 <td>
-                    <?= ucfirst($item['name']) ?>
+                    <?= ucfirst($item['role_name']) ?>
                 </td>
                 <td>
-                    <?= $item['info'] ?>
+                    <?= $item['role_info'] ?>
                 </td>
             </tr>
             <?php
@@ -45,14 +45,8 @@
                 </button>
             </div>
             <div class="modal-footer">
-                <!--
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="agree">
-                    <label class="form-check-label" for="agree">I authorize this.</label>
-                </div>
-                -->
                 <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
-                <button onclick="Href('edit')" class="btn btn-outline-success unset-webkit-btn modal-btn" disabled>Edit</button>
+                <button onclick="window.location = '/admin/right/edit/' + sessionStorage.id" class="btn btn-outline-success unset-webkit-btn modal-btn">Edit</button>
             </div>
         </div>
     </div>
@@ -74,19 +68,4 @@
             }
         } );
     });
-
-    $('#agree').change(function () {
-        if ($(this).prop('checked') === true){
-            $(".modal-btn").removeAttr('disabled');
-        } else {
-            $(".modal-btn").attr('disabled', true);
-        }
-    });
-
-    function Href(type) {
-        $('#agree').prop('checked', false);
-        $(".modal-btn").attr('disabled', true);
-
-        window.location.href = '/admin/category/' + type + '/' + sessionStorage.id;
-    }
 </script>

@@ -1,5 +1,5 @@
 <div class="col-12" style="margin-bottom: 20px">
-    <form method="post">
+    <form id="config" method="post">
         <?php
         foreach ($array as $key => $item) {
             if ($key != 'id') {
@@ -28,7 +28,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" id="reset" class="btn btn-outline-success" data-dismiss="modal">Close</button>
-                <button onclick="Reset()" class="btn btn-outline-danger unset-webkit-btn modal-btn">Reset</button>
+                <button onclick="Reset()" id="reset" class="btn btn-outline-danger unset-webkit-btn modal-btn">Reset</button>
             </div>
         </div>
     </div>
@@ -36,22 +36,11 @@
 
 
 
-<script type="text/javascript">
+<script>
     // Set up an event listener for the contact form.
-    $('form').submit(function(event) {
+    $('#config').submit(function(event) {
         event.preventDefault();
-        var formData = $(this).serialize();
-
-        $.ajax({
-            type: 'POST',
-            url: "<?php echo base_url(); ?>" + "ajax/updatemail",
-            data: formData,
-            success: function(data)
-            {
-                var msg = $('#msg');
-                msg.html(data);
-            }
-        })
+        <?= ajax('POST', 'updatemail', '$(this).serialize()') ?>
     });
     // Set up an event listener for the contact form.
     $('#reset').submit(function(event) {
@@ -60,14 +49,6 @@
 
     function Reset() {
         $('#modal').modal('hide');
-        $.ajax({
-            type: 'GET',
-            url: "<?php echo base_url(); ?>" + "ajax/resetmail",
-            success: function(data)
-            {
-                var msg = $('#msg');
-               msg.html(data);
-            }
-        })
+        <?= ajax('POST', 'resetmail') ?>
     }
 </script>

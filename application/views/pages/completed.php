@@ -1,6 +1,7 @@
-<div class="ticket-container col-12">
-    <div class="tickets-body">
-        <?php
+<style> .container { max-width: 90%; } </style>
+<div class="tickets-body row justify-content-center">
+    <?php
+    if (!empty($tickets)) {
         $pages = [];
         $page_count = 0;
         $ticket_count = 0;
@@ -10,7 +11,7 @@
         foreach ($tickets as $key => $ticket) {
 
             $ticket_count++;
-            if ($ticket_count == 1){
+            if ($ticket_count == 1) {
                 $page_count++;
                 $pages[] = $page_count;
                 ?>
@@ -22,8 +23,8 @@
             <a href="ticket/<?= $ticket['ticket_id'] ?>" class="unset-link">
                 <div class="card ticket-card" style="width: 18rem;">
                     <div class="card-body">
-                        <h5 class="card-title"><?= $ticket['alert_name'] ?></h5>
-                        <h6 class="card-subtitle mb-2 text-muted"><?= $ticket['email'] ?>  - <importance style="color:<?= $ticket['importance_color'] ?>"><?= $ticket['importance_name'] ?></importance></h6>
+                        <h5 class="card-title"><?= ucfirst($ticket['client_name']) ?></h5>
+                        <h6 class="card-subtitle mb-2 text-muted"><?= '<importance style="color:' . $ticket['importance_color'] . ';">' . $ticket['importance_name'] . '</importance><br/>' . $ticket['cat_name'] . '<br/>' . $ticket['email']; ?></h6>
                         <p class="card-text dotted"><?= $ticket['ticket_problem'] ?></p>
                         <a href="ticket/<?= $ticket['ticket_id'] ?>" class="card-link">More...</a>
                     </div>
@@ -31,23 +32,33 @@
             </a>
 
             <?php
-            if ($ticket_count == 9 || $key == $end){
+            if ($ticket_count == 20 || $key == $end) {
                 $ticket_count = 0;
                 ?>
                 </div>
                 <?php
             }
         }
+    }else{
         ?>
-    </div>
+        <span class="w-100 text-center">There are no completed tickets.</span>
+        <?php
+    }
+    ?>
+</div>
+<?php
+if (!empty($tickets)) {
+    ?>
     <div class="row justify-content-center pages">
         <ul class="pagination">
             <li class="page-item"><a class="page-link" onclick="previous()">Previous</a></li>
             <?php
-            foreach ($pages as $key => $page){
-                if ($key == 0){}
+            foreach ($pages as $key => $page) {
+                if ($key == 0) {
+                }
                 ?>
-                <li id="<?= $key+1 ?>" class="page-item page-nr" onclick="fetchPage($(this))"><a class="page-link"><?= $key+1 ?></a></li>
+                <li id="<?= $key + 1 ?>" class="page-item page-nr" onclick="fetchPage($(this))"><a
+                            class="page-link"><?= $key + 1 ?></a></li>
                 <?php
             }
             ?>
@@ -57,7 +68,7 @@
             $(function () {
                 var pages = $('.page').length;
 
-                if(!sessionStorage['archive'] || pages < sessionStorage['archive']){
+                if (!sessionStorage['archive'] || pages < sessionStorage['archive']) {
                     sessionStorage['archive'] = 1;
                 }
 
@@ -65,40 +76,40 @@
                 $('.page_' + sessionStorage['archive']).fadeIn();
             });
 
-            function fetchPage(elem){
+            function fetchPage(elem) {
                 var ID = parseInt($(elem).attr('id'));
-                if (sessionStorage['archive'] != ID){
+                if (sessionStorage['archive'] != ID) {
                     animatePagination(ID);
                 }
                 sessionStorage['archive'] = ID;
             }
 
-            function next(){
+            function next() {
                 var pages = $('.page').length;
 
-                if (parseInt(sessionStorage['archive']) < pages){
+                if (parseInt(sessionStorage['archive']) < pages) {
                     var ID = parseInt(sessionStorage['archive']) + 1;
-                    if (sessionStorage['archive'] != ID){
+                    if (sessionStorage['archive'] != ID) {
                         animatePagination(ID)
                     }
                 }
             }
 
             function previous() {
-                if (parseInt(sessionStorage['archive']) > 1){
+                if (parseInt(sessionStorage['archive']) > 1) {
                     var ID = parseInt(sessionStorage['archive']) - 1;
-                    if (sessionStorage['archive'] != ID){
+                    if (sessionStorage['archive'] != ID) {
                         animatePagination(ID)
                     }
                 }
             }
 
-            function animatePagination(ID){
+            function animatePagination(ID) {
                 $('.page-item').removeClass('active');
                 $('.page').css({'display': 'none'});
 
                 $('#' + ID).addClass('active');
-                $('.page_' + ID ).show();
+                $('.page_' + ID).show();
 
                 $('html, body').animate({
                     scrollTop: $("html").offset().top
@@ -108,4 +119,6 @@
             }
         </script>
     </div>
-</div>
+    <?php
+}
+?>

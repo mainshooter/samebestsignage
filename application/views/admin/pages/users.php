@@ -19,13 +19,13 @@
         <?php
         foreach ($array as $key => $item) {
             ?>
-            <tr category="<?= $item['id'] ?>" onclick="sessionStorage.id = '<?= $item['id'] ?>'">
+            <tr category="<?= $item['user_id'] ?>" onclick="sessionStorage.id = '<?= $item['user_id'] ?>'">
                 <td>
-                    <?= ucfirst($item['id']) ?>
+                    <?= ucfirst($item['user_id']) ?>
                 </td>
                 <td>
                     <?= ucfirst($item['username']) ?>
-                    <?php if($this_user['DX_user_id'] == $item['id']){ echo "<small>(You)</small>";} ?>
+                    <?php if($this_user['DX_user_id'] == $item['user_id']){ echo "<small>(You)</small>";} ?>
                 </td>
                 <td>
                     <?= $item['email'] ?>
@@ -34,7 +34,7 @@
                     <?= date('d F Y', strtotime($item['created']))?>
                 </td>
                 <td>
-                    <?= date('d F Y', strtotime($item['last_login'])).' '.date('H:m', strtotime($item['last_login'])) ?>
+                    <?= ($item['date'] != null)? date('d F Y', strtotime($item['date'])).' '.date('H:m', strtotime($item['date'])) : 'Never' ?>
                 </td>
             </tr>
             <?php
@@ -54,14 +54,9 @@
                 </button>
             </div>
             <div class="modal-footer">
-                <!--
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="agree">
-                    <label class="form-check-label" for="agree">I authorize this.</label>
-                </div>
-                -->
                 <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
-                <button onclick="Href('edit')" class="btn btn-outline-success unset-webkit-btn modal-btn">Edit</button>
+                <button onclick="Href('edit')" class="btn btn-outline-warning unset-webkit-btn modal-btn">Edit</button>
+                <button onclick="Href('view')" class="btn btn-outline-success unset-webkit-btn modal-btn">View</button>
             </div>
         </div>
     </div>

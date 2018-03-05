@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
-        <meta name="author" content="">
+        <meta name="author" content="Jordi Schaap">
+        <meta name="theme-color" content="#343a40">
 
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
               rel="stylesheet">
@@ -13,12 +14,12 @@
 
         <!-- Bootstrap core CSS -->
         <link href="<?= asset('bootstrap/css/bootstrap.min.css');?>" type="text/css" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
-        <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.bootstrap4.min.css"/>
-        <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/select/1.2.4/css/select.bootstrap4.min.css"/>
+        <link rel="stylesheet" type="text/css" href="<?= asset('datatables/css/dtBS4.css');?>">
+        <link type="text/css" rel="stylesheet" href="<?= asset('datatables/css/rBS4.css');?>"/>
+        <link type="text/css" rel="stylesheet" href="<?= asset('datatables/css/sBS4.css');?>"/>
 
         <!-- Custom styles for this template -->
-        <link href="<?= asset('css/icon.css') ?>" type="text/css" rel="stylesheet"/>
+        <link href="<?= asset('css/icon.css.php') ?>" type="text/css" rel="stylesheet"/>
         <link href="<?= asset('css/check.css') ?>" type="text/css" rel="stylesheet"/>
         <link href="<?= asset("admin/css/dashboard.css") ?>" rel="stylesheet">
         <link href="<?= asset("admin/css/main.css") ?>" rel="stylesheet">
@@ -37,26 +38,31 @@
             }
         </style>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="<?= asset('jquery/jquery.js') ?>"></script>
     </head>
     <body>
     <div id="msg"></div>
 
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">
-            <?php
-            if (empty($company)){
-                ?>
-                <img src="<?= asset('img/logo-idsignage.png') ?>" class="logo">
+        <div class="nav-top">
+            <div class="side-menu-trigger d-md-none d-block" onclick="$('.sidebar').toggle().toggleClass('d-none')">
+                <i class="material-icons">menu</i>
+            </div>
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/home">
                 <?php
-            } else{
+                if (empty($company)){
+                    ?>
+                    <img src="<?= asset('img/logo-idsignage.png') ?>" class="logo" alt="IdSignage">
+                    <?php
+                } else{
+                    ?>
+                    <?= $company ?>
+                    <?php
+                }
                 ?>
-                <?= $company ?>
-                <?php
-            }
-            ?>
-        </a>
-        <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+            </a>
+        </div>
+        <input class="form-control form-control-dark w-100 d-none" type="text" placeholder="Search" aria-label="Search">
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
                 <a class="nav-link" href="/auth/logout">Sign out</a>
@@ -94,8 +100,14 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/admin/users">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users" color="#384047"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                                 Users
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/clients">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home" color="#384047"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                Clients
                             </a>
                         </li>
                         <li class="nav-item">
@@ -116,6 +128,12 @@
                                 Mail Configuration
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/log">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-database" color="#384047"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                                Logs
+                            </a>
+                        </li>
                     </ul>
 
                     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
@@ -126,12 +144,6 @@
                             <a class="nav-link" href="/home">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-corner-down-left" color="#384047"><polyline points="9 10 4 15 9 20"></polyline><path d="M20 4v7a4 4 0 0 1-4 4H4"></path></svg>
                                 Front-end
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/add/ticket">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-corner-down-left" color="#384047"><polyline points="9 10 4 15 9 20"></polyline><path d="M20 4v7a4 4 0 0 1-4 4H4"></path></svg>
-                                Add Ticket
                             </a>
                         </li>
                         <li class="nav-item">

@@ -201,7 +201,7 @@
 <center style="width: 100%; text-align: left;">
 
     <!-- Visually Hidden Preheader Text : BEGIN -->
-    <div style="display: none; font-size: 1px; line-height: 1px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; mso-hide: all; font-family: sans-serif;">({[!PROBLEM!]})</div>
+    <div style="display: none; font-size: 1px; line-height: 1px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; mso-hide: all; font-family: sans-serif;"></div>
     <!-- Visually Hidden Preheader Text : END -->
 
     <!-- Email Header : BEGIN -->
@@ -220,13 +220,12 @@
         <!-- 1 Column Text + Button : BEGIN -->
         <tr>
             <td bgcolor="#ffffff" style="padding: 40px 40px 20px; text-align: center;">
-                <h1 style="margin: 0; font-family: sans-serif; font-size: 24px; line-height: 125%; color: #333333; font-weight: normal;">There is a ticket waiting for you</h1>
+                <h1 style="margin: 0; font-family: sans-serif; font-size: 24px; line-height: 125%; color: #333333; font-weight: normal;">Er is een ticket gedeelt met u</h1>
             </td>
         </tr>
         <tr>
             <td bgcolor="#ffffff" style="padding: 0 40px 40px; font-family: sans-serif; font-size: 15px; line-height: 140%; color: #555555; text-align: center;">
-                <h3 style="margin: 0; font-family: sans-serif; font-size: 19px; line-height: 125%; color: #333333; font-weight: normal;">({[!CATEGORY!]})</h3>
-                <p style="margin: 0;">({[!PROBLEM!]})</p>
+                <h3 style="margin: 0; font-family: sans-serif; font-size: 19px; line-height: 125%; color: #333333; font-weight: normal;">Druk op de knop hier onder om deze te bekijken.</h3>
             </td>
         </tr>
         <tr>
@@ -235,8 +234,8 @@
                 <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" style="margin: auto">
                     <tr>
                         <td style="border-radius: 3px; background: #222222; text-align: center;" class="button-td">
-                            <a href="({[!BASEURL!]})/ticket/({[!TICKETID!]})" style="background: #222222; border: 15px solid #222222; font-family: sans-serif; font-size: 13px; line-height: 110%; text-align: center; text-decoration: none; display: block; border-radius: 3px; font-weight: bold;" class="button-a">
-                                &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ffffff;">View ticket</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <a href="({[!BASEURL!]})/image/add/({[!HASH!]})" style="background: #222222; border: 15px solid #222222; font-family: sans-serif; font-size: 13px; line-height: 110%; text-align: center; text-decoration: none; display: block; border-radius: 3px; font-weight: bold;" class="button-a">
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ffffff;">Bekijk ticket</span>&nbsp;&nbsp;&nbsp;&nbsp;
                             </a>
                         </td>
                     </tr>

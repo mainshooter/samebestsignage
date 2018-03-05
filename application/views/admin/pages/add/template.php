@@ -29,18 +29,6 @@
     // Set up an event listener for the contact form.
     $('form').submit(function(event) {
         event.preventDefault();
-        var formData = $(this).serialize();
-
-        $.ajax({
-            type: 'POST',
-            url: "<?php echo base_url(); ?>" + "ajax/addmailtemp",
-            data: formData,
-            success: function(data)
-            {
-                //console.log(data);
-                var msg = $('#msg');
-                msg.html(data);
-            }
-        })
+        <?= ajax('POST', 'addmailtemp', '$(this).serialize()') ?>
     });
 </script>

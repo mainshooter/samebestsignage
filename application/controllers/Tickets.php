@@ -8,69 +8,48 @@
 
 class Tickets extends CI_Controller
 {
+    private $data;
+
     public function __construct()
     {
         parent::__construct();
 
-        $this->load->library('DX_Auth');
-        if (! $this->dx_auth->is_logged_in()){
+        if (! $this->session->userdata('DX_logged_in')){
             $this->session->sess_destroy();
             redirect('auth/login');
         }
         $data['this_user'] = $this->session->userdata();
         $this->load->database();
+
+        $this->load->model('ticket');
+        $this->load->model('clients');
+        $this->load->model('user');
+        $this->load->model('category');
+        $this->load->model('status');
+        $this->load->model('importance');
+        $this->load->model('alert');
+
+        $this->data['clients'] = $this->clients->get_all_entries();
+        $this->data['users'] = $this->user->get_all_entries();
+        $this->data['categorys'] = $this->category->get_all_entries();
+        $this->data['statuses'] = $this->status->get_all_entries();
+        $this->data['importances'] = $this->importance->get_all_entries();
+        $this->data['alerts'] = $this->alert->get_all_entries_user($this->session->userdata('DX_user_id'));
     }
 
     public function view($id = null){
+        $data = $this->data;
+
         $data['this_user'] = $this->session->userdata();
-        $data['ticket'] = $this->fetch($this->uri->segment('2'));
 
-        $query = $this->db->query('SELECT * FROM status_types ');
-        $data['statuses'] = $query->result_array();
+        $data['ticket'] = $this->ticket->get_single_entry($id);
+        $data['statuses'] = $this->status->get_all_entries();
+        $data['images'] = $this->image->get_group_entries($data['ticket']['ticket_images']);
 
-        $data['title'] = 'Ticket: ' . $this->uri->segment('2');
-        $data["page_title"] = '';
-        $data["page_title_desc"] = '';
+        $data['title'] = 'Ticket: ' . $id;
 
         $this->load->view('templates/header', $data);
         $this->load->view('ticket/view.php', $data);
         $this->load->view('templates/footer', $data);
     }
-
-    public function fetch($id){
-        $query = $this->db->query('
-          SELECT * FROM tickets 
-           JOIN alert_types ON tickets.ticket_type = alert_types.alert_id
-           JOIN status_types ON tickets.ticket_status = status_types.status_id
-           JOIN importance_types ON tickets.ticket_importance = importance_types.importance_id
-           WHERE ticket_id = '.$this->db->escape($id).'
-           ');
-
-        return $query->row_array();
-    }
-
-    public function add(){
-        $data['this_user'] = $this->session->userdata();
-
-        $query = $this->db->query('SELECT id, username, email FROM users ');
-        $data['users'] = $query->result_array();
-
-        $query = $this->db->query('SELECT * FROM alert_types ');
-        $data['categorys'] = $query->result_array();
-
-        $query = $this->db->query('SELECT * FROM status_types ');
-        $data['statuses'] = $query->result_array();
-
-        $query = $this->db->query('SELECT * FROM importance_types ');
-        $data['importances'] = $query->result_array();
-
-        $data['title'] = 'Add Ticket';
-        $data["page_title"] = 'Add Ticket';
-        $data["page_title_desc"] = 'Here you can create a ticket';
-
-        $this->load->view('templates/header', $data);
-        $this->load->view('ticket/add.php', $data);
-        $this->load->view('templates/footer', $data);
-    }
-
 }

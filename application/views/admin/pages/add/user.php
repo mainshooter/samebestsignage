@@ -7,6 +7,7 @@
                    id="username"
                    class="form-control"
                    placeholder="Username"
+                   autocomplete="username"
                    required>
         </div>
         <div class="form-group">
@@ -35,6 +36,7 @@
                    placeholder="Confirm Password"
                    min="8"
                    max="16"
+                   autocomplete="confirm-password"
                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                    required>
             <div class="cnfrm_pw"></div>
@@ -46,6 +48,7 @@
                    id="email"
                    class="form-control"
                    placeholder="Email"
+                   autocomplete="email"
                    required>
         </div>
 
@@ -55,13 +58,13 @@
                 <?php
                 foreach ($roles as $role) {
                     ?>
-                    <option value="<?= $role['id'] ?>"><?= $role['name'] ?></option>
+                    <option value="<?= $role['role_id'] ?>"><?= $role['role_name'] ?></option>
                     <?php
                 }
                 ?>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-outline-success">Submit</button>
     </form>
 </div>
 <script>
@@ -87,7 +90,6 @@
             $('#confirm_password').prop('name', '').val('nochange');
         }
         ": '' ?>
-        var formData = $(this).serialize();
 
         if($('#confirm_password').val() != $('#password').val()){
             if($('#confirm_password').val().length > $('#password').val().length){
@@ -96,15 +98,7 @@
                 $('.cnfrm_pw').html('<?= alert('warning', '', 'The password doesn&apos;t match'); ?>');
             }
         } else {
-            $.ajax({
-                type: 'POST',
-                url: "<?= base_url(); ?>ajax/adduser",
-                data: formData,
-                success: function (data) {
-                    var msg = $('#msg');
-                    msg.html(data);
-                }
-            });
+            <?= ajax('POST', 'adduser', '$(this).serialize()') ?>
         }
     });
 </script>

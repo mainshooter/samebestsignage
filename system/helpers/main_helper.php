@@ -50,26 +50,79 @@ if ( ! function_exists('check'))
     /**
      * checkShowOrHide
      */
-    function check($level = 'check-danger', $icon = 'cross', $href){
-        ?>
-        <div class="check">
-            <div class="check-child check-success rounded-circle loader"></div>
-        </div>
-        <div class="check-content loader-child">
-            <i class="material-icons">
-                check
-            </i>
-        </div>
-        <?php
-        $return = '<div class="check">';
-        $return .= '<div class="check-child ' . $level . ' rounded-circle loader"></div>';
-        $return .= '</div>';
-        $return .= '<div class="check-content loader-child">';
-        $return .= '<i class="material-icons">';
+    function check($level = 'check-danger', $icon = 'cross'){
+        $return = '<div class="check"><div class="check-child check-' . $level . ' rounded-circle loader"></div></div><div class="check-content loader-child"><i class="material-icons">';
         $return .= $icon;
-        $return .= '</i>';
-        $return .= '</div>';
-        $return .= '<script>animateCheck($(".check"), "' . $href . '");</script>';
+        $return .= '</i></div>';
+
+        return $return;
+    }
+}
+
+if ( ! function_exists('ajax'))
+{
+    /**
+     * checkShowOrHide
+     */
+    function ajax($method = 'POST', $url, $data = 'null', $id = null, $customHref = null, $customParameters = null){
+        $return = '$.ajax({ type: "' . $method . '", url: "'.base_url().'ajax/'.$url.'/'.$id.'", ' . $customParameters . 'data: '.$data.', dataType: "json", beforeSend: function() { var msg = $("#msg"); msg.html(\'';
+        $return .= check('success', 'cached');
+        $return .= '\'); animateCheck($(".check"), 0); }, success: function (data) { if (data.error === true){ $(".check, .check-content").css({"display": "none"}); setTimeout(function () { alert(data.msg); }, 100); } else{ if (data.href === "unset"){ alert(data.msg);} else{ window.location = ';
+        if ($customHref != null){
+            $return .= $customHref;
+        } else{
+            $return .= 'data.href';
+        }
+
+        $return .= '; }}},';
+        $return .= 'error:function(x,e) {if (x.status==0) {alert("You are offline!!\n Please Check Your Network.");} else if(x.status==404) {alert("Requested URL not found.");} else if(x.status==500) {alert("Internal Server Error.");} else if(e=="parsererror") {alert("Error.\nParsing JSON Request failed.");} else if(e=="timeout"){alert("Request Time out.");} else {alert("Unknow Error.\n"+x.responseText);}}';
+        $return .= '});';
+
+        return $return;
+    }
+}
+
+if ( ! function_exists('image'))
+{
+    /**
+     * checkShowOrHide
+     */
+    function image($method = 'POST', $url, $data, $id = null, $customHref = null, $customParameters = null){
+        $return = '$.ajax({ type: "' . $method . '", url: "'.base_url().'images/'.$url.'/'.$id.'", ' . $customParameters . 'data: '.$data.', dataType: "json", beforeSend: function() { var msg = $("#msg"); msg.html(\'';
+        $return .= check('success', 'cached');
+        $return .= '\'); animateCheck($(".check"), 0); }, success: function (data) { if (data.error === true){ $(".check, .check-content").css({"display": "none"}); setTimeout(function () { alert(data.msg); }, 100); } else{ if (data.href === "unset"){ alert(data.msg);} else{ window.location = ';
+        if ($customHref != null){
+            $return .= $customHref;
+        } else{
+            $return .= 'data.href';
+        }
+
+        $return .= '; }}},';
+        $return .= 'error:function(x,e) {if (x.status==0) {alert("You are offline!!\n Please Check Your Network.");} else if(x.status==404) {alert("Requested URL not found.");} else if(x.status==500) {alert("Internal Server Error.");} else if(e=="parsererror") {alert("Error.\nParsing JSON Request failed.");} else if(e=="timeout"){alert("Request Time out.");} else {alert("Unknow Error.\n"+x.responseText);}}';
+        $return .= '});';
+
+        return $return;
+    }
+}
+
+if ( ! function_exists('noRightsAjax'))
+{
+    /**
+     * checkShowOrHide
+     */
+    function noRightsAjax($method = 'POST', $url, $data, $id = null, $customHref = null, $customParameters = null){
+        $return = '$.ajax({ type: "' . $method . '", url: "'.base_url().'ajaxlogin/'.$url.'/'.$id.'", ' . $customParameters . 'data: '.$data.', dataType: "json",  beforeSend: function() { var msg = $("#msg"); msg.html(\'';
+        $return .= check('success', 'cached');
+        $return .= '\'); animateCheck($(".check"), 0); }, success: function (data) { if (data.error == true){ $(".check, .check-content").css({"display": "none"}); setTimeout(function () { alert(data.msg); }, 100);  } else{ if (data.href == "unset"){ alert(data.msg);} else{ window.location = ';
+        if ($customHref != null){
+            $return .= $customHref;
+        } else{
+            $return .= 'data.href';
+        }
+
+        $return .= '; }}},';
+        $return .= 'error:function(x,e) {if (x.status==0) {alert("You are offline!!\n Please Check Your Network.");} else if(x.status==404) {alert("Requested URL not found.");} else if(x.status==500) {alert("Internal Server Error.");} else if(e=="parsererror") {alert("Error.\nParsing JSON Request failed.");} else if(e=="timeout"){alert("Request Time out.");} else {alert("Unknow Error.\n"+x.responseText);}}';
+        $return .= '});';
 
         return $return;
     }
