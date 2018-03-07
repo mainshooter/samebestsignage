@@ -53,16 +53,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 //$this->ctr->load->library('DX_Auth');
 
 /*** Defaults ***/
-$route['default_controller'] = 'main/login';
+$route['default_controller'] = 'users/login';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 /*** Login ***/
-$route['login'] = 'auth/login';
-$route['logout'] = 'auth/logout';
-$route['register'] = 'auth/register';
-$route['forgotpassword/sent'] = 'auth/forgot';
-$route['forgotpassword/reset/(:any)'] = 'auth/reset/$1';
+$route['login'] = 'users/login';
+$route['logout'] = 'users/logout';
+$route['register'] = 'users/register';
+$route['forgotpassword/sent'] = 'users/forgot';
+$route['forgotpassword/reset/(:any)'] = 'users/reset/$1';
 
 /*** Pages ***/
 $route['(:any)'] = 'pages/view/$1';

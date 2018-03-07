@@ -27,7 +27,6 @@ class Ajax extends CI_Controller
         $this->load->model('category');
         $this->load->model('status');
         $this->load->model('importance');
-        $this->load->model('logins');
         $this->load->model('mail');
         $this->load->model('alert');
         $this->load->model('templates');
@@ -828,7 +827,7 @@ class Ajax extends CI_Controller
 
     public function lineChartLogins($daysBack = 31)
     {
-        $array = $this->logins->get_all_entries();
+        $array = $this->user->get_all_login_entries();
 
         $tmp = array();
 

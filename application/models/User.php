@@ -13,6 +13,11 @@ class User extends CI_Model
         return $query->result_array();
     }
 
+    public function get_all_login_entries(){
+        $query = $this->db->query('SELECT * FROM logins');
+        return $query->result_array();
+    }
+
     public function get_all_entries_table(){
         $query = $this->db->query('
           SELECT

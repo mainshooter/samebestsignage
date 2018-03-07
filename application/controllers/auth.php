@@ -17,12 +17,8 @@ class Auth extends CI_Controller
 
         $this->load->model('user');
 	}
-	
-	function index(){
-		$this->login();
-	}
 
-	function login()
+	public function login()
 	{
         $data['this_user'] = $this->session->userdata();
 		if ( !  $this->session->userdata('DX_logged_in'))
@@ -40,13 +36,13 @@ class Auth extends CI_Controller
 		}
 	}
 	
-	function logout()
+	public function logout()
 	{
         $this->session->sess_destroy();
         redirect('login');
 	}
 
-	function forgot(){
+	public function forgot(){
         if (! $this->session->userdata('DX_logged_in'))
         {
             $data['title'] = 'Login'; // Capitalize the first letter
@@ -62,7 +58,7 @@ class Auth extends CI_Controller
         }
     }
 
-	function reset($hash){
+	public function reset($hash){
         if (! $this->session->userdata('DX_logged_in')) {
 
             $user = $this->user->get_single_entry_by_hash($hash);
