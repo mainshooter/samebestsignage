@@ -16,13 +16,13 @@ class Admin extends CI_Controller
 
         if (! $this->session->userdata('DX_logged_in') ){
             $this->session->sess_destroy();
-            redirect('auth/login');
+            redirect('/login');
         } else{
             if ($this->session->userdata('DX_role_id') >= 2){
 
             } else{
                 $this->session->sess_destroy();
-                redirect('auth/login');
+                redirect('/login');
             }
         }
         $data['this_user'] = $this->session->userdata();

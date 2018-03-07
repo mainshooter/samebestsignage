@@ -132,6 +132,10 @@
                 <div class="dropdown-divider"></div>
                 <div class="dropdown-body alert-box">
                     <?php
+                    if (!isset($alerts)){
+                        $alerts = array();
+                    }
+
                     $alertsCount = count($alerts);
                     if ($alertsCount > 1) {
                         foreach ($alerts as $alert) {

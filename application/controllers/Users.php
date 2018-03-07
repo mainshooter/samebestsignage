@@ -78,7 +78,7 @@ class Users extends CI_Controller
     public function edituser(){
         if (! $this->session->userdata('DX_logged_in')){
             $this->session->sess_destroy();
-            redirect('auth/login');
+            redirect('/login');
         } else{
             $data['this_user'] = $this->session->userdata();
 

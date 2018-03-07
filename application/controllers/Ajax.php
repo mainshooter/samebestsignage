@@ -15,7 +15,7 @@ class Ajax extends CI_Controller
 
         if (!$this->session->userdata('DX_logged_in')) {
             $this->session->sess_destroy();
-            redirect('auth/login');
+            redirect('/login');
         }
 
         $this->load->helper('main_helper');
@@ -551,7 +551,7 @@ class Ajax extends CI_Controller
     {
         if (!$this->session->userdata('DX_logged_in')) {
             $this->session->sess_destroy();
-            redirect('auth/login');
+            redirect('/login');
         } else {
             if ((int)$this->session->userdata('DX_role_id') >= 2) {
                 if ($_POST['password'] == $_POST['confirm_password']) {
@@ -600,7 +600,7 @@ class Ajax extends CI_Controller
     {
         if (!$this->session->userdata('DX_logged_in')) {
             $this->session->sess_destroy();
-            redirect('auth/login');
+            redirect('/login');
         } else {
 
             if ((int)$this->session->userdata('DX_role_id') >= 2) {
@@ -693,7 +693,7 @@ class Ajax extends CI_Controller
     {
         if (!$this->session->userdata('DX_logged_in')) {
             $this->session->sess_destroy();
-            redirect('auth/login');
+            redirect('/login');
         } else {
             if ((int)$this->session->userdata('DX_role_id') >= 2) {
                 if (!$this->user->update_entry_user($id, $_POST['username'], $_POST['email'])) {
