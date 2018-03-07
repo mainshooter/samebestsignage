@@ -31,6 +31,38 @@ class Ticket extends CI_Model
         return $query;
     }
 
+    public function count_pending_entries(){
+        $query = $this->db->query('SELECT t.ticket_id FROM tickets AS t JOIN status_types AS s ON t.ticket_status = s.status_id WHERE t.ticket_completed_at IS NULL AND s.status_level = "pending"');
+        return $query->num_rows();
+    }
+
+    public function get_current_page_records($limit, $start)
+    {
+        $this->db->select('*');
+        $this->db->from('tickets');
+
+        $this->db->join('categorys', 'categorys.cat_id = tickets.ticket_type');
+        $this->db->join('status_types', 'status_types.status_id = tickets.ticket_status');
+        $this->db->join('importance_types', 'importance_types.importance_id = tickets.ticket_importance');
+        $this->db->join('users', 'users.id = tickets.ticket_master');
+        $this->db->join('clients', 'clients.client_id = tickets.client_id');
+
+        $this->db->where('tickets.ticket_completed_at', null);
+        $this->db->where('status_types.status_level', 'pending');
+
+        $this->db->order_by('importance_types.importance_level', 'ASC');
+
+        $this->db->limit($limit, $start);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0)
+        {
+            return $query->result_array();
+        }
+
+        return false;
+    }
+
     public function get_pending_entries(){
         $query = $this->db->query('
           SELECT * FROM tickets AS t 
@@ -42,6 +74,35 @@ class Ticket extends CI_Model
             WHERE t.ticket_completed_at IS NULL AND s.status_level = "pending"
             ORDER BY i.importance_level ASC');
         return $query->result_array();
+    }
+
+    public function count_completed_entries(){
+        $query = $this->db->query('SELECT ticket_id FROM tickets WHERE ticket_completed_at IS NOT NULL');
+        return $query->num_rows();
+    }
+
+    public function get_current_page_records_completed($limit, $start)
+    {
+        $this->db->select('*');
+        $this->db->from('tickets');
+
+        $this->db->join('categorys', 'categorys.cat_id = tickets.ticket_type');
+        $this->db->join('status_types', 'status_types.status_id = tickets.ticket_status');
+        $this->db->join('importance_types', 'importance_types.importance_id = tickets.ticket_importance');
+        $this->db->join('users', 'users.id = tickets.ticket_master');
+        $this->db->join('clients', 'clients.client_id = tickets.client_id');
+
+        $this->db->where('tickets.ticket_completed_at !=', null);
+
+        $this->db->limit($limit, $start);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0)
+        {
+            return $query->result_array();
+        }
+
+        return false;
     }
 
     public function get_completed_entries(){

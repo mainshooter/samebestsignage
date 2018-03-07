@@ -40,6 +40,10 @@ footer{
     position: relative;
 }
 
+.ticket-card:hover{
+    cursor: pointer;
+}
+
 .unset-link{
     color: unset;
     text-decoration: none;

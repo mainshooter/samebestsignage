@@ -132,7 +132,7 @@
                         data.append("image[]", document.getElementById('image').files[x]);
                     }
 
-                    <?= ajax('POST', 'addticket', 'data', null, null, 'enctype: "multipart/form-data", processData: false, contentType: false,') ?>
+                    <?= ajax('POST', 'addTicket', 'data', null, null, 'enctype: "multipart/form-data", processData: false, contentType: false,') ?>
                 });
             </script>
         </div>

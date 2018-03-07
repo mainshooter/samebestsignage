@@ -62,12 +62,12 @@ class Pages extends CI_Controller
             case('mytickets'):
                 $this->myTickets();
                 break;
-            case('test'):
-                $this->test();
+            case('ticket'):
+                $this->ticket($id);
                 break;
             default:
                 $page = 'home';
-                $this->ticket();
+                $this->home($id);
                 break;
         }
 
@@ -93,14 +93,40 @@ class Pages extends CI_Controller
         $this->data[$key] = $data;
     }
 
-    public function ticket(){
-        $data = $this->ticket->get_pending_entries();
-        $this->setData('tickets', $data);
+    public function home($start_index = 1){
+        $this->load->library('pagination');
+
+        $count = $this->ticket->count_pending_entries();
+
+        $config = array (
+            'base_url' => base_url()."/home/",
+            'total_rows' => $count,
+            'per_page' => 20,
+            'num_links' => 4,
+        );
+
+        $this->pagination->initialize($config);
+
+        $this->setData('links', $this->pagination->create_links());
+        $this->setData('array', $this->ticket->get_current_page_records($config['per_page'], $start_index));
     }
 
-    public function completed($id = null){
-        $data = $this->ticket->get_completed_entries();
-        $this->setData('tickets', $data);
+    public function completed($start_index = null){
+        $this->load->library('pagination');
+
+        $count = $this->ticket->count_completed_entries();
+
+        $config = array (
+            'base_url' => base_url()."/completed/",
+            'total_rows' => $count,
+            'per_page' => 20,
+            'num_links' => 2,
+        );
+
+        $this->pagination->initialize($config);
+
+        $this->setData('links', $this->pagination->create_links());
+        $this->setData('array', $this->ticket->get_current_page_records_completed($config['per_page'], $start_index));
     }
 
     public function overview(){
@@ -113,44 +139,21 @@ class Pages extends CI_Controller
         $this->setData('table', $this->table->generate($this->ticket->get_my_entries()));
     }
 
-    private function hash($data){
-        $majorsalt = '';
+    public function ticket($id){
+        $this->data['ticket'] = $this->ticket->get_single_entry($id);
 
-        // if PHP5
-        if (function_exists('str_split'))
-        {
-            $_data = str_split($data);
+        if (empty($this->data['ticket'])){
+            redirect('/home');
+        } else{
+            $this->data['this_user'] = $this->session->userdata();
+            $this->data['clients'] = $this->clients->get_all_entries();
+            $this->data['users'] = $this->user->get_all_entries();
+            $this->data['categorys'] = $this->category->get_all_entries();
+            $this->data['statuses'] = $this->status->get_all_entries();
+            $this->data['importances'] = $this->importance->get_all_entries();
+            $this->data['alerts'] = $this->alert->get_all_entries_user($this->session->userdata('DX_user_id'));
+            $this->data['statuses'] = $this->status->get_all_entries();
+            $this->data['images'] = $this->image->get_group_entries($this->data['ticket']['ticket_images']);
         }
-
-        foreach ($_data as $_hashdata)
-        {
-            $majorsalt .= crypt(
-                crypt(
-                    md5($_hashdata.random_int(1, 100)),
-                    $data
-                ),
-                crypt(
-                    md5(
-                        json_encode($_data)
-                    ),
-                    date('Y/F\W-l H:m:s e+c')
-                )
-            );
-        }
-
-        //just some fun
-        $majorsalt .= sha1(
-                md5($majorsalt.random_int(8946, 89465)),
-                false
-            )
-            .sha1(
-                crypt(
-                    md5($majorsalt.random_int(100, 1000)),
-                    '$6$rounds=5000$iDoNotKnowWhatiAmDoingButiAmHavingFun$'
-                ),
-                false
-            );
-
-        return str_replace('/', random_int(10, 55), $majorsalt);
     }
 }

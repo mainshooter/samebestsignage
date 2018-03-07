@@ -56,7 +56,7 @@
 
     function drawLineChart(daysBack = 31) {
         var jsonData = $.ajax({
-            url: "<?php echo base_url(); ?>" + "ajax/linechartticket/" + daysBack,
+            url: "<?php echo base_url(); ?>" + "ajax/lineChartTicket/" + daysBack,
             dataType: "json",
             async: false
         }).responseText;
@@ -77,7 +77,7 @@
 
     function drawLineChartLogins() {
         var jsonData = $.ajax({
-            url: "<?php echo base_url(); ?>" + "ajax/linechartlogins/",
+            url: "<?php echo base_url(); ?>" + "ajax/lineChartLogins/",
             dataType: "json",
             async: false
         }).responseText;
@@ -100,7 +100,7 @@
 
     function drawPieChartClient() {
         var jsonData = $.ajax({
-            url: "<?php echo base_url(); ?>" + "ajax/piechartclient/",
+            url: "<?php echo base_url(); ?>" + "ajax/pieChartClient/",
             dataType: "json",
             async: false
         }).responseText;
@@ -122,7 +122,7 @@
 
     function drawPieChartCat() {
         var jsonData = $.ajax({
-            url: "<?php echo base_url(); ?>" + "ajax/piechartcat/",
+            url: "<?php echo base_url(); ?>" + "ajax/pieChartCat/",
             dataType: "json",
             async: false
         }).responseText;

@@ -39,6 +39,6 @@
     $('form').submit(function(event) {
         event.preventDefault();
         var formData = $(this).serialize();
-        <?= ajax('POST', 'addimportance', '$(this).serialize()') ?>
+        <?= ajax('POST', 'addImportance', '$(this).serialize()') ?>
     });
 </script>

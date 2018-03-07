@@ -104,6 +104,6 @@
     $('form').submit(function(event) {
         event.preventDefault();
 
-        <?= ajax('POST', 'addclient', '$(this).serialize()') ?>
+        <?= ajax('POST', 'addClient', '$(this).serialize()') ?>
     });
 </script>

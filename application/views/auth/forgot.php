@@ -19,6 +19,6 @@
     // Set up an event listener for the contact form.
     $('form').submit(function(event) {
         event.preventDefault();
-        <?= noRightsAjax('POST', 'forgotpassword','$(this).serialize()') ?>
+        <?= noRightsAjax('POST', 'forgotPassword','$(this).serialize()') ?>
     });
 </script>

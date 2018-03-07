@@ -1,4 +1,3 @@
-<?php if (empty($ticket)){redirect('/home');} ?>
 <div class="card flex-row row">
     <div class="card-left col-sm-12 col-md-6 col-lg-4">
         <div class="card-body">
@@ -154,7 +153,7 @@ if (!empty($ticket['ticket_completed_at'])){
         // Set up an event listener for the contact form.
         $('#restore').submit(function(event) {
             event.preventDefault();
-            <?= ajax('POST', 'restoreticket', '$(this).serialize()', $ticket['ticket_id']) ?>
+            <?= ajax('POST', 'restoreTicket', '$(this).serialize()', $ticket['ticket_id']) ?>
         });
     </script>
     <?php
@@ -203,7 +202,7 @@ if (!empty($ticket['ticket_completed_at'])){
         // Set up an event listener for the contact form.
         $('#complete').submit(function(event) {
             event.preventDefault();
-            <?= ajax('POST', 'completeticket', '$(this).serialize()', $ticket['ticket_id']) ?>
+            <?= ajax('POST', 'completeTicket', '$(this).serialize()', $ticket['ticket_id']) ?>
         });
     </script>
     <?php
@@ -364,7 +363,7 @@ if ($this_user['DX_user_id'] == $ticket['ticket_master'] || $this_user['DX_role_
         // Set up an event listener for the contact form.
         $('#assign').submit(function(event) {
             event.preventDefault();
-            <?= ajax('POST', 'assignticket', '$(this).serialize()', $ticket['ticket_id']) ?>
+            <?= ajax('POST', 'assignTicket', '$(this).serialize()', $ticket['ticket_id']) ?>
         });
     </script>
     <?php
@@ -374,7 +373,7 @@ if ($this_user['DX_user_id'] == $ticket['ticket_master'] || $this_user['DX_role_
     function change(elem){
         $.ajax({
             type: 'POST',
-            url: "<?php echo base_url(); ?>" + "ajax/getlevel/" + elem.val(),
+            url: "<?php echo base_url(); ?>" + "ajax/getLevel/" + elem.val(),
             success: function(data)
             {
                 if(data == 'solved'){
@@ -389,12 +388,12 @@ if ($this_user['DX_user_id'] == $ticket['ticket_master'] || $this_user['DX_role_
     // Set up an event listener for the contact form.
     $('#edit').submit(function(event) {
         event.preventDefault();
-        <?= ajax('POST', 'editticket', '$(this).serialize()', $ticket['ticket_id']) ?>
+        <?= ajax('POST', 'editTicket', '$(this).serialize()', $ticket['ticket_id']) ?>
     });
 
     // Set up an event listener for the contact form.
     $('#share').submit(function(event) {
         event.preventDefault();
-        <?= ajax('POST', 'shareticket', '$(this).serialize()', $ticket['ticket_id']) ?>
+        <?= ajax('POST', 'shareTicket', '$(this).serialize()', $ticket['ticket_id']) ?>
     });
 </script>

@@ -50,8 +50,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 
-//$this->ctr->load->library('DX_Auth');
-
 /*** Defaults ***/
 $route['default_controller'] = 'users/login';
 $route['404_override'] = '';
@@ -66,12 +64,7 @@ $route['forgotpassword/reset/(:any)'] = 'users/reset/$1';
 
 /*** Pages ***/
 $route['(:any)'] = 'pages/view/$1';
-
-/*** Test ***/
-$route['test/x/y/z/(:any)'] = 'test/view/$1';
-
-/*** Tickets ***/
-$route['ticket/(:num)'] = 'tickets/view/$1';
+$route['(:any)/(:num)'] = 'pages/view/$1/$2';
 
 /*** User ***/
 $route['user/profile'] = 'users/edituser';

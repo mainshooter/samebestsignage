@@ -108,7 +108,7 @@
             }
         } else {
 
-            <?= ajax('POST', 'edituser', '$(this).serialize()', $id) ?>
+            <?= ajax('POST', 'editUser', '$(this).serialize()', $id) ?>
         }
     });
 </script>

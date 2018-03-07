@@ -32,6 +32,6 @@
     // Set up an event listener for the contact form.
     $('form').submit(function(event) {
         event.preventDefault();
-        <?= ajax('POST', 'editstatus', '$(this).serialize()', $status['status_id']) ?>
+        <?= ajax('POST', 'editStatus', '$(this).serialize()', $status['status_id']) ?>
     });
 </script>

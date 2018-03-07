@@ -34,6 +34,6 @@
     $('form').submit(function(event) {
         event.preventDefault();
         var formData = $(this).serialize();
-        <?= ajax('POST', 'addstatus', '$(this).serialize()') ?>
+        <?= ajax('POST', 'addStatus', '$(this).serialize()') ?>
     });
 </script>

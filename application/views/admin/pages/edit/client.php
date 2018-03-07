@@ -113,6 +113,6 @@
     // Set up an event listener for the contact form.
     $('form').submit(function(event) {
         event.preventDefault();
-        <?= ajax('POST', 'editclient', '$(this).serialize()', $client['client_id']) ?>
+        <?= ajax('POST', 'editClient', '$(this).serialize()', $client['client_id']) ?>
     });
 </script>

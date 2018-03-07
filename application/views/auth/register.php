@@ -107,7 +107,7 @@
                 $('.cnfrm_pw').html('<?= alert('warning', '', 'The password doesn&apos;t match'); ?>');
             }
         } else {
-            <?= ajax('POST', 'edituserfront', '$(this).serialize()', $user['id']) ?>
+            <?= ajax('POST', 'editUserFront', '$(this).serialize()', $user['id']) ?>
         }
     });
 </script>

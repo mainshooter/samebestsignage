@@ -60,7 +60,7 @@
     } else {
         $('#form-reset').submit(function(event) {
             event.preventDefault();
-            <?= noRightsAjax('POST', 'resetpassword','$(this).serialize()', $user['id']) ?>
+            <?= noRightsAjax('POST', 'resetPassword','$(this).serialize()', $user['id']) ?>
         });
     }
 

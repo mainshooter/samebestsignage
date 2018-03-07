@@ -40,7 +40,7 @@
     // Set up an event listener for the contact form.
     $('#config').submit(function(event) {
         event.preventDefault();
-        <?= ajax('POST', 'updatemail', '$(this).serialize()') ?>
+        <?= ajax('POST', 'updateMail', '$(this).serialize()') ?>
     });
     // Set up an event listener for the contact form.
     $('#reset').submit(function(event) {
@@ -49,6 +49,6 @@
 
     function Reset() {
         $('#modal').modal('hide');
-        <?= ajax('POST', 'resetmail') ?>
+        <?= ajax('POST', 'resetMail') ?>
     }
 </script>

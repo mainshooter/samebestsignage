@@ -19,6 +19,6 @@
     // Set up an event listener for the contact form.
     $('form').submit(function(event) {
         event.preventDefault();
-        <?= ajax('POST', 'addcategory', '$(this).serialize()') ?>
+        <?= ajax('POST', 'addCategory', '$(this).serialize()') ?>
     });
 </script>
