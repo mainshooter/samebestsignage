@@ -18,6 +18,11 @@ class User extends CI_Model
         return $query->result_array();
     }
 
+    public function get_line_chart_login(){
+        $query = $this->db->query('SELECT DATE_FORMAT(date, "%d-%m-%Y") AS day, COUNT(*) AS count FROM logins GROUP BY day');
+        return $query->result_array();
+    }
+
     public function get_all_entries_table(){
         $query = $this->db->query('
           SELECT

@@ -1,3 +1,7 @@
+<link rel="stylesheet" type="text/css" href="<?= asset('datatables/css/dtBS4.css');?>">
+<link type="text/css" rel="stylesheet" href="<?= asset('datatables/css/rBS4.css');?>"/>
+<link type="text/css" rel="stylesheet" href="<?= asset('datatables/css/sBS4.css');?>"/>
+
 <div class="row button-row">
     <a href="/admin/status/add" class="btn btn-outline-success">
         Add Status

@@ -1,12 +1,11 @@
 AuthType Basic
 AuthName "Password Protected Area"
-AuthUserFile C:/xampp/htdocs/.htpasswd
+AuthUserFile /var/www/html/.htpasswd
 Require valid-user
 
-
 <IfModule mod_rewrite.c>
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php/$1 [L]
-</IfModule>
+    RewriteEngine on
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [L]
+</IfModule> 

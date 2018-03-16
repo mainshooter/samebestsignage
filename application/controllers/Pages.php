@@ -32,7 +32,6 @@ class Pages extends CI_Controller
         $this->load->model('status');
         $this->load->model('importance');
         $this->load->model('alert');
-        $this->load->model('logins');
         $this->load->model('mail');
 
         $this->data['clients'] = $this->clients->get_all_entries();
@@ -64,6 +63,9 @@ class Pages extends CI_Controller
                 break;
             case('ticket'):
                 $this->ticket($id);
+                break;
+            case('profile'):
+                $this->profile();
                 break;
             default:
                 $page = 'home';
@@ -155,5 +157,9 @@ class Pages extends CI_Controller
             $this->data['statuses'] = $this->status->get_all_entries();
             $this->data['images'] = $this->image->get_group_entries($this->data['ticket']['ticket_images']);
         }
+    }
+
+    public function profile(){
+        $this->data['user'] = $this->user->get_single_entry($this->session->userdata('DX_user_id'));
     }
 }

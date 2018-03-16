@@ -58,7 +58,6 @@ $route['translate_uri_dashes'] = FALSE;
 /*** Login ***/
 $route['login'] = 'users/login';
 $route['logout'] = 'users/logout';
-$route['register'] = 'users/register';
 $route['forgotpassword/sent'] = 'users/forgot';
 $route['forgotpassword/reset/(:any)'] = 'users/reset/$1';
 
@@ -66,15 +65,11 @@ $route['forgotpassword/reset/(:any)'] = 'users/reset/$1';
 $route['(:any)'] = 'pages/view/$1';
 $route['(:any)/(:num)'] = 'pages/view/$1/$2';
 
-/*** User ***/
-$route['user/profile'] = 'users/edituser';
-
 /** Admin* ***/
 $route['admin/(:any)'] = 'admin/view/$1';
 $route['admin/(:any)/view/(:num)'] = 'admin/viewsingle/$1/$2';
 $route['admin/(:any)/add'] = 'admin/add/$1';
 $route['admin/(:any)/edit/(:num)'] = 'admin/edit/$1/$2';
-$route['admin/(:any)/delete/(:num)'] = 'admin/delete/$1/$2';
 
 /*** Image ***/
 $route['image/add/(:any)'] = 'images/add/$1';

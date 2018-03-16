@@ -35,7 +35,7 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <?php
+            <?php 
             if (!empty($this_user['DX_logged_in']) && $this_user['DX_logged_in'] === true) {
                 ?>
                 <li class="nav-item active">
@@ -56,9 +56,9 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
                         <h6 class="dropdown-header">My Account</h6>
-                        <a class="dropdown-item" href="/user/profile">Profile</a>
+                        <a class="dropdown-item" href="/profile">Profile</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/ajaxlogin/logout">Logout</a>
+                        <a class="dropdown-item" href="/logout">Logout</a>
                     </div>
                 </li>
                 <?php
@@ -83,13 +83,16 @@
                             </div>
                         </li>
                         <li class="nav-right nav-item active">
-                            <i id="add-ticket" class="btn btn-outline-success rounded-circle material-icons">&#xE145;</i>
+                            <i id="add-ticket"
+                               class="btn btn-outline-success rounded-circle material-icons">&#xE145;</i>
                         </li>
                     </ul>
                 </a>
                 <ul class="navbar-nav">
                     <li class="nav-right nav-item active">
-                        <button class="dropdown-toggle icon-dropdown position-relative" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="$('#alerts').toggleClass('show')">
+                        <button class="dropdown-toggle icon-dropdown position-relative" id="dropdownMenuButton"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                onclick="$('#alerts').toggleClass('show')">
                             <span class="alert-count badge badge-danger"></span>
                             <i id="settings" class="btn btn-outline-warning rounded-circle material-icons">&#xE002;</i>
                         </button>
@@ -107,66 +110,70 @@
                     </a>
                     <?php
                 }
-            }
-            ?>
-            <div id="alerts" class="dropdown-menu dropdown-menu-right alert-dropdown" aria-labelledby="dropdownMenuButton">
-                <div class="dropdown-head">
+                ?>
+                <div id="alerts" class="dropdown-menu dropdown-menu-right alert-dropdown"
+                     aria-labelledby="dropdownMenuButton">
+                    <div class="dropdown-head">
 
-                    <h6 class="dropdown-header">
-                        <span>Alerts</span>
-                        <span class="float-right">
+                        <h6 class="dropdown-header">
+                            <span>Alerts</span>
+                            <span class="float-right">
                                                 <a class="set-read" onclick="setReadAll()">
                                                     Mark as read
                                                 </a>
                                             </span>
-                    </h6>
-                    <script>
-                        function setReadAll() {
-                            <?= ajax('POST', 'markAsReadAll', '[]') ?>
-                        }
-                        function setRead(alert_id, customHref) {
-                            <?= ajax('POST', 'markAsRead', '{id : alert_id}', null, 'customHref') ?>
-                        }
-                    </script>
-                </div>
-                <div class="dropdown-divider"></div>
-                <div class="dropdown-body alert-box">
-                    <?php
-                    if (!isset($alerts)){
-                        $alerts = array();
-                    }
+                        </h6>
+                        <script>
+                            function setReadAll() {
+                                <?= ajax('POST', 'markAsReadAll', '[]') ?>
+                            }
 
-                    $alertsCount = count($alerts);
-                    if ($alertsCount > 1) {
-                        foreach ($alerts as $alert) {
+                            function setRead(alert_id, customHref) {
+                                <?= ajax('POST', 'markAsRead', '{id : alert_id}', null, 'customHref') ?>
+                            }
+                        </script>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-body alert-box">
+                        <?php
+                        if (!isset($alerts)) {
+                            $alerts = array();
+                        }
+
+                        $alertsCount = count($alerts);
+                        if ($alertsCount > 1) {
+                            foreach ($alerts as $alert) {
+                                ?>
+                                <a href="#" onclick="setRead(<?= $alert['alert_id'] ?>, '<?= $alert['alert_href'] ?>')"
+                                   class="alert-item dropdown-item unseen">
+                                    <div class="alert-icon">
+                                        <i class="material-icons"><?= $alert['alert_icon'] ?></i>
+                                    </div>
+                                    <div class="alert-content">
+                                        <div class="alert-title">
+                                            <?= $alert['alert_title'] ?>
+                                        </div>
+
+                                        <div class="alert-desc">
+                                            <?= $alert['alert_desc'] ?>
+                                        </div>
+                                    </div>
+                                </a>
+                                <?php
+                            }
+                        } else {
                             ?>
-                            <a href="#" onclick="setRead(<?= $alert['alert_id'] ?>, '<?= $alert['alert_href'] ?>')"
-                               class="alert-item dropdown-item unseen">
-                                <div class="alert-icon">
-                                    <i class="material-icons"><?= $alert['alert_icon'] ?></i>
-                                </div>
-                                <div class="alert-content">
-                                    <div class="alert-title">
-                                        <?= $alert['alert_title'] ?>
-                                    </div>
-
-                                    <div class="alert-desc">
-                                        <?= $alert['alert_desc'] ?>
-                                    </div>
-                                </div>
-                            </a>
+                            <div class="text-center text-white" style="padding: 13px 0px; height: 50px; width: 250px;">
+                                No new alerts
+                            </div>
                             <?php
                         }
-                    } else{
                         ?>
-                        <div class="text-center text-white" style="padding: 13px 0px; height: 50px; width: 250px;">
-                            No new alerts
-                        </div>
-                        <?php
-                    }
-                    ?>
+                    </div>
                 </div>
-            </div>
+                <?php
+            }
+            ?>
         </div>
     </div>
 </nav>

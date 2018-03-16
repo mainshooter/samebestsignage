@@ -150,8 +150,13 @@ class Ticket extends CI_Model
         return $query->result_array();
     }
 
+    public function get_line_chart_ticket(){
+        $query = $this->db->query('SELECT DATE_FORMAT(ticket_created_at, "%d-%m-%Y") AS day, COUNT(*) AS count FROM tickets GROUP BY day');
+        return $query->result_array();
+    }
+
     public function get_pie_chart(){
-        $query = $this->db->query('SELECT a.cat_name FROM tickets AS t JOIN categorys AS a  ON t.ticket_type = a.cat_id');
+        $query = $this->db->query('SELECT c.cat_name, COUNT(*) AS count FROM tickets AS t JOIN categorys AS c  ON t.ticket_type = c.cat_id GROUP BY c.cat_id');
         return $query->result_array();
     }
 

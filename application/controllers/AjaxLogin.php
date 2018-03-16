@@ -141,7 +141,7 @@ class AjaxLogin extends CI_Controller
             echo $hash;
         } else{
             $this->load->library('email');
-            $this->load->library('mailtemplates');
+            $this->load->library('MailTemplates');
 
 
             $insertId = $this->db->insert_id();

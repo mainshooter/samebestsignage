@@ -1,3 +1,7 @@
+<link rel="stylesheet" type="text/css" href="<?= asset('datatables/css/dtBS4.css');?>">
+<link type="text/css" rel="stylesheet" href="<?= asset('datatables/css/rBS4.css');?>"/>
+<link type="text/css" rel="stylesheet" href="<?= asset('datatables/css/sBS4.css');?>"/>
+
 <div class="row button-row">
     <a href="/admin/importance/add" class="btn btn-outline-success">
         Add Importance Level
@@ -98,3 +102,9 @@
         window.location.href = '/admin/importance/' + type + '/' + sessionStorage.id;
     }
 </script>
+
+<script src="<?= asset('datatables/js/jqDT.js');?>"></script>
+<script src="<?= asset('datatables/js/dtBS4.js');?>"></script>
+<script src="<?= asset('datatables/js/dtR.js');?>"></script>
+<script src="<?= asset('datatables/js/rBS4.js');?>"></script>
+<script src="<?= asset('datatables/js/dtS.js');?>"></script>

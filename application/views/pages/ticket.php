@@ -18,12 +18,12 @@
             <li class="list-group-item">Handler: <?= ($this_user['DX_user_id'] == $ticket['ticket_master'])? '(You)' : $ticket['email'] ?></li>
             <li class="list-group-item">No. <?= $ticket['ticket_id'] ?></li>
             <li class="list-group-item"><?= $ticket['status_name'] ?></li>
-            <li class="list-group-item"> Created <?= date("d F Y H:m", strtotime($ticket['ticket_created_at'])) ?></li>
+            <li class="list-group-item"> Created: <?= date("d F Y H:m", strtotime($ticket['ticket_created_at'])) ?></li>
             <li class="list-group-item">
-                <?= ($ticket['ticket_edited_at'] != null)? 'Last edited ' . date("d F Y H:m", strtotime($ticket['ticket_edited_at'])) : 'Not edited' ?>
+                <?= ($ticket['ticket_edited_at'] != null)? 'Last edited: ' . date("d F Y H:m", strtotime($ticket['ticket_edited_at'])) : 'Not edited' ?>
             </li>
             <li class="list-group-item">
-                <?= ($ticket['ticket_completed_at'] != null)? 'Completed ' . date("d F Y H:m", strtotime($ticket['ticket_completed_at'])) : 'Not completed' ?>
+                <?= ($ticket['ticket_completed_at'] != null)? 'Completed: ' . date("d F Y H:m", strtotime($ticket['ticket_completed_at'])) : 'Not completed' ?>
             </li>
             <?php
             if ($this_user['DX_user_id'] == $ticket['ticket_master'] || $this_user['DX_role_id'] >= 2) {
@@ -251,32 +251,69 @@ if (!empty($ticket['ticket_completed_at'])){
                 <div class="modal-msg"></div>
                 <ul class="list-group">
                     <li class="list-group-item"><?= $ticket['client_name'] ?></li>
-                    <li class="list-group-item">
-                        <a href="mailto:<?= (!empty($ticket['client_email']))? $ticket['client_email'] : '-'; ?>">
-                            <?= (!empty($ticket['client_email']))? $ticket['client_email'] : '-'; ?>
-                        </a>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="tel:<?= (!empty($ticket['client_tel']))? $ticket['client_tel'] : '-'; ?>">
-                            <?= (!empty($ticket['client_tel']))? $ticket['client_tel'] : '-'; ?>
-                        </a>
-                    </li>
-                    <li class="list-group-item">
-                        <?= (!empty($ticket['client_country']))? $ticket['client_country'].(!empty($ticket['client_state']))? ', '.$ticket['client_state'] : '' : '-'; ?>
-                    </li>
-                    <li class="list-group-item">
-                        <address>
-                            <?php if(!empty($ticket['client_zipcode'])){ $arr = preg_split('/(?<=[0-9])\s*(?=[a-zA-Z]+)/xi',$ticket['client_zipcode']);} ?>
-                            <a target="_blank" href="https://www.google.nl/maps/place/<?= (!empty($ticket['client_street']))? $ticket['client_street'] : '-'; ?>+<?= (!empty($ticket['client_street_number']))? $ticket['client_street_number'] : '-'; ?>+<?=  (!empty($arr[0]))? $arr[0] : '-'; ?>+<?=  (!empty($arr[1]))? $arr[1] : '-'; ?>+<?=  (!empty($ticket['client_city']))? $ticket['client_city'] : '-'; ?>/">
-                                <?=
-                                (!empty($ticket['client_street']))? $ticket['client_street'].' ' : '-'
-                                .(!empty($ticket['client_street_number']))? $ticket['client_street_number']. ' ' : '-'
-                                .(!empty($ticket['client_city']))? $ticket['client_city']. ', ' : '-'
-                                .(!empty($ticket['client_zipcode']))? $ticket['client_zipcode'] : '-'
-                                ?>
+                    <?php
+                    if (!empty($ticket['client_email'])) {
+                        ?>
+                        <li class="list-group-item">
+                            <a href="mailto:<?= $ticket['client_email'] ?>">
+                                <?= $ticket['client_email'] ?>
                             </a>
-                        </address>
-                    </li>
+                        </li>
+                        <?php
+                    }
+                    if (!empty($ticket['client_tel'])) {
+                        ?>
+                        <li class="list-group-item">
+                            <a href="tel:<?= $ticket['client_tel'] ?>">
+                                <?= $ticket['client_tel'] ?>
+                            </a>
+                        </li>
+                        <?php
+                    }
+                    if (!empty($ticket['client_country']) && !empty($ticket['client_state'])) {
+                        ?>
+                        <li class="list-group-item">
+                            <?= $ticket['client_country'] .', '. $ticket['client_state'] ?>
+                        </li>
+                        <?php
+                    } elseif (empty($ticket['client_country']) && !empty($ticket['client_state'])){
+                        ?>
+                        <li class="list-group-item">
+                            <?= $ticket['client_state'] ?>
+                        </li>
+                        <?php
+                    } elseif (empty($ticket['client_state'])  && !empty($ticket['client_country'])){
+                        ?>
+                        <li class="list-group-item">
+                            <?= $ticket['client_country'] ?>
+                        </li>
+                        <?php
+                    }
+
+                    if (!empty($ticket['client_street'])
+                        || !empty($ticket['client_street_number'])
+                        || !empty($ticket['client_city'])
+                        || !empty($ticket['client_zipcode'])) {
+                        ?>
+                        <li class="list-group-item">
+                            <address>
+                                <?php if (!empty($ticket['client_zipcode'])) {
+                                    $arr = preg_split('/(?<=[0-9])\s*(?=[a-zA-Z]+)/xi', $ticket['client_zipcode']);
+                                } ?>
+                                <a target="_blank"
+                                   href="https://www.google.nl/maps/place/<?= (!empty($ticket['client_street'])) ? $ticket['client_street'] : '-'; ?>+<?= (!empty($ticket['client_street_number'])) ? $ticket['client_street_number'] : '-'; ?>+<?= (!empty($arr[0])) ? $arr[0] : '-'; ?>+<?= (!empty($arr[1])) ? $arr[1] : '-'; ?>+<?= (!empty($ticket['client_city'])) ? $ticket['client_city'] : '-'; ?>/">
+                                    <?=
+                                    (!empty($ticket['client_street'])) ? $ticket['client_street'] . ' ' : ''
+                                    . (!empty($ticket['client_street_number'])) ? $ticket['client_street_number'] . ' ' : ''
+                                    . (!empty($ticket['client_city'])) ? $ticket['client_city'] . ', ' : ''
+                                    . (!empty($ticket['client_zipcode'])) ? $ticket['client_zipcode'] : ''
+                                    ?>
+                                </a>
+                            </address>
+                        </li>
+                        <?php
+                    }
+                    ?>
                 </ul>
             </div>
             <div class="modal-footer">

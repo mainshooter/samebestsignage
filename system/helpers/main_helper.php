@@ -65,7 +65,7 @@ if ( ! function_exists('ajax'))
      * checkShowOrHide
      */
     function ajax($method = 'POST', $url, $data = 'null', $id = null, $customHref = null, $customParameters = null){
-        $return = '$.ajax({ type: "' . $method . '", url: "'.base_url().'ajax/'.$url.'/'.$id.'", ' . $customParameters . 'data: '.$data.', dataType: "json", beforeSend: function() { var msg = $("#msg"); msg.html(\'';
+        $return = '$.ajax({ type: "' . $method . '", url: "'.base_url().'Ajax/'.$url.'/'.$id.'", ' . $customParameters . 'data: '.$data.', dataType: "json", beforeSend: function() { var msg = $("#msg"); msg.html(\'';
         $return .= check('success', 'cached');
         $return .= '\'); animateCheck($(".check"), 0); }, success: function (data) { if (data.error === true){ $(".check, .check-content").css({"display": "none"}); setTimeout(function () { alert(data.msg); }, 100); } else{ if (data.href === "unset"){ alert(data.msg);} else{ window.location = ';
         if ($customHref != null){
@@ -88,7 +88,7 @@ if ( ! function_exists('image'))
      * checkShowOrHide
      */
     function image($method = 'POST', $url, $data, $id = null, $customHref = null, $customParameters = null){
-        $return = '$.ajax({ type: "' . $method . '", url: "'.base_url().'images/'.$url.'/'.$id.'", ' . $customParameters . 'data: '.$data.', dataType: "json", beforeSend: function() { var msg = $("#msg"); msg.html(\'';
+        $return = '$.ajax({ type: "' . $method . '", url: "'.base_url().'Images/'.$url.'/'.$id.'", ' . $customParameters . 'data: '.$data.', dataType: "json", beforeSend: function() { var msg = $("#msg"); msg.html(\'';
         $return .= check('success', 'cached');
         $return .= '\'); animateCheck($(".check"), 0); }, success: function (data) { if (data.error === true){ $(".check, .check-content").css({"display": "none"}); setTimeout(function () { alert(data.msg); }, 100); } else{ if (data.href === "unset"){ alert(data.msg);} else{ window.location = ';
         if ($customHref != null){
@@ -111,7 +111,7 @@ if ( ! function_exists('noRightsAjax'))
      * checkShowOrHide
      */
     function noRightsAjax($method = 'POST', $url, $data, $id = null, $customHref = null, $customParameters = null){
-        $return = '$.ajax({ type: "' . $method . '", url: "'.base_url().'ajaxlogin/'.$url.'/'.$id.'", ' . $customParameters . 'data: '.$data.', dataType: "json",  beforeSend: function() { var msg = $("#msg"); msg.html(\'';
+        $return = '$.ajax({ type: "' . $method . '", url: "'.base_url().'AjaxLogin/'.$url.'/'.$id.'", ' . $customParameters . 'data: '.$data.', dataType: "json",  beforeSend: function() { var msg = $("#msg"); msg.html(\'';
         $return .= check('success', 'cached');
         $return .= '\'); animateCheck($(".check"), 0); }, success: function (data) { if (data.error == true){ $(".check, .check-content").css({"display": "none"}); setTimeout(function () { alert(data.msg); }, 100);  } else{ if (data.href == "unset"){ alert(data.msg);} else{ window.location = ';
         if ($customHref != null){

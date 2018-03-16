@@ -189,7 +189,7 @@ class Ajax extends CI_Controller
         $ticket = $this->ticket->get_single_entry($id);
 
         $this->load->library('email');
-        $this->load->library('mailtemplates');
+        $this->load->library('MailTemplates');
 
 
         $insertId = $this->db->insert_id();
@@ -202,8 +202,6 @@ class Ajax extends CI_Controller
             }
         }
 
-        //var_dump($config);
-        //die();
         $this->email->initialize($config);
 
         $data = $this->user->get_single_entry_mail(6);
@@ -696,7 +694,7 @@ class Ajax extends CI_Controller
             redirect('/login');
         } else {
             if ((int)$this->session->userdata('DX_role_id') >= 2) {
-                if (!$this->user->update_entry_user($id, $_POST['username'], $_POST['email'])) {
+                if (!$this->user->update_entry_user($this->session->userdata('DX_user_id'), $_POST['username'], $_POST['email'])) {
                     echo json_encode(
                         array(
                             "error" => true,
@@ -722,13 +720,19 @@ class Ajax extends CI_Controller
                                     array(
                                         "error" => false,
                                         "msg" => "Success",
-                                        "href" => "/user/profile"
+                                        "href" => "/profile"
                                     )
                                 );
                             }
                         }
                     } else {
-                        echo '/user/profile';
+                        echo json_encode(
+                            array(
+                                "error" => false,
+                                "msg" => "Success",
+                                "href" => "/profile"
+                            )
+                        );
                     }
                 }
             } else {
@@ -773,50 +777,18 @@ class Ajax extends CI_Controller
 
     public function lineChartTicket($daysBack = 31)
     {
-        $array = $this->ticket->get_all_ticket_no_join();
+        $array = $this->ticket->get_line_chart_ticket();
 
-        $tmp = array();
-
-        foreach ($array as $item) {
-            if (!array_key_exists(
-                strtotime(
-                    (string)date('d-m-Y',
-                        strtotime($item['ticket_created_at'])
-                    )
-                ), $tmp)) {
-                $tmp[strtotime(
-                    (string)date('d-m-Y',
-                        strtotime($item['ticket_created_at'])
-                    )
-                )] = 1;
-            } else {
-                $tmp[strtotime(
-                    (string)date('d-m-Y',
-                        strtotime($item['ticket_created_at'])
-                    )
-                )] = (
-                    $tmp[strtotime(
-                        (string)date('d-m-Y',
-                            strtotime($item['ticket_created_at'])
-                        )
-                    )] + 1
-                );
-            }
-        }
-
-        $json = '{"cols": [{"id":"","label":"Date","pattern":"","type":"string"},{"id":"","label":"Tickets","pattern":"","type":"number"}],"rows": [';
+        $json = '{"cols": [{"id":"","label":"Date","pattern":"","type":"string"},{"id":"","label":"Logins","pattern":"","type":"number"}],"rows": [';
 
         for ($x = ($daysBack - 1); $x > -1; $x--) {
-            $key = strtotime('-' . $x . ' day',
-                strtotime(
-                    date('d F Y')
-                )
-            );
+            $key = date('d-m-Y', strtotime('-' . $x . ' day', strtotime(date('d-m-Y'))));
 
-            if (array_key_exists($key, $tmp)) {
-                $json .= '{"c":[{"v":"' . date('d F Y', $key) . '","f":null},{"v":' . $tmp[$key] . ',"f":null}]},';
+            $item = $this->in_array_r($key, $array);
+            if (is_int($item)) {
+                $json .= '{"c":[{"v":"' . date('d F Y', strtotime($key)) . '","f":null},{"v":' . $array[$item]['count'] . ',"f":null}]},';
             } else {
-                $json .= '{"c":[{"v":"' . date('d F Y', $key) . '","f":null},{"v":0,"f":null}]},';
+                $json .= '{"c":[{"v":"' . date('d F Y', strtotime($key)) . '","f":null},{"v":0,"f":null}]},';
             }
         }
 
@@ -825,28 +797,30 @@ class Ajax extends CI_Controller
         echo $json;
     }
 
-    public function lineChartLogins($daysBack = 31)
-    {
-        $array = $this->user->get_all_login_entries();
-
-        $tmp = array();
-
-        foreach ($array as $item) {
-            if (!array_key_exists(strtotime((string)date('d-m-Y', strtotime($item['date']))), $tmp)) {
-                $tmp[strtotime((string)date('d-m-Y', strtotime($item['date'])))] = 1;
-            } else {
-                $tmp[strtotime((string)date('d-m-Y', strtotime($item['date'])))] = ($tmp[strtotime((string)date('d-m-Y', strtotime($item['date'])))] + 1);
+    function in_array_r($needle, $haystack, $strict = false) {
+        foreach ($haystack as $key => $item) {
+            if (in_array($needle, $item)) {
+                return $key;
             }
         }
+
+        return false;
+    }
+
+    public function lineChartLogins($daysBack = 31)
+    {
+        $array = $this->user->get_line_chart_login();
 
         $json = '{"cols": [{"id":"","label":"Date","pattern":"","type":"string"},{"id":"","label":"Logins","pattern":"","type":"number"}],"rows": [';
 
         for ($x = ($daysBack - 1); $x > -1; $x--) {
-            $key = strtotime(date('d F Y', strtotime('-' . $x . ' day', strtotime(date('d F Y')))));
-            if (array_key_exists($key, $tmp)) {
-                $json .= '{"c":[{"v":"' . date('d F Y', $key) . '","f":null},{"v":' . $tmp[$key] . ',"f":null}]},';
+            $key = date('d-m-Y', strtotime('-' . $x . ' day', strtotime(date('d-m-Y'))));
+
+            $item = $this->in_array_r($key, $array);
+            if (is_int($item)) {
+                $json .= '{"c":[{"v":"' . date('d F Y', strtotime($key)) . '","f":null},{"v":' . $array[$item]['count'] . ',"f":null}]},';
             } else {
-                $json .= '{"c":[{"v":"' . date('d F Y', $key) . '","f":null},{"v":0,"f":null}]},';
+                $json .= '{"c":[{"v":"' . date('d F Y', strtotime($key)) . '","f":null},{"v":0,"f":null}]},';
             }
         }
 
@@ -859,20 +833,10 @@ class Ajax extends CI_Controller
     {
         $array = $this->ticket->get_pie_chart();
 
-        $tmp = array();
-
-        foreach ($array as $item) {
-            if (!array_key_exists($item['cat_name'], $tmp)) {
-                $tmp[$item['cat_name']] = 1;
-            } else {
-                $tmp[$item['cat_name']] = ($tmp[$item['cat_name']] + 1);
-            }
-        }
-
         $json = '{"cols": [{"id":"","label":"Date","pattern":"","type":"string"},{"id":"","label":"Ticket","pattern":"","type":"number"}],"rows": [';
 
-        foreach ($tmp as $key => $item) {
-            $json .= '{"c":[{"v":"' . $key . '","f":null},{"v":' . $item . ',"f":null}]},';
+        foreach ($array as $item) {
+            $json .= '{"c":[{"v":"' . $item['cat_name'] . '","f":null},{"v":' . $item['count'] . ',"f":null}]},';
         }
 
         $json .= ']}';
@@ -880,6 +844,7 @@ class Ajax extends CI_Controller
         echo $json;
     }
 
+    /*
     public function pieChartClient()
     {
         $array = $this->ticket->get_pie_chart_client();
@@ -904,6 +869,7 @@ class Ajax extends CI_Controller
 
         echo $json;
     }
+    */
 
     public function resetMail()
     {

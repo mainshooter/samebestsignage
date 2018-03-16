@@ -5,7 +5,7 @@
     font-family: 'Material Icons';
     font-style: normal;
     font-weight: 400;
-    src: url(<?= 'http://'.$_SERVER['HTTP_HOST'].'/public/fonts/material.woff2' ?>) format('woff2');
+    src: url('/public/fonts/material.woff2') format('woff2');
 }
 
 .material-icons {

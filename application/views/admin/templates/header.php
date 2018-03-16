@@ -14,9 +14,7 @@
 
         <!-- Bootstrap core CSS -->
         <link href="<?= asset('bootstrap/css/bootstrap.min.css');?>" type="text/css" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="<?= asset('datatables/css/dtBS4.css');?>">
-        <link type="text/css" rel="stylesheet" href="<?= asset('datatables/css/rBS4.css');?>"/>
-        <link type="text/css" rel="stylesheet" href="<?= asset('datatables/css/sBS4.css');?>"/>
+
 
         <!-- Custom styles for this template -->
         <link href="<?= asset('css/icon.css.php') ?>" type="text/css" rel="stylesheet"/>
@@ -147,7 +145,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/user/profile">
+                            <a class="nav-link" href="/profile">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-corner-down-left" color="#384047"><polyline points="9 10 4 15 9 20"></polyline><path d="M20 4v7a4 4 0 0 1-4 4H4"></path></svg>
                                 Profile
                             </a>

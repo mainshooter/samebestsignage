@@ -29,10 +29,6 @@
 </div>
 
 <div class="row">
-    <div class="col-sm-12">
-        <div id="piechart-client" style="width: 100%; min-height: 600px;"></div>
-    </div>
-
     <div class="col-md-6 col-sm-12">
         <div id="piechart" style="width: 100%; min-height: 400px;"></div>
     </div>
@@ -44,15 +40,12 @@
 
 <script type="text/javascript" src="<?= asset('google/charts/chart.js') ?>"></script>
 <script>
-    $(window).bind('load', function(){
-        google.charts.load('current', {'packages': ['line']});
-        google.charts.setOnLoadCallback(drawLineChart);
-        google.charts.setOnLoadCallback(drawLineChartLogins);
+    google.charts.load('current', {'packages': ['line']});
+    google.charts.setOnLoadCallback(drawLineChart);
+    google.charts.setOnLoadCallback(drawLineChartLogins);
 
-        google.charts.load('current', {'packages': ['corechart']});
-        google.charts.setOnLoadCallback(drawPieChartClient);
-        google.charts.setOnLoadCallback(drawPieChartCat);
-    });
+    google.charts.load('current', {'packages': ['corechart']});
+    google.charts.setOnLoadCallback(drawPieChartCat);
 
     function drawLineChart(daysBack = 31) {
         var jsonData = $.ajax({
@@ -95,29 +88,6 @@
 
         chart.draw(data, google.charts.Line.convertOptions(options));
     }
-
-
-
-    function drawPieChartClient() {
-        var jsonData = $.ajax({
-            url: "<?php echo base_url(); ?>" + "ajax/pieChartClient/",
-            dataType: "json",
-            async: false
-        }).responseText;
-
-        var data = new google.visualization.DataTable(jsonData);
-
-        var options = {
-            title: 'Clients',
-            subtitle: 'A quick view of which clients have the most problems',
-            is3D: true,
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('piechart-client'));
-
-        chart.draw(data, options);
-    }
-
 
 
     function drawPieChartCat() {

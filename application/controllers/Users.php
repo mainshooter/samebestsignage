@@ -56,6 +56,7 @@ class Users extends CI_Controller
     }
 
     public function reset($hash){
+        $this->load->model('user');
         if (! $this->session->userdata('DX_logged_in')) {
 
             $user = $this->user->get_single_entry_by_hash($hash);
@@ -72,41 +73,6 @@ class Users extends CI_Controller
             }
         } else {
             redirect('/home');
-        }
-    }
-
-    public function edituser(){
-        if (! $this->session->userdata('DX_logged_in')){
-            $this->session->sess_destroy();
-            redirect('/login');
-        } else{
-            $data['this_user'] = $this->session->userdata();
-
-            $this->load->model('ticket');
-            $this->load->model('clients');
-            $this->load->model('user');
-            $this->load->model('category');
-            $this->load->model('status');
-            $this->load->model('importance');
-            $this->load->model('alert');
-
-            $this->data['clients'] = $this->clients->get_all_entries();
-            $this->data['users'] = $this->user->get_all_entries();
-            $this->data['categorys'] = $this->category->get_all_entries();
-            $this->data['statuses'] = $this->status->get_all_entries();
-            $this->data['importances'] = $this->importance->get_all_entries();
-            $this->data['alerts'] = $this->alert->get_all_entries_user($this->session->userdata('DX_user_id'));
-
-            $data = $this->data;
-            $data['this_user'] = $this->session->userdata();
-            $data['user'] = $this->user->get_single_entry($this->session->userdata('DX_user_id'));
-
-            // Load registration page
-            $data['title'] = 'Profile';
-
-            $this->load->view('templates/header', $data);
-            $this->load->view('auth/register');
-            $this->load->view('templates/footer', $data);
         }
     }
 }
