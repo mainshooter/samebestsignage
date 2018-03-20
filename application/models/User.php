@@ -40,8 +40,7 @@ class User extends CI_Model
             SELECT l2.id FROM logins AS l2
             WHERE u.id = l2.user_id
             ORDER BY l2.id DESC LIMIT 1
-          )
-          GROUP BY u.id');
+          )');
         return $query->result_array();
     }
 
