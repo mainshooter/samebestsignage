@@ -13,10 +13,10 @@
         <dd class="col-sm-10"><?= !empty($user['date'])? $user['last_ip'] : 'None' ?></dd>
 
         <dt class="col-sm-2">Last Login </dt>
-        <dd class="col-sm-10"><?= !empty($user['date'])? date("d F Y H:m", strtotime($user['date'])): 'Never' ?></dd>
+        <dd class="col-sm-10"><?= !empty($user['date'])? date("d F Y H:i", strtotime($user['date'])): 'Never' ?></dd>
 
         <dt class="col-sm-2">Created</dt>
-        <dd class="col-sm-10"><?= date("d F Y H:m", strtotime($user['created'])) ?></dd>
+        <dd class="col-sm-10"><?= date("d F Y H:i", strtotime($user['created'])) ?></dd>
 
         <?php
         if ($this_user['DX_role_id'] >= 3) {

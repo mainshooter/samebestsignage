@@ -38,7 +38,7 @@
                     <?= date('d F Y', strtotime($item['created']))?>
                 </td>
                 <td>
-                    <?= ($item['date'] != null)? date('d F Y', strtotime($item['date'])).' '.date('H:m', strtotime($item['date'])) : 'Never' ?>
+                    <?= ($item['date'] != null)? date('d F Y', strtotime($item['date'])).' '.date('H:i', strtotime($item['date'])) : 'Never' ?>
                 </td>
             </tr>
             <?php

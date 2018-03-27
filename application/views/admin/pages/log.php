@@ -31,7 +31,7 @@
                     <?= (is_numeric($item['log_user']))? "<a href='/admin/user/view/".$item['log_user']."'>User no.".$item['log_user']."</a>" : $item['log_user'] ?>
                 </td>
                 <td>
-                    <?= date('d F Y H:m:s', strtotime($item['log_date'])) ?>
+                    <?= date('d F Y H:i:s', strtotime($item['log_date'])) ?>
                 </td>
             </tr>
             <?php

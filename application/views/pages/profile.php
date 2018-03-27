@@ -14,10 +14,10 @@
             <li class="list-group-item">No. <?= $user['id'] ?></li>
             <li class="list-group-item">Email: <?= $user['email'] ?></li>
             <li class="list-group-item">Last IP: <?= !empty($user['date'])? $user['last_ip'] : 'none' ?></li>
-            <li class="list-group-item">Last Login: <?= !empty($user['date'])? date("d F Y H:m", strtotime($user['date'])) : 'never' ?></li>
-            <li class="list-group-item"> Created: <?= date("d F Y H:m", strtotime($user['created'])) ?></li>
+            <li class="list-group-item">Last Login: <?= !empty($user['date'])? date("d F Y H:i", strtotime($user['date'])) : 'never' ?></li>
+            <li class="list-group-item"> Created: <?= date("d F Y H:i", strtotime($user['created'])) ?></li>
             <li class="list-group-item">
-                <?= ($user['modified'] != null)? 'Last edited: ' . date("d F Y H:m", strtotime($user['modified'])) : 'Not edited' ?>
+                <?= ($user['modified'] != null)? 'Last edited: ' . date("d F Y H:i", strtotime($user['modified'])) : 'Not edited' ?>
             </li>
         </ul>
     </div>

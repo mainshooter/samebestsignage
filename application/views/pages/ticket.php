@@ -18,12 +18,12 @@
             <li class="list-group-item">Handler: <?= ($this_user['DX_user_id'] == $ticket['ticket_master'])? '(You)' : $ticket['email'] ?></li>
             <li class="list-group-item">No. <?= $ticket['ticket_id'] ?></li>
             <li class="list-group-item"><?= $ticket['status_name'] ?></li>
-            <li class="list-group-item"> Created: <?= date("d F Y H:m", strtotime($ticket['ticket_created_at'])) ?></li>
+            <li class="list-group-item"> Created: <?= date("d F Y H:i", strtotime($ticket['ticket_created_at'])) ?></li>
             <li class="list-group-item">
-                <?= ($ticket['ticket_edited_at'] != null)? 'Last edited: ' . date("d F Y H:m", strtotime($ticket['ticket_edited_at'])) : 'Not edited' ?>
+                <?= ($ticket['ticket_edited_at'] != null)? 'Last edited: ' . date("d F Y H:i", strtotime($ticket['ticket_edited_at'])) : 'Not edited' ?>
             </li>
             <li class="list-group-item">
-                <?= ($ticket['ticket_completed_at'] != null)? 'Completed: ' . date("d F Y H:m", strtotime($ticket['ticket_completed_at'])) : 'Not completed' ?>
+                <?= ($ticket['ticket_completed_at'] != null)? 'Completed: ' . date("d F Y H:i", strtotime($ticket['ticket_completed_at'])) : 'Not completed' ?>
             </li>
             <?php
             if ($this_user['DX_user_id'] == $ticket['ticket_master'] || $this_user['DX_role_id'] >= 2) {

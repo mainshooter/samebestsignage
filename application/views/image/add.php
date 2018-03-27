@@ -13,7 +13,7 @@
             <li class="list-group-item">Handler: <?= $ticket['email'] ?></li>
             <li class="list-group-item">No. <?= $ticket['ticket_id'] ?></li>
             <li class="list-group-item"><?= $ticket['status_name'] ?></li>
-            <li class="list-group-item"> Created <?= date("d F Y H:m", strtotime($ticket['ticket_created_at'])) ?></li>
+            <li class="list-group-item"> Created <?= date("d F Y H:i", strtotime($ticket['ticket_created_at'])) ?></li>
             <li class="list-group-item"><a href="#" download="open-display-manual">Manual Open Display</a></li>
         </ul>
     </div>

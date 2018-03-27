@@ -1195,7 +1195,7 @@ class Ajax extends CI_Controller
                     md5(
                         json_encode($_data)
                     ),
-                    date('Y/F\W-l H:m:s e+c')
+                    date('Y/F\W-l H:i:s e+c')
                 )
             );
         }
