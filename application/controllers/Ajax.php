@@ -1299,4 +1299,34 @@ class Ajax extends CI_Controller
             );
         }
     }
+
+    public function insertProgress($id){
+        if (!empty($_POST['reply'])){
+            if (!$this->ticket->insert_progress($id, $_POST['reply'])){
+                echo json_encode(
+                    array(
+                        "error" => true,
+                        "msg" => "At this moment is is not possible make progress. /n Please come back later to try again.",
+                        "href" => "unset"
+                    )
+                );
+            } else{
+                echo json_encode(
+                    array(
+                        "error" => false,
+                        "msg" => "Success",
+                        "href" => ""
+                    )
+                );
+            }
+        } else{
+            echo json_encode(
+                array(
+                    "error" => true,
+                    "msg" => "No progress set",
+                    "href" => "unset"
+                )
+            );
+        }
+    }
 }

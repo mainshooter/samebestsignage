@@ -16,3 +16,62 @@
     min-height: calc(100% - 60px - 78px - 20px);
 }
 
+.progress-head, .progress-item-group, .progress-item{
+    width: 100%;
+}
+
+.progress-box{
+    position: relative;
+    min-height: 100px;
+    padding-right: unset!important;
+    padding-bottom: 15px;
+}
+
+.progress-head{
+    margin-bottom: 20px;
+}
+
+.progress-item-group{
+    display: block;
+    max-height: 433px;
+    overflow-y: scroll;
+    padding: 5px 0px;
+}
+
+.progress-left{
+    text-align: right;
+}
+
+.progress-item{
+    min-height: 50px;
+    border-bottom: 1px solid #555b61;
+    border-radius: 1px;
+    padding: 0px 5px;
+}
+
+.progress-item:last-of-type{
+    border-bottom: none;
+}
+
+.progress-user, .progress-user a{
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #ffed8e;
+}
+
+.progress-user a:hover{
+    font-size: 1.15em;
+    text-decoration: none;
+    color: #ffed8e;
+}
+
+.progress-date{
+    font-size: 0.9em;
+    font-weight: 300;
+    color: #e4e1cf;
+    margin-bottom: 5px;
+}
+
+.progress-comment{
+    margin-bottom: 5px;
+}

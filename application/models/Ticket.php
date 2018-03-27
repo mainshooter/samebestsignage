@@ -131,6 +131,16 @@ class Ticket extends CI_Model
         return $query->row_array();
     }
 
+    public function get_progress($id){
+        $query = $this->db->query('
+          SELECT * FROM ticket_progress AS p
+           JOIN users AS u ON p.progress_user = u.id
+           WHERE p.progress_ticket = ' . $this->db->escape($id) . '
+           ');
+
+        return $query->result_array();
+    }
+
     public function get_entry_by_hash($hash){
         $query = $this->db->query('
           SELECT * FROM tickets AS t
@@ -234,6 +244,27 @@ class Ticket extends CI_Model
         return $query;
     }
 
+    public function insert_progress($id, $progress){
+        $query = $this->db->query('
+          INSERT INTO ticket_progress (
+           progress_ticket, 
+           progress_user,
+           progress_comment
+           )
+          VALUES (
+           '.$this->db->escape($id).',
+           '.$this->session->userdata('DX_user_id').',
+           '.$this->db->escape($progress).'
+           )
+          ');
+
+        if($query){
+            $this->logs->insert_entry("Progress", "Progress made on ticket no.".$id."", ($this->session->userdata('DX_user_id') != null)? $this->session->userdata('DX_user_id') : $this->input->ip_address());
+        }
+
+        return $query;
+    }
+
     public function complete_entry($id, $sol, $sta){
         $query = $this->db->query('
           UPDATE tickets
@@ -295,5 +326,18 @@ class Ticket extends CI_Model
         }
 
         return $query;
+    }
+
+    public function strip_tags(){
+        $query = $this->db->query('SELECT * FROM tickets');
+
+        foreach ($query->result_array() as $masterkey => $ticket){
+            foreach ($ticket as $key => $col){
+                $ticket[$key] = html_entity_decode($col);
+                $ticket[$key] = strip_tags($col);
+            }
+
+            $query = $this->db->query('UPDATE tickets SET ticket_problem = '.$this->db->escape($ticket["ticket_problem"]).', ticket_solution = '.$this->db->escape($ticket["ticket_solution"]).' WHERE ticket_id = '. $ticket['ticket_id']);
+        }
     }
 }

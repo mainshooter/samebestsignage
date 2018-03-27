@@ -103,21 +103,68 @@
 
 
                 <?php
-                $data = '
-                <p id="solution" class="card-text">
+
+                if ($ticket['status_level'] == 'solved'){
+                    ?>
+                    <p id="solution" class="card-text">
                     <h4><small>Solution</small></h4>
-                    '. $ticket['ticket_solution'] .'
-                </p>';
+                    <?= $ticket['ticket_solution'] ?>
+                    </p>
+                    <?php
+                }
 
-                echo checkShowOrHide($ticket['status_level'], 'solved', $data);
-
-                $data = '
-                <p id="unsolved" class="card-text ticket-unsolved">
+                if ($ticket['status_level'] == 'failed'){
+                    ?>
+                    <p id="unsolved" class="card-text ticket-unsolved">
                     <h4><small>Reason Unsolved</small></h4>
-                    '. $ticket['ticket_comment'] .'
-                </p>';
-
-                echo checkShowOrHide($ticket['status_level'], 'failed', $data) ?>
+                    <?= $ticket['ticket_comment'] ?>
+                    </p>
+                    <?php
+                }
+                ?>
+            </div>
+        </div>
+        <div class="progress-box col-sm-12 col-md-6 float-right">
+            <div class="progress-head">Progress</div>
+            <div class="progress-item-group dragscroll">
+                <?php
+                if (!empty($progress)) {
+                    foreach ($progress as $item) {
+                        ?>
+                        <div class="progress-item <?= $item['id'] == $this_user['DX_user_id'] ? 'progress-left' : '' ?>">
+                            <div class="progress-user">
+                                <a href="mailto:<?= $item['email'] ?>"><?= $item['username'] ?></a>
+                            </div>
+                            <div class="progress-date">
+                                <?= date('d F Y H:i', strtotime($item['progress_date'])) ?>
+                            </div>
+                            <div class="progress-comment">
+                                <?= $item['progress_comment'] ?>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                } else{
+                    ?>
+                    <div class="progress-item text-center">
+                        <div class="progress-comment">
+                            No progress yet
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
+            </div>
+            <div class="progress-add">
+                <form id="progress" method="post">
+                    <div class="form-group input-group">
+                        <label for="reply"></label>
+                        <input type="text" name="reply" id="reply" class="form-control" placeholder="Reply...">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-success" type="submit">Sent</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -432,5 +479,11 @@ if ($this_user['DX_user_id'] == $ticket['ticket_master'] || $this_user['DX_role_
     $('#share').submit(function(event) {
         event.preventDefault();
         <?= ajax('POST', 'shareTicket', '$(this).serialize()', $ticket['ticket_id']) ?>
+    });
+
+    // Set up an event listener for the contact form.
+    $('#progress').submit(function(event) {
+        event.preventDefault();
+        <?= ajax('POST', 'insertProgress', '$(this).serialize()', $ticket['ticket_id']) ?>
     });
 </script>

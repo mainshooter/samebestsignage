@@ -156,6 +156,7 @@ class Pages extends CI_Controller
             $this->data['alerts'] = $this->alert->get_all_entries_user($this->session->userdata('DX_user_id'));
             $this->data['statuses'] = $this->status->get_all_entries();
             $this->data['images'] = $this->image->get_group_entries($this->data['ticket']['ticket_images']);
+            $this->data['progress'] = $this->ticket->get_progress($id);
         }
     }
 
