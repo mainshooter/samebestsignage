@@ -101,7 +101,7 @@
 
                     <div class="form-group">
                         <label for="image">Images</label>
-                        <input type="file" accept="image/*" class="form-control" id="image" name="images" multiple>
+                        <input type="file" accept="image/*" class="form-control" id="image" name="image[]" multiple>
                     </div>
 
                     <div class="form-group">
@@ -127,12 +127,14 @@
                     data.append('importance', $('[name="importance"]').val());
                     data.append('problem', $('[name="problem"]').val());
 
-                    var ins = document.getElementById('image').files.length;
-                    for (var x = 0; x < ins; x++) {
-                        data.append("image[]", document.getElementById('image').files[x]);
-                    }
+                    $.each($('input[name="image[]"]')[0].files, function(i, file) {
+                        data.append('image[]', file);
+                    });
 
-                    <?= ajax('POST', 'addTicket', 'data', null, null, 'enctype: "multipart/form-data", processData: false, contentType: false,') ?>
+                    //console.log(JSON.stringify(data));
+                    //console.log(data);
+
+                    <?= ajax('POST', 'addTicket', 'data', null, null, 'enctype: "multipart/form-data", processData: false, contentType: false, async: false, cache: false,') ?>
                 });
             </script>
         </div>

@@ -38,16 +38,16 @@
             <?php 
             if (!empty($this_user['DX_logged_in']) && $this_user['DX_logged_in'] === true) {
                 ?>
-                <li class="nav-item active">
+                <li class="nav-item" id="home">
                     <a class="nav-link" href="/home">Home</a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item" id="mytickets">
                     <a class="nav-link" href="/mytickets">My tickets</a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item" id="completed">
                     <a class="nav-link" href="/completed">Completed tickets</a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item" id="overview">
                     <a class="nav-link" href="/overview">All tickets</a>
                 </li>
                 <li class="nav-item dropdown">
@@ -68,6 +68,10 @@
                 <?php
             }
             ?>
+
+            <script>
+                $('#<?= strtolower($title) ?>').addClass('active');
+            </script>
         </ul>
         <div class="menu-icons dropdown">
             <?php

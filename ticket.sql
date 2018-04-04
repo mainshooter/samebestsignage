@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Gegenereerd op: 27 mrt 2018 om 11:36
+-- Gegenereerd op: 04 apr 2018 om 13:00
 -- Serverversie: 5.7.21-0ubuntu0.16.04.1
 -- PHP-versie: 7.0.28-0ubuntu0.16.04.1
 
@@ -35,6 +35,17 @@ CREATE TABLE `alerts` (
   `alert_href` varchar(1000) NOT NULL,
   `alert_seen` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `alerts`
+--
+
+INSERT INTO `alerts` (`alert_id`, `user_id`, `alert_title`, `alert_desc`, `alert_icon`, `alert_href`, `alert_seen`) VALUES
+(1, 6, 'Created', 'Status is created.', 'add', '/admin/status/', 0),
+(2, 6, 'Created', 'Status is created.', 'add', '/admin/status/', 0),
+(3, 6, 'Update', 'The mail configuration is updated.', 'create', '/admin/mail/', 0),
+(4, 6, 'Assigned', 'A ticket is assigned to you.', 'redo', '/ticket/72', 0),
+(5, 6, 'Created', 'Ticket no.72 is created.', 'add', '/ticket/72', 0);
 
 -- --------------------------------------------------------
 
@@ -254,6 +265,87 @@ CREATE TABLE `log` (
   `log_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Gegevens worden geëxporteerd voor tabel `log`
+--
+
+INSERT INTO `log` (`log_id`, `log_action`, `log_desc`, `log_user`, `log_date`) VALUES
+(1, 'Progress', 'Progress made on ticket no.58', '6', '2018-03-27 11:43:02'),
+(2, 'LOGIN', 'User no.6 logged in', '6', '2018-03-27 11:43:33'),
+(3, 'LOGIN', 'User no.6 logged in', '6', '2018-03-27 12:19:03'),
+(4, 'LOGIN', 'User no.6 logged in', '6', '2018-03-28 09:44:03'),
+(5, 'LOGIN', 'User no.6 logged in', '6', '2018-03-28 11:41:11'),
+(6, 'LOGIN', 'User no.6 logged in', '6', '2018-03-30 21:14:58'),
+(7, 'LOGIN', 'User no.6 logged in', '6', '2018-04-04 10:00:56'),
+(8, 'LOGIN', 'User no.6 logged in', '6', '2018-04-04 10:16:36'),
+(9, 'INSERT', 'Status created', '6', '2018-04-04 10:21:28'),
+(10, 'INSERT', 'Status created', '6', '2018-04-04 10:25:21'),
+(11, 'INSERT', 'Group created', '6', '2018-04-04 10:39:50'),
+(12, 'INSERT', 'Group created', '6', '2018-04-04 12:45:40'),
+(13, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:45:40'),
+(14, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:45:40'),
+(15, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:45:40'),
+(16, 'INSERT', 'Ticket created', '6', '2018-04-04 12:45:40'),
+(17, 'INSERT', 'Group created', '6', '2018-04-04 12:46:14'),
+(18, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:46:14'),
+(19, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:46:15'),
+(20, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:46:15'),
+(21, 'INSERT', 'Ticket created', '6', '2018-04-04 12:46:15'),
+(22, 'INSERT', 'Group created', '6', '2018-04-04 12:47:19'),
+(23, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:47:19'),
+(24, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:47:19'),
+(25, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:47:19'),
+(26, 'INSERT', 'Ticket created', '6', '2018-04-04 12:47:19'),
+(27, 'INSERT', 'Group created', '6', '2018-04-04 12:47:39'),
+(28, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:47:39'),
+(29, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:47:39'),
+(30, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:47:39'),
+(31, 'INSERT', 'Ticket created', '6', '2018-04-04 12:47:40'),
+(32, 'INSERT', 'Group created', '6', '2018-04-04 12:48:34'),
+(33, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:48:34'),
+(34, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:48:34'),
+(35, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:48:34'),
+(36, 'INSERT', 'Ticket created', '6', '2018-04-04 12:48:34'),
+(37, 'INSERT', 'Group created', '6', '2018-04-04 12:49:13'),
+(38, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:49:13'),
+(39, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:49:13'),
+(40, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:49:14'),
+(41, 'INSERT', 'Ticket created', '6', '2018-04-04 12:49:14'),
+(42, 'INSERT', 'Group created', '6', '2018-04-04 12:51:14'),
+(43, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:51:14'),
+(44, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:51:14'),
+(45, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:51:14'),
+(46, 'INSERT', 'Ticket created', '6', '2018-04-04 12:51:14'),
+(47, 'INSERT', 'Group created', '6', '2018-04-04 12:51:39'),
+(48, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:51:39'),
+(49, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:51:39'),
+(50, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:51:39'),
+(51, 'INSERT', 'Ticket created', '6', '2018-04-04 12:51:39'),
+(52, 'INSERT', 'Group created', '6', '2018-04-04 12:53:04'),
+(53, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:53:04'),
+(54, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:53:04'),
+(55, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:53:04'),
+(56, 'INSERT', 'Ticket created', '6', '2018-04-04 12:53:04'),
+(57, 'INSERT', 'Group created', '6', '2018-04-04 12:53:25'),
+(58, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:53:25'),
+(59, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:53:25'),
+(60, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:53:25'),
+(61, 'INSERT', 'Ticket created', '6', '2018-04-04 12:53:25'),
+(62, 'INSERT', 'Group created', '6', '2018-04-04 12:54:29'),
+(63, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:54:29'),
+(64, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:54:29'),
+(65, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:54:30'),
+(66, 'INSERT', 'Ticket created', '6', '2018-04-04 12:54:30'),
+(67, 'UPDATE', 'Mail config updated', '6', '2018-04-04 12:54:47'),
+(68, 'INSERT', 'Group created', '6', '2018-04-04 12:55:04'),
+(69, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:55:04'),
+(70, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:55:04'),
+(71, 'INSERT', 'Image uploaded', '6', '2018-04-04 12:55:04'),
+(72, 'INSERT', 'Ticket created', '6', '2018-04-04 12:55:04'),
+(73, 'Progress', 'Progress made on ticket no.144', '6', '2018-04-04 12:58:36'),
+(74, 'Progress', 'Progress made on ticket no.144', '6', '2018-04-04 12:58:40'),
+(75, 'Progress', 'Progress made on ticket no.144', '6', '2018-04-04 12:59:03');
+
 -- --------------------------------------------------------
 
 --
@@ -266,6 +358,19 @@ CREATE TABLE `logins` (
   `ip_address` text NOT NULL,
   `date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `logins`
+--
+
+INSERT INTO `logins` (`id`, `user_id`, `ip_address`, `date`) VALUES
+(1, 6, '95.99.32.181', '2018-03-27 11:43:33'),
+(2, 6, '95.99.32.181', '2018-03-27 12:19:03'),
+(3, 6, '178.230.170.188', '2018-03-28 09:44:03'),
+(4, 6, '178.230.170.188', '2018-03-28 11:41:11'),
+(5, 6, '172.11.23.107', '2018-03-30 21:14:58'),
+(6, 6, '172.11.23.102', '2018-04-04 10:00:56'),
+(7, 6, '95.99.52.36', '2018-04-04 10:16:36');
 
 -- --------------------------------------------------------
 
@@ -295,8 +400,8 @@ CREATE TABLE `mail_config` (
 --
 
 INSERT INTO `mail_config` (`id`, `protocol`, `smtp_host`, `smtp_user`, `smtp_pass`, `smtp_port`, `smtp_timeout`, `smtp_crypto`, `mailtype`, `newline`, `crlf`, `charset`, `validate`, `priority`) VALUES
-(0, 'smtp', 'smtp.gmail.com', '', '', '25', '5', 'tls', 'html', '\\r\\n', '\\r\\n', 'utf-8', 0, '3'),
-(1, 'smtp', 'smtp.gmail.com', 'phpmailertest12@gmail.com', 'ditiseentest', '25', '5', '', 'html', '\\r\\n', '\\r\\n', 'utf-8', 0, '3');
+(0, 'mail', 'smtp.gmail.com', '', '', '25', '5', 'tls', 'html', '\\r\\n', '\\r\\n', 'utf-8', 0, '3'),
+(1, 'mail', 'smtp.gmail.com', 'phpmailertest12@gmail.com', 'ditiseentest', '25', '5', '', 'html', '\\r\\n', '\\r\\n', 'utf-8', 0, '3');
 
 -- --------------------------------------------------------
 
@@ -576,22 +681,6 @@ CREATE TABLE `ticket_progress` (
   `progress_comment` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Gegevens worden geëxporteerd voor tabel `ticket_progress`
---
-
-INSERT INTO `ticket_progress` (`progress_id`, `progress_ticket`, `progress_user`, `progress_date`, `progress_comment`) VALUES
-(1, 58, 6, '2018-03-23 08:00:00', '1e opgelost'),
-(2, 58, 6, '2018-03-23 08:59:43', '22-33-22 is het opgelost'),
-(3, 58, 12, '2018-03-23 09:28:13', 'Klopt alles gedaan'),
-(4, 58, 6, '2018-03-23 09:40:00', '2e opgelost'),
-(5, 58, 6, '2018-03-23 09:59:43', '22-33-23 is het nu pas opgelost'),
-(6, 58, 12, '2018-03-23 10:28:13', 'Top dan doe ik dit'),
-(7, 58, 6, '2018-03-27 08:05:17', 'Test'),
-(8, 58, 12, '2018-03-27 08:07:03', 'Nog een test'),
-(9, 57, 6, '2018-03-27 08:09:27', 'Test'),
-(10, 58, 6, '2018-03-27 08:20:59', 'dit');
-
 -- --------------------------------------------------------
 
 --
@@ -616,7 +705,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `role_id`, `username`, `password`, `email`, `last_ip`, `created`, `modified`, `hash`) VALUES
 (1, 3, 'Super Admin', '$1$nOWlv7hD$FkFIdTI6I82TvAR5N.hD./', 'info@idsignage.nl', '127.0.0.1', '2018-02-27 12:54:00', '2018-02-27 11:54:00', NULL),
-(6, 3, 'Admin', '$1$ePUUeaws$TaqLRxcITlcFT5loNKieO1', 'jordi.schaap@outlook.com', '127.0.0.1', '2018-01-25 14:23:18', '2018-03-05 10:54:27', NULL),
+(6, 3, 'Admin', '$1$ePUUeaws$TaqLRxcITlcFT5loNKieO1', 'jordi.schaap@outlook.com', '95.99.52.36', '2018-01-25 14:23:18', '2018-04-04 08:16:36', NULL),
 (12, 3, 'Peter', '$1$N.ewH/KC$hMSxRSkCsWwgWpN3pr8WN.', 'peter@idsignage.nl', '', '2018-03-05 00:00:00', '2018-03-05 12:56:32', NULL);
 
 --
@@ -732,7 +821,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT voor een tabel `alerts`
 --
 ALTER TABLE `alerts`
-  MODIFY `alert_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `alert_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT voor een tabel `categorys`
 --
@@ -747,12 +836,12 @@ ALTER TABLE `clients`
 -- AUTO_INCREMENT voor een tabel `images`
 --
 ALTER TABLE `images`
-  MODIFY `img_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `img_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 --
 -- AUTO_INCREMENT voor een tabel `image_connections`
 --
 ALTER TABLE `image_connections`
-  MODIFY `con_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `con_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT voor een tabel `importance_types`
 --
@@ -762,12 +851,12 @@ ALTER TABLE `importance_types`
 -- AUTO_INCREMENT voor een tabel `log`
 --
 ALTER TABLE `log`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 --
 -- AUTO_INCREMENT voor een tabel `logins`
 --
 ALTER TABLE `logins`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT voor een tabel `mail_config`
 --
@@ -777,27 +866,27 @@ ALTER TABLE `mail_config`
 -- AUTO_INCREMENT voor een tabel `mail_templates`
 --
 ALTER TABLE `mail_templates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT voor een tabel `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT voor een tabel `status_types`
 --
 ALTER TABLE `status_types`
-  MODIFY `status_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `status_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT voor een tabel `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `ticket_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
+  MODIFY `ticket_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=148;
 --
 -- AUTO_INCREMENT voor een tabel `ticket_progress`
 --
 ALTER TABLE `ticket_progress`
-  MODIFY `progress_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `progress_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT voor een tabel `users`
 --

@@ -114,21 +114,24 @@ class Pages extends CI_Controller
     }
 
     public function completed($start_index = null){
-        $this->load->library('pagination');
+        //$this->load->library('pagination');
+//
+        //$count = $this->ticket->count_completed_entries();
+//
+        //$config = array (
+        //    'base_url' => base_url()."/completed/",
+        //    'total_rows' => $count,
+        //    'per_page' => 20,
+        //    'num_links' => 2,
+        //);
+//
+        //$this->pagination->initialize($config);
+//
+        //$this->setData('links', $this->pagination->create_links());
+        //$this->setData('array', $this->ticket->get_current_page_records_completed($config['per_page'], $start_index));
 
-        $count = $this->ticket->count_completed_entries();
-
-        $config = array (
-            'base_url' => base_url()."/completed/",
-            'total_rows' => $count,
-            'per_page' => 20,
-            'num_links' => 2,
-        );
-
-        $this->pagination->initialize($config);
-
-        $this->setData('links', $this->pagination->create_links());
-        $this->setData('array', $this->ticket->get_current_page_records_completed($config['per_page'], $start_index));
+        $this->load->library('table');
+        $this->setData('table', $this->table->generate($this->ticket->get_completed_entries()));
     }
 
     public function overview(){

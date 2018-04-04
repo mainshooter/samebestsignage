@@ -19,19 +19,10 @@ class Importance extends CI_Model
     }
 
     public function get_enum(){
-        $query = $this->db->query('
-            SELECT COLUMN_TYPE 
-            FROM INFORMATION_SCHEMA.COLUMNS 
-            WHERE TABLE_SCHEMA = "ticket"
-            AND TABLE_NAME = "importance_types" 
-            AND COLUMN_NAME = "importance_level"');
-        $x = $query->result_array();
-        $x = $x[0]['COLUMN_TYPE'];
-        $x = str_replace('enum(', '', $x);
-        $x = str_replace(')', '', $x);
-        $x = str_replace('\'', '', $x);
-        $x = explode(','. '', $x);
-        return $x;
+        $type = $this->db->query( "SHOW COLUMNS FROM importance_types WHERE Field = 'importance_level'" )->row( 0 )->Type;
+        preg_match("/^enum\(\'(.*)\'\)$/", $type, $matches);
+        $enum = explode("','", $matches[1]);
+        return $enum;
     }
 
     public function insert_entry($nam, $inf, $col, $lvl){

@@ -779,7 +779,7 @@ class Ajax extends CI_Controller
     {
         $array = $this->ticket->get_line_chart_ticket();
 
-        $json = '{"cols": [{"id":"","label":"Date","pattern":"","type":"string"},{"id":"","label":"Logins","pattern":"","type":"number"}],"rows": [';
+        $json = '{"cols": [{"id":"","label":"Date","pattern":"","type":"string"},{"id":"","label":"Tickets","pattern":"","type":"number"}],"rows": [';
 
         for ($x = ($daysBack - 1); $x > -1; $x--) {
             $key = date('d-m-Y', strtotime('-' . $x . ' day', strtotime(date('d-m-Y'))));

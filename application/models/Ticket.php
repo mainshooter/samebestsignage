@@ -31,6 +31,18 @@ class Ticket extends CI_Model
         return $query;
     }
 
+    public function get_completed_entries(){
+        $query = $this->db->query('
+          SELECT t.ticket_id, c.client_name, a.cat_name, t.ticket_problem, t.ticket_created_at, t.ticket_completed_at, s.status_name, u.email FROM tickets AS t 
+           JOIN categorys AS a ON t.ticket_type = a.cat_id
+           JOIN status_types AS s ON t.ticket_status = s.status_id
+           JOIN importance_types AS i ON t.ticket_importance = i.importance_id
+           JOIN clients AS c ON t.client_id = c.client_id
+           JOIN users AS u ON t.ticket_master = u.id
+           WHERE t.ticket_completed_at IS NOT NULL');
+        return $query->result_array();
+    }
+
     public function count_pending_entries(){
         $query = $this->db->query('SELECT t.ticket_id FROM tickets AS t JOIN status_types AS s ON t.ticket_status = s.status_id WHERE t.ticket_completed_at IS NULL AND s.status_level = "pending"');
         return $query->num_rows();
@@ -105,18 +117,6 @@ class Ticket extends CI_Model
         return false;
     }
 
-    public function get_completed_entries(){
-        $query = $this->db->query('
-          SELECT * FROM tickets AS t 
-           JOIN categorys AS a ON t.ticket_type = a.cat_id
-           JOIN status_types AS s ON t.ticket_status = s.status_id
-           JOIN importance_types AS i ON t.ticket_importance = i.importance_id
-           JOIN clients AS c ON t.client_id = c.client_id
-           JOIN users AS u ON t.ticket_master = u.id
-           WHERE t.ticket_completed_at IS NOT NULL');
-        return $query->result_array();
-    }
-
     public function get_single_entry($id){
         $query = $this->db->query('
           SELECT * FROM tickets AS t
@@ -136,6 +136,7 @@ class Ticket extends CI_Model
           SELECT * FROM ticket_progress AS p
            JOIN users AS u ON p.progress_user = u.id
            WHERE p.progress_ticket = ' . $this->db->escape($id) . '
+           ORDER BY p.progress_id ASC
            ');
 
         return $query->result_array();

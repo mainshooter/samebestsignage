@@ -6,7 +6,7 @@
  * Time: 11:55
  */
 
-class MailTemplates
+class Mailtemplates
 {
     private $template;
 
