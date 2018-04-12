@@ -13,6 +13,11 @@ class Category extends CI_Model
         return $query->result_array();
     }
 
+    public function get_all_entries_active(){
+        $query = $this->db->query('SELECT * FROM categorys WHERE cat_active = 1');
+        return $query->result_array();
+    }
+
     public function get_single_entry($id){
         $query = $this->db->query('SELECT * FROM categorys WHERE cat_id = '.$this->db->escape($id));
         return $query->row_array();
@@ -44,5 +49,34 @@ class Category extends CI_Model
         }
 
         return $query;
+    }
+
+    public function toggle_category($id){
+        $cat = $this->get_single_entry($id);
+
+        $bool = $cat['cat_active'];
+
+        switch ($bool) {
+            case 0:
+                $bool = 1;
+                $msg = 'on';
+                break;
+            case 1:
+                $bool = 0;
+                $msg = 'off';
+                break;
+        }
+
+        $query = $this->db->query('UPDATE categorys
+            SET 
+             cat_active = '.$bool.'
+            WHERE cat_id = '.$this->db->escape($id));
+
+        if($query){
+            $this->logs->insert_entry("UPDATE", "Category no.".$id." is turned ". $msg, ($this->session->userdata('DX_user_id') != null)? $this->session->userdata('DX_user_id') : $this->input->ip_address());
+            return $msg;
+        } else{
+            return false;
+        }
     }
 }

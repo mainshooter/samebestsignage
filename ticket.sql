@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Gegenereerd op: 04 apr 2018 om 13:00
+-- Gegenereerd op: 12 apr 2018 om 11:18
 -- Serverversie: 5.7.21-0ubuntu0.16.04.1
 -- PHP-versie: 7.0.28-0ubuntu0.16.04.1
 
@@ -41,11 +41,75 @@ CREATE TABLE `alerts` (
 --
 
 INSERT INTO `alerts` (`alert_id`, `user_id`, `alert_title`, `alert_desc`, `alert_icon`, `alert_href`, `alert_seen`) VALUES
-(1, 6, 'Created', 'Status is created.', 'add', '/admin/status/', 0),
-(2, 6, 'Created', 'Status is created.', 'add', '/admin/status/', 0),
-(3, 6, 'Update', 'The mail configuration is updated.', 'create', '/admin/mail/', 0),
-(4, 6, 'Assigned', 'A ticket is assigned to you.', 'redo', '/ticket/72', 0),
-(5, 6, 'Created', 'Ticket no.72 is created.', 'add', '/ticket/72', 0);
+(1, 6, 'Created', 'Status is created.', 'add', '/admin/status/', 1),
+(2, 6, 'Created', 'Status is created.', 'add', '/admin/status/', 1),
+(3, 6, 'Update', 'The mail configuration is updated.', 'create', '/admin/mail/', 1),
+(4, 6, 'Assigned', 'A ticket is assigned to you.', 'redo', '/ticket/72', 1),
+(5, 6, 'Created', 'Ticket no.72 is created.', 'add', '/ticket/72', 1),
+(6, 6, 'Update', 'Category no.id is updated.', 'create', '/admin/category/', 1),
+(7, 6, 'Update', 'Category no. is updated.', 'create', '/admin/category/', 1),
+(8, 6, 'Update', 'Category no. is updated.', 'create', '/admin/category/', 1),
+(9, 6, 'Update', 'Category no.1 is turned off', 'create', '/admin/category/', 1),
+(10, 6, 'Update', 'Category no.5 is turned on', 'create', '/admin/category/', 1),
+(11, 6, 'Update', 'Category no.51 is turned on', 'create', '/admin/category/', 1),
+(12, 6, 'Update', 'Category no.1 is turned on', 'create', '/admin/category/', 1),
+(13, 6, 'Update', 'Category no.2 is turned on', 'create', '/admin/category/', 1),
+(14, 6, 'Update', 'Category no.15 is turned on', 'create', '/admin/category/', 1),
+(15, 6, 'Update', 'Category no.20 is turned on', 'create', '/admin/category/', 1),
+(16, 6, 'Update', 'Category no.23 is turned on', 'create', '/admin/category/', 1),
+(17, 6, 'Update', 'Category no.25 is turned on', 'create', '/admin/category/', 1),
+(18, 6, 'Update', 'Category no.30 is turned on', 'create', '/admin/category/', 1),
+(19, 6, 'Update', 'Category no.47 is turned on', 'create', '/admin/category/', 1),
+(20, 6, 'Update', 'Category no.79 is turned on', 'create', '/admin/category/', 1),
+(21, 6, 'Update', 'Category no.88 is turned on', 'create', '/admin/category/', 1),
+(22, 6, 'Update', 'Category no.104 is turned on', 'create', '/admin/category/', 1),
+(23, 6, 'Created', 'Category is created.', 'add', '/admin/category/', 1),
+(24, 6, 'Update', 'Category no.105 is turned off', 'create', '/admin/category/', 1),
+(25, 6, 'Update', 'Category no.105 is turned on', 'create', '/admin/category/', 1),
+(26, 6, 'Update', 'Status no.7 is turned off', 'create', '/admin/category/', 1),
+(27, 6, 'Update', 'Status no.7 is turned on', 'create', '/admin/category/', 1),
+(28, 6, 'Update', 'Status no.7 is turned off', 'create', '/admin/category/', 1),
+(29, 6, 'Update', 'Status no.7 is turned on', 'create', '/admin/category/', 1),
+(30, 6, 'Update', 'Importance no.8 is turned off', 'create', '/admin/category/', 1),
+(31, 6, 'Update', 'Importance no.8 is turned on', 'create', '/admin/category/', 1),
+(32, 6, 'Update', 'User no.12 is turned off', 'create', '/admin/category/', 1),
+(33, 6, 'Update', 'User no.12 is turned on', 'create', '/admin/category/', 1),
+(34, 6, 'Update', 'User no.12 is turned off', 'create', '/admin/category/', 1),
+(35, 6, 'Update', 'User no.12 is turned on', 'create', '/admin/category/', 1),
+(36, 6, 'Update', 'Client no.1 is turned off', 'create', '/admin/category/', 1),
+(37, 6, 'Update', 'Client no.1 is turned on', 'create', '/admin/category/', 1),
+(38, 6, 'Update', 'Client no.4 is turned off', 'create', '/admin/category/', 1),
+(39, 6, 'Update', 'Client no.4 is turned on', 'create', '/admin/category/', 1),
+(40, 6, 'Update', 'Client no.1 is turned off', 'create', '/admin/category/', 1),
+(41, 6, 'Update', 'Client no.1 is turned on', 'create', '/admin/category/', 1),
+(42, 6, 'Created', 'Page is created.', 'add', '/admin/pages/', 1),
+(43, 6, 'Update', 'Page no.2 is updated.', 'create', '/admin/pages/', 1),
+(44, 6, 'Created', 'Page is created.', 'add', '/admin/pages/', 1),
+(45, 6, 'Created', 'Page is created.', 'add', '/admin/pages/', 1),
+(46, 6, 'Created', 'Page is created.', 'add', '/admin/pages/', 1),
+(47, 6, 'Created', 'Page is created.', 'add', '/admin/pages/', 1),
+(48, 6, 'Created', 'Page is created.', 'add', '/admin/pages/', 1),
+(49, 6, 'Created', 'Page is created.', 'add', '/admin/pages/', 1),
+(50, 6, 'Created', 'Page is created.', 'add', '/admin/pages/', 1),
+(51, 6, 'Created', 'Page is created.', 'add', '/admin/pages/', 1),
+(52, 6, 'Created', 'Page is created.', 'add', '/admin/pages/', 1),
+(53, 6, 'Created', 'Page is created.', 'add', '/admin/pages/', 1),
+(54, 6, 'Created', 'Page is created.', 'add', '/admin/pages/', 1),
+(55, 6, 'Created', 'Page is created.', 'add', '/admin/pages/', 1),
+(56, 6, 'Created', 'Page is created.', 'add', '/admin/pages/', 1),
+(57, 6, 'Created', 'Page is created.', 'add', '/admin/pages/', 1),
+(58, 6, 'Created', 'Page is created.', 'add', '/admin/pages/', 1),
+(59, 6, 'Created', 'Page is created.', 'add', '/admin/pages/', 1),
+(60, 6, 'Created', 'Page is created.', 'add', '/admin/pages/', 1),
+(61, 6, 'Created', 'Page is created.', 'add', '/admin/pages/', 1),
+(62, 6, 'Created', 'Page is created.', 'add', '/admin/pages/', 1),
+(63, 6, 'Update', 'Page no.5 is updated.', 'create', '/admin/pages/', 1),
+(64, 6, 'Update', 'Page no.5 is updated.', 'create', '/admin/pages/', 1),
+(65, 6, 'Update', 'Page no.26 is updated.', 'create', '/admin/pages/', 1),
+(66, 6, 'Update', 'Page no.26 is updated.', 'create', '/admin/pages/', 1),
+(67, 6, 'Created', 'Page is created.', 'add', '/admin/pages/', 1),
+(68, 6, 'Created', 'Page is created.', 'add', '/admin/pages/', 1),
+(69, 6, 'Created', 'User is created.', 'add', '/admin/users/', 0);
 
 -- --------------------------------------------------------
 
@@ -56,27 +120,29 @@ INSERT INTO `alerts` (`alert_id`, `user_id`, `alert_title`, `alert_desc`, `alert
 CREATE TABLE `categorys` (
   `cat_id` int(11) NOT NULL,
   `cat_name` varchar(255) NOT NULL,
-  `cat_info` text NOT NULL
+  `cat_info` text NOT NULL,
+  `cat_active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `categorys`
 --
 
-INSERT INTO `categorys` (`cat_id`, `cat_name`, `cat_info`) VALUES
-(1, 'Site Problemen', 'Problemen met de website'),
-(2, 'Scherm Problemen', ''),
-(5, 'Player', ''),
-(15, 'Offerte', ''),
-(20, 'Uitleg CMS', ''),
-(23, 'Post', ''),
-(25, 'Update systeem', ''),
-(30, 'Overig', ''),
-(47, 'Bug', ''),
-(51, 'Betaling', ''),
-(79, 'Eigenaars Wissel', ''),
-(88, 'Content', ''),
-(104, 'Login Problemen', '');
+INSERT INTO `categorys` (`cat_id`, `cat_name`, `cat_info`, `cat_active`) VALUES
+(1, 'Site Problemen', 'Problemen met de website', 1),
+(2, 'Scherm Problemen', '', 1),
+(5, 'Player', '', 1),
+(15, 'Offerte', '', 1),
+(20, 'Uitleg CMS', '', 1),
+(23, 'Post', '', 1),
+(25, 'Update systeem', '', 1),
+(30, 'Overig', '', 1),
+(47, 'Bug', '', 1),
+(51, 'Betaling', '', 1),
+(79, 'Eigenaars Wissel', '', 1),
+(88, 'Content', '', 1),
+(104, 'Login Problemen', '', 1),
+(105, 'Toggle test', 'Onii', 1);
 
 -- --------------------------------------------------------
 
@@ -94,111 +160,112 @@ CREATE TABLE `clients` (
   `client_city` varchar(100) NOT NULL,
   `client_street` varchar(255) NOT NULL,
   `client_street_number` varchar(50) NOT NULL,
-  `client_zipcode` varchar(10) NOT NULL
+  `client_zipcode` varchar(10) NOT NULL,
+  `client_active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `clients`
 --
 
-INSERT INTO `clients` (`client_id`, `client_name`, `client_tel`, `client_email`, `client_country`, `client_state`, `client_city`, `client_street`, `client_street_number`, `client_zipcode`) VALUES
-(1, 'Hotel Galamadammen', '0514521346', '', 'The Netherlands', '', '', '', '', ''),
-(2, 'Het Busstation Cafetaria - Eethuis', '0622685260', '', '', '', '', '', '', ''),
-(3, 'Snackbar Oase', '0620725088', '', '', '', '', '', '', ''),
-(4, 'Suradiya', '0655346777', '', '', '', '', '', '', ''),
-(5, 'Het Oude Raedthuys', '0622226464', '', '', '', '', '', '', ''),
-(6, 'HK vis specialiteiten', '0703543415', '', '', '', '', '', '', ''),
-(7, 'Elkema - Achter t hoekse', '032490191936', '', '', '', '', '', '', ''),
-(8, 'Eetsalon Theo', '0626842950', '', '', '', '', '', '', ''),
-(9, 'Truck stop de ketting', '0599582630', '', '', '', '', '', '', ''),
-(10, 'Emin Oglu', '0624671995', '', '', '', '', '', '', ''),
-(11, 'Krron vis zandvoort', '0631567718', '', '', '', '', '', '', ''),
-(13, 'Het friethuys', '0651241347', '', '', '', '', '', '', ''),
-(14, 'Cafetaria ijsbeer', '0642287532', '', '', '', '', '', '', ''),
-(16, 'Geytoorn', '0612268321', '', '', '', '', '', '', ''),
-(17, 'onbekent (atm]', '0624720447', '', '', '', '', '', '', ''),
-(18, 'Shirleys', '0630024012', '', '', '', '', '', '', ''),
-(19, 'Hotel Ootmarsum', '0541291728', '', '', '', '', '', '', ''),
-(20, 'Het pleintje', '0637392592', '', '', '', '', '', '', ''),
-(21, 'Lunchroom eetcafe', '0637392592', '', '', '', '', '', '', ''),
-(22, 'De fontein', '0592315502', '', '', '', '', '', '', ''),
-(23, 'Danny van', '0476554141', '', '', '', '', '', '', ''),
-(25, 'Eetcafe Plein 10', '0184682210', '', '', '', '', '', '', ''),
-(26, 'Flatmedia', '0650290938', '', '', '', '', '', '', ''),
-(27, 'De Flip', '', '', '', '', '', '', '', ''),
-(28, 'Bestaria Steenwijk', '0626696554', '', '', '', '', '', '', ''),
-(30, 'SameBestDevelopment', '0626361763', '', '', '', '', '', '', ''),
-(32, 'De ketting', '0599582630', '', '', '', '', '', '', ''),
-(34, 'Brasserie Vistaria De Fontein', '0649972006', '', '', '', '', '', '', ''),
-(36, 'Snacks en Catering Peter', '06-54685549', '', '', '', '', '', '', ''),
-(37, 't Tweespan', '0411-672782', '', '', '', '', '', '', ''),
-(39, 'De Diekmeester', '0620744575', '', '', '', '', '', '', ''),
-(41, 'hotel de vriendschap', '0117348264', '', '', '', '', '', '', ''),
-(44, 'Cafetaria theo - Utrecht', '', '', '', '', '', '', '', ''),
-(45, 'Beja - Leerdam', '', '', '', '', '', '', '', ''),
-(46, 'Vierrijk', '0611048314', '', '', '', '', '', '', ''),
-(47, 'Aalbers|wico', '0318571411', '', '', '', '', '', '', ''),
-(49, 'Cafetaria t Lambertje', '073-5514952', '', '', '', '', '', '', ''),
-(50, 'Philips', '0534810000', '', '', '', '', '', '', ''),
-(51, 'Horecava', '020 â€“ 5491540', '', '', '', '', '', '', ''),
-(52, 'Lossez frietpaleis', '016-2455544', '', '', '', '', '', '', ''),
-(54, 'Altat Europe', '0032495509977', '', '', '', '', '', '', ''),
-(56, 'Smul Grill', '06-25080507', '', '', '', '', '', '', ''),
-(58, 'Smulparadijs Culemborg', '0345-530604', '', '', '', '', '', '', ''),
-(59, 'Kombuis Hoofddorp', '023 561 6532', '', '', '', '', '', '', ''),
-(60, 'Lammers', '0614255024', '', '', '', '', '', '', ''),
-(62, 'Toko Bandung', '06 26858598', '', '', '', '', '', '', ''),
-(65, 'Het land van bartje', '0599234659', '', '', '', '', '', '', ''),
-(66, 'Main tech | De ketting', '010 428 9533', '', '', '', '', '', '', ''),
-(69, 'Bakhuus', '06-55815640', '', '', '', '', '', '', ''),
-(70, 'Brabander', '0613343413', '', '', '', '', '', '', ''),
-(72, 't Voorhuys', '0646026393', '', '', '', '', '', '', ''),
-(74, 'Gebogelato, Sofi Time', '0620928992', '', '', '', '', '', '', ''),
-(76, 'De Elstar catering', '0342-421006', '', '', '', '', '', '', ''),
-(77, 'RRS', '053 - 428 57 59', '', '', '', '', '', '', ''),
-(78, 'Cafe Bruggink', '0315651405', '', '', '', '', '', '', ''),
-(79, 'BVBA Elkema', '003215656050', '', '', '', '', '', '', ''),
-(80, 'Tech Data', '088-1334000', '', '', '', '', '', '', ''),
-(81, 'Cafetaria Pinokkio', '0629002740', '', '', '', '', '', '', ''),
-(82, 'Philips Customer Support', '010 428 9533', '', '', '', '', '', '', ''),
-(83, 'AnyTyme Wezep', '06-43076162', '', '', '', '', '', '', ''),
-(84, 'Snackbar Kombuis', '0235616532', '', '', '', '', '', '', ''),
-(85, 'De Gastronoom', '0641633202', '', '', '', '', '', '', ''),
-(86, 'cafetaria smikkelhof', '0655100370', '', '', '', '', '', '', ''),
-(88, 'Cosy Corner', '0630973355', '', '', '', '', '', '', ''),
-(90, 'Limanox BVBA', '0032 498-756319', '', '', '', '', '', '', ''),
-(91, 'Cafetaria De Brug', '0615656337', '', '', '', '', '', '', ''),
-(97, 'Foot Focus', '06-12272575', '', '', '', '', '', '', ''),
-(98, 'Burger Queen Assen', '06-40762731', '', '', '', '', '', '', ''),
-(99, 'La Ruche', '06-43434369', '', '', '', '', '', '', ''),
-(100, 'Het Trefpunt Wamel', '0614700450', '', '', '', '', '', '', ''),
-(101, 'Smulders', '013-5313131', '', '', '', '', '', '', ''),
-(102, 'Fredsons Vlissingen', '06-10323641', '', '', '', '', '', '', ''),
-(103, 'Zalencentrum de Roef', '0341 433 966', '', '', '', '', '', '', ''),
-(104, 'heldro ijs', '06-54661196', '', '', '', '', '', '', ''),
-(105, 'Mr. Rooster', '06-23520266', '', '', '', '', '', '', ''),
-(106, 'Ijssalon Wim Laan', '06-13905301', '', '', '', '', '', '', ''),
-(107, 'Vishandel Brassem', '06-11752015', '', '', '', '', '', '', ''),
-(109, 'Xinix Nieuwendijk', '018-3405808', '', '', '', '', '', '', ''),
-(110, 'Cafetaria de Sporthoek', '06-50465873', '', '', '', '', '', '', ''),
-(112, 'Thomas Fruit Amsterdam', '06-27076740', '', '', '', '', '', '', ''),
-(113, 'Tante Saar', '0653235423', '', '', '', '', '', '', ''),
-(114, 'Vis- en Snackrestaurant Moritz', '0226-381993', '', '', '', '', '', '', ''),
-(115, 'Moritz aan Zee', '06-25080019.', '', '', '', '', '', '', ''),
-(116, 'Cafetaria Lammers', '06-14349393', '', '', '', '', '', '', ''),
-(117, 'Het RotiHuis', '06-15961401', '', '', '', '', '', '', ''),
-(120, 'Snackcafe Vlietwijk', '06-30420998', '', '', '', '', '', '', ''),
-(121, 'Melis Seafood', '06-21555964', '', '', '', '', '', '', ''),
-(122, 'Cafe vlietwijk', '+31630420998', '', '', '', '', '', '', ''),
-(123, 'Vakantiepark Callassande', '0681351030', '', '', '', '', '', '', ''),
-(124, 'SAB Catering IJgenwijs', '0654730008', '', '', '', '', '', '', ''),
-(125, 'Broodje amstelveen', '+31651446662', '', '', '', '', '', '', ''),
-(128, 'Mac Roy', '06-51867282', '', '', '', '', '', '', ''),
-(129, 'Cafetaria Krompkamp', '0614417610', '', '', '', '', '', '', ''),
-(130, 'Ivo Snacks', '0624578496', '', '', '', '', '', '', ''),
-(131, 'Eigenwijs streekbos', '0654730008', '', '', '', '', '', '', ''),
-(132, 'Vishandel van Beveren', '0111692163', '', '', '', '', '', '', ''),
-(134, 'Cafetaria \'t Singeltje', '0164251849', '', '', '', '', '', '', '');
+INSERT INTO `clients` (`client_id`, `client_name`, `client_tel`, `client_email`, `client_country`, `client_state`, `client_city`, `client_street`, `client_street_number`, `client_zipcode`, `client_active`) VALUES
+(1, 'Hotel Galamadammen', '0514521346', '', 'The Netherlands', '', '', '', '', '', 1),
+(2, 'Het Busstation Cafetaria - Eethuis', '0622685260', '', '', '', '', '', '', '', 1),
+(3, 'Snackbar Oase', '0620725088', '', '', '', '', '', '', '', 1),
+(4, 'Suradiya', '0655346777', '', '', '', '', '', '', '', 1),
+(5, 'Het Oude Raedthuys', '0622226464', '', '', '', '', '', '', '', 1),
+(6, 'HK vis specialiteiten', '0703543415', '', '', '', '', '', '', '', 1),
+(7, 'Elkema - Achter t hoekse', '032490191936', '', '', '', '', '', '', '', 1),
+(8, 'Eetsalon Theo', '0626842950', '', '', '', '', '', '', '', 1),
+(9, 'Truck stop de ketting', '0599582630', '', '', '', '', '', '', '', 1),
+(10, 'Emin Oglu', '0624671995', '', '', '', '', '', '', '', 1),
+(11, 'Krron vis zandvoort', '0631567718', '', '', '', '', '', '', '', 1),
+(13, 'Het friethuys', '0651241347', '', '', '', '', '', '', '', 1),
+(14, 'Cafetaria ijsbeer', '0642287532', '', '', '', '', '', '', '', 1),
+(16, 'Geytoorn', '0612268321', '', '', '', '', '', '', '', 1),
+(17, 'onbekent (atm]', '0624720447', '', '', '', '', '', '', '', 1),
+(18, 'Shirleys', '0630024012', '', '', '', '', '', '', '', 1),
+(19, 'Hotel Ootmarsum', '0541291728', '', '', '', '', '', '', '', 1),
+(20, 'Het pleintje', '0637392592', '', '', '', '', '', '', '', 1),
+(21, 'Lunchroom eetcafe', '0637392592', '', '', '', '', '', '', '', 1),
+(22, 'De fontein', '0592315502', '', '', '', '', '', '', '', 1),
+(23, 'Danny van', '0476554141', '', '', '', '', '', '', '', 1),
+(25, 'Eetcafe Plein 10', '0184682210', '', '', '', '', '', '', '', 1),
+(26, 'Flatmedia', '0650290938', '', '', '', '', '', '', '', 1),
+(27, 'De Flip', '', '', '', '', '', '', '', '', 1),
+(28, 'Bestaria Steenwijk', '0626696554', '', '', '', '', '', '', '', 1),
+(30, 'SameBestDevelopment', '0626361763', '', '', '', '', '', '', '', 1),
+(32, 'De ketting', '0599582630', '', '', '', '', '', '', '', 1),
+(34, 'Brasserie Vistaria De Fontein', '0649972006', '', '', '', '', '', '', '', 1),
+(36, 'Snacks en Catering Peter', '06-54685549', '', '', '', '', '', '', '', 1),
+(37, 't Tweespan', '0411-672782', '', '', '', '', '', '', '', 1),
+(39, 'De Diekmeester', '0620744575', '', '', '', '', '', '', '', 1),
+(41, 'hotel de vriendschap', '0117348264', '', '', '', '', '', '', '', 1),
+(44, 'Cafetaria theo - Utrecht', '', '', '', '', '', '', '', '', 1),
+(45, 'Beja - Leerdam', '', '', '', '', '', '', '', '', 1),
+(46, 'Vierrijk', '0611048314', '', '', '', '', '', '', '', 1),
+(47, 'Aalbers|wico', '0318571411', '', '', '', '', '', '', '', 1),
+(49, 'Cafetaria t Lambertje', '073-5514952', '', '', '', '', '', '', '', 1),
+(50, 'Philips', '0534810000', '', '', '', '', '', '', '', 1),
+(51, 'Horecava', '020 â€“ 5491540', '', '', '', '', '', '', '', 1),
+(52, 'Lossez frietpaleis', '016-2455544', '', '', '', '', '', '', '', 1),
+(54, 'Altat Europe', '0032495509977', '', '', '', '', '', '', '', 1),
+(56, 'Smul Grill', '06-25080507', '', '', '', '', '', '', '', 1),
+(58, 'Smulparadijs Culemborg', '0345-530604', '', '', '', '', '', '', '', 1),
+(59, 'Kombuis Hoofddorp', '023 561 6532', '', '', '', '', '', '', '', 1),
+(60, 'Lammers', '0614255024', '', '', '', '', '', '', '', 1),
+(62, 'Toko Bandung', '06 26858598', '', '', '', '', '', '', '', 1),
+(65, 'Het land van bartje', '0599234659', '', '', '', '', '', '', '', 1),
+(66, 'Main tech | De ketting', '010 428 9533', '', '', '', '', '', '', '', 1),
+(69, 'Bakhuus', '06-55815640', '', '', '', '', '', '', '', 1),
+(70, 'Brabander', '0613343413', '', '', '', '', '', '', '', 1),
+(72, 't Voorhuys', '0646026393', '', '', '', '', '', '', '', 1),
+(74, 'Gebogelato, Sofi Time', '0620928992', '', '', '', '', '', '', '', 1),
+(76, 'De Elstar catering', '0342-421006', '', '', '', '', '', '', '', 1),
+(77, 'RRS', '053 - 428 57 59', '', '', '', '', '', '', '', 1),
+(78, 'Cafe Bruggink', '0315651405', '', '', '', '', '', '', '', 1),
+(79, 'BVBA Elkema', '003215656050', '', '', '', '', '', '', '', 1),
+(80, 'Tech Data', '088-1334000', '', '', '', '', '', '', '', 1),
+(81, 'Cafetaria Pinokkio', '0629002740', '', '', '', '', '', '', '', 1),
+(82, 'Philips Customer Support', '010 428 9533', '', '', '', '', '', '', '', 1),
+(83, 'AnyTyme Wezep', '06-43076162', '', '', '', '', '', '', '', 1),
+(84, 'Snackbar Kombuis', '0235616532', '', '', '', '', '', '', '', 1),
+(85, 'De Gastronoom', '0641633202', '', '', '', '', '', '', '', 1),
+(86, 'cafetaria smikkelhof', '0655100370', '', '', '', '', '', '', '', 1),
+(88, 'Cosy Corner', '0630973355', '', '', '', '', '', '', '', 1),
+(90, 'Limanox BVBA', '0032 498-756319', '', '', '', '', '', '', '', 1),
+(91, 'Cafetaria De Brug', '0615656337', '', '', '', '', '', '', '', 1),
+(97, 'Foot Focus', '06-12272575', '', '', '', '', '', '', '', 1),
+(98, 'Burger Queen Assen', '06-40762731', '', '', '', '', '', '', '', 1),
+(99, 'La Ruche', '06-43434369', '', '', '', '', '', '', '', 1),
+(100, 'Het Trefpunt Wamel', '0614700450', '', '', '', '', '', '', '', 1),
+(101, 'Smulders', '013-5313131', '', '', '', '', '', '', '', 1),
+(102, 'Fredsons Vlissingen', '06-10323641', '', '', '', '', '', '', '', 1),
+(103, 'Zalencentrum de Roef', '0341 433 966', '', '', '', '', '', '', '', 1),
+(104, 'heldro ijs', '06-54661196', '', '', '', '', '', '', '', 1),
+(105, 'Mr. Rooster', '06-23520266', '', '', '', '', '', '', '', 1),
+(106, 'Ijssalon Wim Laan', '06-13905301', '', '', '', '', '', '', '', 1),
+(107, 'Vishandel Brassem', '06-11752015', '', '', '', '', '', '', '', 1),
+(109, 'Xinix Nieuwendijk', '018-3405808', '', '', '', '', '', '', '', 1),
+(110, 'Cafetaria de Sporthoek', '06-50465873', '', '', '', '', '', '', '', 1),
+(112, 'Thomas Fruit Amsterdam', '06-27076740', '', '', '', '', '', '', '', 1),
+(113, 'Tante Saar', '0653235423', '', '', '', '', '', '', '', 1),
+(114, 'Vis- en Snackrestaurant Moritz', '0226-381993', '', '', '', '', '', '', '', 1),
+(115, 'Moritz aan Zee', '06-25080019.', '', '', '', '', '', '', '', 1),
+(116, 'Cafetaria Lammers', '06-14349393', '', '', '', '', '', '', '', 1),
+(117, 'Het RotiHuis', '06-15961401', '', '', '', '', '', '', '', 1),
+(120, 'Snackcafe Vlietwijk', '06-30420998', '', '', '', '', '', '', '', 1),
+(121, 'Melis Seafood', '06-21555964', '', '', '', '', '', '', '', 1),
+(122, 'Cafe vlietwijk', '+31630420998', '', '', '', '', '', '', '', 1),
+(123, 'Vakantiepark Callassande', '0681351030', '', '', '', '', '', '', '', 1),
+(124, 'SAB Catering IJgenwijs', '0654730008', '', '', '', '', '', '', '', 1),
+(125, 'Broodje amstelveen', '+31651446662', '', '', '', '', '', '', '', 1),
+(128, 'Mac Roy', '06-51867282', '', '', '', '', '', '', '', 1),
+(129, 'Cafetaria Krompkamp', '0614417610', '', '', '', '', '', '', '', 1),
+(130, 'Ivo Snacks', '0624578496', '', '', '', '', '', '', '', 1),
+(131, 'Eigenwijs streekbos', '0654730008', '', '', '', '', '', '', '', 1),
+(132, 'Vishandel van Beveren', '0111692163', '', '', '', '', '', '', '', 1),
+(134, 'Cafetaria \'t Singeltje', '0164251849', '', '', '', '', '', '', '', 1);
 
 -- --------------------------------------------------------
 
@@ -237,19 +304,20 @@ CREATE TABLE `importance_types` (
   `importance_name` varchar(255) NOT NULL,
   `importance_info` text NOT NULL,
   `importance_color` varchar(50) DEFAULT NULL,
-  `importance_level` enum('Immediately','Fast','Normal','Slow','Extremely Slow') NOT NULL DEFAULT 'Immediately'
+  `importance_level` enum('Immediately','Fast','Normal','Slow','Extremely Slow') NOT NULL DEFAULT 'Immediately',
+  `importance_active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `importance_types`
 --
 
-INSERT INTO `importance_types` (`importance_id`, `importance_name`, `importance_info`, `importance_color`, `importance_level`) VALUES
-(1, 'Immediately', 'Must be taken care of immediately', '#dc3545', 'Immediately'),
-(2, 'Fast', 'Must be taken care of fast but not immediately', '#ffc107', 'Fast'),
-(3, 'Normal', 'No need to solve it fast but don\'t be to slow', '#17a2b8', 'Normal'),
-(4, 'Slow', 'No need to hurry', '#28a745', 'Slow'),
-(8, 'Extremely Slow', 'Just sit back and let it solve itself', '#aaaaaa', 'Extremely Slow');
+INSERT INTO `importance_types` (`importance_id`, `importance_name`, `importance_info`, `importance_color`, `importance_level`, `importance_active`) VALUES
+(1, 'Immediately', 'Must be taken care of immediately', '#dc3545', 'Immediately', 1),
+(2, 'Fast', 'Must be taken care of fast but not immediately', '#ffc107', 'Fast', 1),
+(3, 'Normal', 'No need to solve it fast but don\'t be to slow', '#17a2b8', 'Normal', 1),
+(4, 'Slow', 'No need to hurry', '#28a745', 'Slow', 1),
+(8, 'Extremely Slow', 'Just sit back and let it solve itself', '#aaaaaa', 'Extremely Slow', 1);
 
 -- --------------------------------------------------------
 
@@ -344,7 +412,94 @@ INSERT INTO `log` (`log_id`, `log_action`, `log_desc`, `log_user`, `log_date`) V
 (72, 'INSERT', 'Ticket created', '6', '2018-04-04 12:55:04'),
 (73, 'Progress', 'Progress made on ticket no.144', '6', '2018-04-04 12:58:36'),
 (74, 'Progress', 'Progress made on ticket no.144', '6', '2018-04-04 12:58:40'),
-(75, 'Progress', 'Progress made on ticket no.144', '6', '2018-04-04 12:59:03');
+(75, 'Progress', 'Progress made on ticket no.144', '6', '2018-04-04 12:59:03'),
+(76, 'UPDATE', 'Category no.id updated', '6', '2018-04-04 14:36:55'),
+(77, 'UPDATE', 'Category no. updated', '6', '2018-04-04 14:37:43'),
+(78, 'UPDATE', 'Category no. updated', '6', '2018-04-04 14:38:22'),
+(79, 'LOGIN', 'User no.6 logged in', '6', '2018-04-05 09:39:58'),
+(80, 'UPDATE', 'Category no.1 is turned off', '6', '2018-04-05 10:13:07'),
+(81, 'UPDATE', 'Category no.5 is turned on', '6', '2018-04-05 10:13:10'),
+(82, 'UPDATE', 'Category no.51 is turned on', '6', '2018-04-05 10:13:14'),
+(83, 'UPDATE', 'Category no.1 is turned on', '6', '2018-04-05 10:13:22'),
+(84, 'UPDATE', 'Category no.2 is turned on', '6', '2018-04-05 10:13:25'),
+(85, 'UPDATE', 'Category no.15 is turned on', '6', '2018-04-05 10:13:28'),
+(86, 'UPDATE', 'Category no.20 is turned on', '6', '2018-04-05 10:13:31'),
+(87, 'UPDATE', 'Category no.23 is turned on', '6', '2018-04-05 10:13:35'),
+(88, 'UPDATE', 'Category no.25 is turned on', '6', '2018-04-05 10:13:38'),
+(89, 'UPDATE', 'Category no.30 is turned on', '6', '2018-04-05 10:13:40'),
+(90, 'UPDATE', 'Category no.47 is turned on', '6', '2018-04-05 10:13:44'),
+(91, 'UPDATE', 'Category no.79 is turned on', '6', '2018-04-05 10:13:50'),
+(92, 'UPDATE', 'Category no.88 is turned on', '6', '2018-04-05 10:13:54'),
+(93, 'UPDATE', 'Category no.104 is turned on', '6', '2018-04-05 10:13:59'),
+(94, 'INSERT', 'Category created', '6', '2018-04-05 10:14:13'),
+(95, 'UPDATE', 'Category no.105 is turned off', '6', '2018-04-05 10:17:18'),
+(96, 'UPDATE', 'Category no.105 is turned on', '6', '2018-04-05 10:18:19'),
+(97, 'UPDATE', 'Status no.7 is turned off', '6', '2018-04-05 10:31:14'),
+(98, 'UPDATE', 'Status no.7 is turned on', '6', '2018-04-05 10:32:19'),
+(99, 'UPDATE', 'Status no.7 is turned off', '6', '2018-04-05 10:32:42'),
+(100, 'UPDATE', 'Status no.7 is turned on', '6', '2018-04-05 10:32:57'),
+(101, 'UPDATE', 'Importance no.8 is turned off', '6', '2018-04-05 10:39:22'),
+(102, 'UPDATE', 'Importance no.8 is turned on', '6', '2018-04-05 10:39:34'),
+(103, 'UPDATE', 'User no.12 is turned off', '6', '2018-04-05 10:46:07'),
+(104, 'UPDATE', 'User no.12 is turned on', '6', '2018-04-05 10:46:11'),
+(105, 'UPDATE', 'User no.12 is turned off', '6', '2018-04-05 10:46:43'),
+(106, 'UPDATE', 'User no.12 is turned on', '6', '2018-04-05 10:46:54'),
+(107, 'LOGIN', 'User no.6 logged in', '6', '2018-04-10 09:13:29'),
+(108, 'UPDATE', 'Client no.1 is turned off', '6', '2018-04-10 09:23:35'),
+(109, 'UPDATE', 'Client no.1 is turned on', '6', '2018-04-10 09:23:58'),
+(110, 'UPDATE', 'Client no.4 is turned off', '6', '2018-04-10 09:24:02'),
+(111, 'UPDATE', 'Client no.4 is turned on', '6', '2018-04-10 09:24:06'),
+(112, 'UPDATE', 'Client no.1 is turned off', '6', '2018-04-10 09:25:11'),
+(113, 'UPDATE', 'Client no.1 is turned on', '6', '2018-04-10 09:25:20'),
+(114, 'LOGIN', 'User no.6 logged in', '6', '2018-04-10 12:01:34'),
+(115, 'INSERT', 'Page created', '6', '2018-04-10 12:19:42'),
+(116, 'UPDATE', 'Page no.2 updated', '6', '2018-04-10 12:20:58'),
+(117, 'INSERT', 'Page created', '6', '2018-04-10 13:20:13'),
+(118, 'LOGIN', 'User no.6 logged in', '6', '2018-04-11 09:35:26'),
+(119, 'LOGIN', 'User no.6 logged in', '6', '2018-04-11 12:38:11'),
+(120, 'INSERT', 'Page created', '6', '2018-04-11 12:57:07'),
+(121, 'LOGIN', 'User no.6 logged in', '6', '2018-04-11 13:22:45'),
+(122, 'LOGIN', 'User no.6 logged in', '6', '2018-04-11 13:26:47'),
+(123, 'LOGIN', 'User no.6 logged in', '6', '2018-04-11 13:27:36'),
+(124, 'LOGIN', 'User no.6 logged in', '6', '2018-04-11 13:27:57'),
+(125, 'LOGIN', 'User no.6 logged in', '6', '2018-04-11 13:28:22'),
+(126, 'LOGIN', 'User no.6 logged in', '6', '2018-04-11 13:28:35'),
+(127, 'LOGIN', 'User no.6 logged in', '6', '2018-04-11 13:28:56'),
+(128, 'LOGIN', 'User no.6 logged in', '6', '2018-04-11 13:29:07'),
+(129, 'LOGIN', 'User no.6 logged in', '6', '2018-04-11 13:29:42'),
+(130, 'INSERT', 'Page created', '6', '2018-04-11 13:33:26'),
+(131, 'INSERT', 'Page created', '6', '2018-04-11 13:33:50'),
+(132, 'INSERT', 'Page created', '6', '2018-04-11 13:34:08'),
+(133, 'INSERT', 'Page created', '6', '2018-04-11 13:34:44'),
+(134, 'INSERT', 'Page created', '6', '2018-04-11 13:35:13'),
+(135, 'INSERT', 'Page created', '6', '2018-04-11 13:35:44'),
+(136, 'INSERT', 'Page created', '6', '2018-04-11 13:36:07'),
+(137, 'INSERT', 'Page created', '6', '2018-04-11 13:36:44'),
+(138, 'INSERT', 'Page created', '6', '2018-04-11 13:37:05'),
+(139, 'INSERT', 'Page created', '6', '2018-04-11 13:37:51'),
+(140, 'INSERT', 'Page created', '6', '2018-04-11 13:38:23'),
+(141, 'INSERT', 'Page created', '6', '2018-04-11 13:38:55'),
+(142, 'INSERT', 'Page created', '6', '2018-04-11 13:39:14'),
+(143, 'INSERT', 'Page created', '6', '2018-04-11 13:43:58'),
+(144, 'INSERT', 'Page created', '6', '2018-04-11 13:44:16'),
+(145, 'INSERT', 'Page created', '6', '2018-04-11 13:44:33'),
+(146, 'INSERT', 'Page created', '6', '2018-04-11 13:44:50'),
+(147, 'LOGIN', 'User no.6 logged in', '6', '2018-04-11 13:45:50'),
+(148, 'LOGIN', 'User no.6 logged in', '6', '2018-04-11 13:46:21'),
+(149, 'LOGIN', 'User no.6 logged in', '6', '2018-04-11 15:58:38'),
+(150, 'LOGIN', 'User no.6 logged in', '6', '2018-04-11 15:59:21'),
+(151, 'LOGIN', 'User no.6 logged in', '6', '2018-04-11 16:01:11'),
+(152, 'LOGIN', 'User no.6 logged in', '6', '2018-04-11 16:05:07'),
+(153, 'LOGIN', 'User no.6 logged in', '6', '2018-04-11 16:05:19'),
+(154, 'LOGIN', 'User no.6 logged in', '6', '2018-04-12 10:18:13'),
+(155, 'UPDATE', 'Page no.5 updated', '6', '2018-04-12 10:32:04'),
+(156, 'UPDATE', 'Page no.5 updated', '6', '2018-04-12 10:32:19'),
+(157, 'UPDATE', 'Page no.26 updated', '6', '2018-04-12 10:57:26'),
+(158, 'UPDATE', 'Page no.26 updated', '6', '2018-04-12 10:57:36'),
+(159, 'INSERT', 'Page created', '6', '2018-04-12 10:58:41'),
+(160, 'INSERT', 'Page created', '6', '2018-04-12 10:58:54'),
+(161, 'INSERT', 'User created', '6', '2018-04-12 11:14:49'),
+(162, 'LOGIN', 'User no.13 logged in', '13', '2018-04-12 11:15:08');
 
 -- --------------------------------------------------------
 
@@ -370,7 +525,30 @@ INSERT INTO `logins` (`id`, `user_id`, `ip_address`, `date`) VALUES
 (4, 6, '178.230.170.188', '2018-03-28 11:41:11'),
 (5, 6, '172.11.23.107', '2018-03-30 21:14:58'),
 (6, 6, '172.11.23.102', '2018-04-04 10:00:56'),
-(7, 6, '95.99.52.36', '2018-04-04 10:16:36');
+(7, 6, '95.99.52.36', '2018-04-04 10:16:36'),
+(8, 6, '31.187.236.233', '2018-04-05 09:39:58'),
+(9, 6, '188.91.36.174', '2018-04-10 09:13:29'),
+(10, 6, '188.91.36.174', '2018-04-10 12:01:34'),
+(11, 6, '31.187.247.92', '2018-04-11 09:35:26'),
+(12, 6, '178.226.189.9', '2018-04-11 12:38:11'),
+(13, 6, '178.226.189.9', '2018-04-11 13:22:45'),
+(14, 6, '178.226.189.9', '2018-04-11 13:26:47'),
+(15, 6, '178.226.189.9', '2018-04-11 13:27:36'),
+(16, 6, '178.226.189.9', '2018-04-11 13:27:57'),
+(17, 6, '178.226.189.9', '2018-04-11 13:28:22'),
+(18, 6, '178.226.189.9', '2018-04-11 13:28:35'),
+(19, 6, '178.226.189.9', '2018-04-11 13:28:56'),
+(20, 6, '178.226.189.9', '2018-04-11 13:29:07'),
+(21, 6, '178.226.189.9', '2018-04-11 13:29:42'),
+(22, 6, '178.226.189.9', '2018-04-11 13:45:50'),
+(23, 6, '178.226.189.9', '2018-04-11 13:46:21'),
+(24, 6, '178.226.189.9', '2018-04-11 15:58:38'),
+(25, 6, '178.226.189.9', '2018-04-11 15:59:21'),
+(26, 6, '178.226.189.9', '2018-04-11 16:01:10'),
+(27, 6, '178.226.189.9', '2018-04-11 16:05:07'),
+(28, 6, '178.226.189.9', '2018-04-11 16:05:19'),
+(29, 6, '178.226.189.9', '2018-04-12 10:18:13'),
+(30, 13, '178.226.189.9', '2018-04-12 11:15:08');
 
 -- --------------------------------------------------------
 
@@ -400,7 +578,7 @@ CREATE TABLE `mail_config` (
 --
 
 INSERT INTO `mail_config` (`id`, `protocol`, `smtp_host`, `smtp_user`, `smtp_pass`, `smtp_port`, `smtp_timeout`, `smtp_crypto`, `mailtype`, `newline`, `crlf`, `charset`, `validate`, `priority`) VALUES
-(0, 'mail', 'smtp.gmail.com', '', '', '25', '5', 'tls', 'html', '\\r\\n', '\\r\\n', 'utf-8', 0, '3'),
+(0, 'smtp', 'smtp.gmail.com', '', '', '25', '5', 'tls', 'html', '\\r\\n', '\\r\\n', 'utf-8', 0, '3'),
 (1, 'mail', 'smtp.gmail.com', 'phpmailertest12@gmail.com', 'ditiseentest', '25', '5', '', 'html', '\\r\\n', '\\r\\n', 'utf-8', 0, '3');
 
 -- --------------------------------------------------------
@@ -455,18 +633,19 @@ CREATE TABLE `status_types` (
   `status_id` int(11) NOT NULL,
   `status_name` varchar(255) NOT NULL,
   `status_info` text NOT NULL,
-  `status_level` enum('pending','solved','failed') NOT NULL DEFAULT 'pending'
+  `status_level` enum('pending','solved','failed') NOT NULL DEFAULT 'pending',
+  `status_active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `status_types`
 --
 
-INSERT INTO `status_types` (`status_id`, `status_name`, `status_info`, `status_level`) VALUES
-(1, 'Pending', 'The ticket is awaiting to be solved', 'pending'),
-(2, 'Solved', 'The ticket is solved', 'solved'),
-(3, 'Unsolved', 'The mechanic was not able to solve the problem', 'failed'),
-(7, 'Paused', 'The ticket is on hold', 'pending');
+INSERT INTO `status_types` (`status_id`, `status_name`, `status_info`, `status_level`, `status_active`) VALUES
+(1, 'Pending', 'The ticket is awaiting to be solved', 'pending', 1),
+(2, 'Solved', 'The ticket is solved', 'solved', 1),
+(3, 'Unsolved', 'The mechanic was not able to solve the problem', 'failed', 1),
+(7, 'Paused', 'The ticket is on hold', 'pending', 1);
 
 -- --------------------------------------------------------
 
@@ -696,17 +875,19 @@ CREATE TABLE `users` (
   `last_ip` varchar(40) COLLATE utf8_bin NOT NULL,
   `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `hash` text COLLATE utf8_bin
+  `hash` text COLLATE utf8_bin,
+  `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `users`
 --
 
-INSERT INTO `users` (`id`, `role_id`, `username`, `password`, `email`, `last_ip`, `created`, `modified`, `hash`) VALUES
-(1, 3, 'Super Admin', '$1$nOWlv7hD$FkFIdTI6I82TvAR5N.hD./', 'info@idsignage.nl', '127.0.0.1', '2018-02-27 12:54:00', '2018-02-27 11:54:00', NULL),
-(6, 3, 'Admin', '$1$ePUUeaws$TaqLRxcITlcFT5loNKieO1', 'jordi.schaap@outlook.com', '95.99.52.36', '2018-01-25 14:23:18', '2018-04-04 08:16:36', NULL),
-(12, 3, 'Peter', '$1$N.ewH/KC$hMSxRSkCsWwgWpN3pr8WN.', 'peter@idsignage.nl', '', '2018-03-05 00:00:00', '2018-03-05 12:56:32', NULL);
+INSERT INTO `users` (`id`, `role_id`, `username`, `password`, `email`, `last_ip`, `created`, `modified`, `hash`, `active`) VALUES
+(1, 3, 'Super Admin', '$1$nOWlv7hD$FkFIdTI6I82TvAR5N.hD./', 'info@idsignage.nl', '127.0.0.1', '2018-02-27 12:54:00', '2018-02-27 11:54:00', NULL, 1),
+(6, 3, 'Admin', '$1$ePUUeaws$TaqLRxcITlcFT5loNKieO1', 'jordi.schaap@outlook.com', '178.226.189.9', '2018-01-25 14:23:18', '2018-04-11 10:38:11', NULL, 1),
+(12, 3, 'Peter', '$1$N.ewH/KC$hMSxRSkCsWwgWpN3pr8WN.', 'peter@idsignage.nl', '', '2018-03-05 00:00:00', '2018-04-05 08:46:54', NULL, 1),
+(13, 1, 'user', '$1$0zRWVGy/$O/9r3G1NnSiqliguJCpLb1', 'user@email.nl', '178.226.189.9', '2018-04-12 11:14:49', '2018-04-12 09:15:08', NULL, 1);
 
 --
 -- Indexen voor geëxporteerde tabellen
@@ -821,12 +1002,12 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT voor een tabel `alerts`
 --
 ALTER TABLE `alerts`
-  MODIFY `alert_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `alert_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 --
 -- AUTO_INCREMENT voor een tabel `categorys`
 --
 ALTER TABLE `categorys`
-  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
 --
 -- AUTO_INCREMENT voor een tabel `clients`
 --
@@ -836,12 +1017,12 @@ ALTER TABLE `clients`
 -- AUTO_INCREMENT voor een tabel `images`
 --
 ALTER TABLE `images`
-  MODIFY `img_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `img_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `image_connections`
 --
 ALTER TABLE `image_connections`
-  MODIFY `con_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `con_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `importance_types`
 --
@@ -851,12 +1032,12 @@ ALTER TABLE `importance_types`
 -- AUTO_INCREMENT voor een tabel `log`
 --
 ALTER TABLE `log`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=163;
 --
 -- AUTO_INCREMENT voor een tabel `logins`
 --
 ALTER TABLE `logins`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 --
 -- AUTO_INCREMENT voor een tabel `mail_config`
 --
@@ -876,22 +1057,22 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT voor een tabel `status_types`
 --
 ALTER TABLE `status_types`
-  MODIFY `status_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `status_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT voor een tabel `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `ticket_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=148;
+  MODIFY `ticket_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
 --
 -- AUTO_INCREMENT voor een tabel `ticket_progress`
 --
 ALTER TABLE `ticket_progress`
-  MODIFY `progress_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `progress_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

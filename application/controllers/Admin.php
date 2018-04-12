@@ -17,14 +17,8 @@ class Admin extends CI_Controller
         if (! $this->session->userdata('DX_logged_in') ){
             $this->session->sess_destroy();
             redirect('/login');
-        } else{
-            if ($this->session->userdata('DX_role_id') >= 2){
-
-            } else{
-                $this->session->sess_destroy();
-                redirect('/login');
-            }
         }
+
         $data['this_user'] = $this->session->userdata();
         $this->load->database();
 
@@ -36,12 +30,14 @@ class Admin extends CI_Controller
         $this->load->model('importance');
         $this->load->model('mail');
         $this->load->model('templates');
-        $this->load->model('rights');
         $this->load->model('roles');
     }
 
     public function view($page = 'dashboard')
     {
+        //Right check located in libraries
+        $this->rights->validate_rights($page);
+
         if ( ! file_exists(APPPATH.'views/admin/pages/'.$page.'.php'))
         {
             // Whoops, we don't have a page for that!
@@ -62,7 +58,7 @@ class Admin extends CI_Controller
                 $data['array'] = $this->user->get_all_entries_table();
                 break;
             case ('rights'):
-                $data['array'] = $this->rights->get_all_entries();
+                $data['array'] = $this->roles->get_all_entries();
                 break;
             case ('mail'):
                 $data['array'] = $this->mail->get_all_entries();
@@ -75,6 +71,9 @@ class Admin extends CI_Controller
                 break;
             case ('log'):
                 $data['array'] = $this->logs->get_all_entries();
+                break;
+            case ('pages'):
+                $data['array'] = $this->page->get_all_entries();
                 break;
             default:
                 break;
@@ -92,6 +91,9 @@ class Admin extends CI_Controller
 
     public function viewSingle($page = 'user', $id)
     {
+        //Right check located in libraries
+        $this->rights->validate_rights($page);
+
         if ( ! file_exists(APPPATH.'views/admin/pages/view/'.$page.'.php'))
         {
             // Whoops, we don't have a page for that!
@@ -122,6 +124,9 @@ class Admin extends CI_Controller
 
     public function add($page = 'dashboard')
     {
+        //Right check located in libraries
+        $this->rights->validate_rights($page);
+
         if ( ! file_exists(APPPATH.'views/admin/pages/add/'.$page.'.php'))
         {
             // Whoops, we don't have a page for that!
@@ -144,7 +149,13 @@ class Admin extends CI_Controller
             case ('right'):
                 $data['roles'] = $this->roles->get_all_entries();
                 break;
+            case ('page'):
+                $data['page'] = $this->page->get_all_entries();
+                $data['types'] = $this->page->get_enum();
+                $data['roles'] = $this->roles->get_all_entries();
+                break;
             default:
+                redirect('/home');
                 break;
         }
 
@@ -160,6 +171,9 @@ class Admin extends CI_Controller
 
     public function edit($page = 'dashboard', $id)
     {
+        //Right check located in libraries
+        $this->rights->validate_rights($page);
+
         if ( ! file_exists(APPPATH.'views/admin/pages/edit/'.$page.'.php'))
         {
             // Whoops, we don't have a page for that!
@@ -190,6 +204,12 @@ class Admin extends CI_Controller
                 break;
             case ('right'):
                 $this->data['role'] = $this->roles->get_entry($id);
+                break;
+            case ('page'):
+                $this->data['page'] = $this->page->get_entry($id);
+                $this->data['types'] = $this->page->get_enum();
+                $this->data['roles'] = $this->roles->get_all_entries();
+                $this->data['roles_selected'] = json_decode($this->data['page']['page_level'], true);
                 break;
             default:
                 break;

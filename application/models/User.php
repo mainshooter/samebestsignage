@@ -13,6 +13,11 @@ class User extends CI_Model
         return $query->result_array();
     }
 
+    public function get_all_entries_active(){
+        $query = $this->db->query('SELECT * FROM users WHERE active = 1');
+        return $query->result_array();
+    }
+
     public function get_all_login_entries(){
         $query = $this->db->query('SELECT * FROM logins');
         return $query->result_array();
@@ -32,7 +37,8 @@ class User extends CI_Model
            l.id AS login_id,
            l.date,
            u.created,
-           r.role_name
+           r.role_name,
+           u.active
           FROM users AS u
           JOIN roles as r ON u.role_id = r.role_id
           LEFT JOIN logins AS l ON
@@ -81,10 +87,10 @@ class User extends CI_Model
         return $query->row_array();
     }
 
-    public function get_single_entry_by_email($email){
+    public function get_single_entry_by_email_active($email){
         $query = $this->db->query('
           SELECT * FROM users as u
-           JOIN roles as r ON u.role_id = r.role_id WHERE u.email = '.$this->db->escape($email));
+           JOIN roles as r ON u.role_id = r.role_id WHERE active = 1 AND u.email = '.$this->db->escape($email));
         return $query->row_array();
     }
 
@@ -209,5 +215,34 @@ class User extends CI_Model
            WHERE 
             id = '.$this->db->escape($id));
         return $query;
+    }
+
+    public function toggle_user($id){
+        $user = $this->get_single_entry($id);
+
+        $bool = $user['active'];
+
+        switch ($bool) {
+            case 0:
+                $bool = 1;
+                $msg = 'on';
+                break;
+            case 1:
+                $bool = 0;
+                $msg = 'off';
+                break;
+        }
+
+        $query = $this->db->query('UPDATE users
+            SET 
+             active = '.$bool.'
+            WHERE id = '.$this->db->escape($id));
+
+        if($query){
+            $this->logs->insert_entry("UPDATE", "User no.".$id." is turned ". $msg, ($this->session->userdata('DX_user_id') != null)? $this->session->userdata('DX_user_id') : $this->input->ip_address());
+            return $msg;
+        } else{
+            return false;
+        }
     }
 }

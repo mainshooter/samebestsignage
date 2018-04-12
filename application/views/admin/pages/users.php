@@ -1,6 +1,7 @@
 <link rel="stylesheet" type="text/css" href="<?= asset('datatables/css/dtBS4.css');?>">
 <link type="text/css" rel="stylesheet" href="<?= asset('datatables/css/rBS4.css');?>"/>
 <link type="text/css" rel="stylesheet" href="<?= asset('datatables/css/sBS4.css');?>"/>
+<link type="text/css" rel="stylesheet" href="<?= asset('css/toggle.css');?>"/>
 
 <div class="row button-row">
     <a href="/admin/user/add" class="btn btn-outline-success">
@@ -17,13 +18,14 @@
             <th>Email</th>
             <th>Join Date</th>
             <th>Last Login</th>
+            <th>Active</th>
         </tr>
         </thead>
         <tbody>
         <?php
         foreach ($array as $key => $item) {
             ?>
-            <tr category="<?= $item['user_id'] ?>" onclick="sessionStorage.id = '<?= $item['user_id'] ?>'">
+            <tr category="<?= $item['user_id'] ?>" onclick="sessionStorage.id = '<?= $item['user_id'] ?>';  $('#check-box').attr('checked', <?= ($item['active'] == true)? " true" : "false"; ?>);">
                 <td>
                     <?= ucfirst($item['user_id']) ?>
                 </td>
@@ -39,6 +41,9 @@
                 </td>
                 <td>
                     <?= ($item['date'] != null)? date('d F Y', strtotime($item['date'])).' '.date('H:i', strtotime($item['date'])) : 'Never' ?>
+                </td>
+                <td>
+                    <?= $item['active'] == 1? 'Yes' : "No" ?>
                 </td>
             </tr>
             <?php
@@ -56,6 +61,12 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
+            </div> <div class="modal-body">
+                <div class="form-check checkbox-slider--a checkbox-slider-md">
+                    <label>
+                        <input type="checkbox" id="check-box" onchange="toggleUser(sessionStorage.id)"><span></span>
+                    </label>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
@@ -96,6 +107,10 @@
         $(".modal-btn").attr('disabled', true);
 
         window.location.href = '/admin/user/' + type + '/' + sessionStorage.id;
+    }
+
+    function toggleUser(id){
+        <?= ajax('POST', 'toggleUser', '{"id": id}') ?>
     }
 </script>
 

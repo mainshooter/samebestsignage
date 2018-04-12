@@ -13,6 +13,11 @@ class Clients extends CI_Model
         return $query->result_array();
     }
 
+    public function get_all_entries_active(){
+        $query = $this->db->query('SELECT client_id, client_name, client_email FROM clients WHERE client_active = 1 ');
+        return $query->result_array();
+    }
+
     public function get_all_entries_full(){
         $query = $this->db->query('SELECT * FROM clients ');
         return $query->result_array();
@@ -65,5 +70,36 @@ class Clients extends CI_Model
         }
 
         return $query;
+    }
+
+
+
+    public function toggle_client($id){
+        $client = $this->get_single_entry($id);
+
+        $bool = $client['client_active'];
+
+        switch ($bool) {
+            case 0:
+                $bool = 1;
+                $msg = 'on';
+                break;
+            case 1:
+                $bool = 0;
+                $msg = 'off';
+                break;
+        }
+
+        $query = $this->db->query('UPDATE clients
+            SET 
+             client_active = '.$bool.'
+            WHERE client_id = '.$this->db->escape($id));
+
+        if($query){
+            $this->logs->insert_entry("UPDATE", "Client no.".$id." is turned ". $msg, ($this->session->userdata('DX_user_id') != null)? $this->session->userdata('DX_user_id') : $this->input->ip_address());
+            return $msg;
+        } else{
+            return false;
+        }
     }
 }

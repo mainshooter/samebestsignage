@@ -1,6 +1,7 @@
 <link rel="stylesheet" type="text/css" href="<?= asset('datatables/css/dtBS4.css');?>">
 <link type="text/css" rel="stylesheet" href="<?= asset('datatables/css/rBS4.css');?>"/>
 <link type="text/css" rel="stylesheet" href="<?= asset('datatables/css/sBS4.css');?>"/>
+<link type="text/css" rel="stylesheet" href="<?= asset('css/toggle.css');?>"/>
 
 <div class="row button-row">
     <a href="/admin/status/add" class="btn btn-outline-success">
@@ -11,18 +12,18 @@
 <div class="table-responsive">
     <table id="status" class="table table-hover" style="border-collapse: collapse!important;">
         <thead>
-        <tr>
-            <th>Nr.</th>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Information</th>
-        </tr>
+            <tr>
+                <th>Nr.</th>
+                <th>Name</th>
+                <th>Information</th>
+                <th>Active</th>
+            </tr>
         </thead>
         <tbody>
         <?php
         foreach ($array as $key => $item) {
             ?>
-            <tr category="<?= $item['status_id'] ?>" onclick="sessionStorage.id = '<?= $item['status_id'] ?>'">
+            <tr category="<?= $item['status_id'] ?>" onclick="sessionStorage.id = '<?= $item['status_id'] ?>'; $('#check-box').attr('checked', <?= ($item['status_active'] == true)? " true" : "false"; ?>);">
                 <td>
                     <?= ucfirst($item['status_id']) ?>
                 </td>
@@ -30,10 +31,10 @@
                     <?= ucfirst($item['status_name']) ?>
                 </td>
                 <td>
-                    Status
+                    <?= $item['status_info'] ?>
                 </td>
                 <td>
-                    <?= $item['status_info'] ?>
+                    <?= $item['status_active'] == 1? 'Yes' : "No" ?>
                 </td>
             </tr>
             <?php
@@ -52,13 +53,16 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-footer">
-                <!--
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="agree">
-                    <label class="form-check-label" for="agree">I authorize this.</label>
+            <div class="modal-body">
+                <div class="form-check checkbox-slider--a checkbox-slider-md">
+                    <label>
+                        <input type="checkbox" id="check-box" onchange="toggleStat(sessionStorage.id)"><span></span>
+                    </label>
                 </div>
-                -->
+                <script>
+                </script>
+            </div>
+            <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
                 <button onclick="Href('edit')" class="btn btn-outline-success unset-webkit-btn modal-btn">Edit</button>
             </div>
@@ -97,4 +101,14 @@
 
         window.location.href = '/admin/status/' + type + '/' + sessionStorage.id;
     }
+
+    function toggleStat(id){
+        <?= ajax('POST', 'toggleStatus', '{"id": id}') ?>
+    }
 </script>
+
+<script src="<?= asset('datatables/js/jqDT.js');?>"></script>
+<script src="<?= asset('datatables/js/dtBS4.js');?>"></script>
+<script src="<?= asset('datatables/js/dtR.js');?>"></script>
+<script src="<?= asset('datatables/js/rBS4.js');?>"></script>
+<script src="<?= asset('datatables/js/dtS.js');?>"></script>

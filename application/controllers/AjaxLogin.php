@@ -27,7 +27,7 @@ class AjaxLogin extends CI_Controller
         if (! $this->session->userdata('DX_logged_in')) {
             if (!empty($_POST['email']) && !empty($_POST['password'])) {
 
-                if($row = $this->user->get_single_entry_by_email($_POST['email'])) {
+                if($row = $this->user->get_single_entry_by_email_active($_POST['email'])) {
                     $password = $this->_encode($_POST['password']);
                     $stored_hash = $row['password'];
 

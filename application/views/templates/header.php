@@ -35,31 +35,23 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <?php 
+            <?php
             if (!empty($this_user['DX_logged_in']) && $this_user['DX_logged_in'] === true) {
+                foreach ($pages as $page) {
+                    if ($page['page_name'] != 'ticket') {
+                        if (in_array($this_user['DX_role_id'], json_decode($page['page_level'], true))) {
+                            ?>
+                            <li class="nav-item" id="<?= $page['page_name'] ?>">
+                                <a class="nav-link"
+                                   href="/<?= $page['page_name'] ?>"><?= ucfirst($page['page_name']) ?></a>
+                            </li>
+                            <?php
+                        }
+                    }
+                }
                 ?>
-                <li class="nav-item" id="home">
-                    <a class="nav-link" href="/home">Home</a>
-                </li>
-                <li class="nav-item" id="mytickets">
-                    <a class="nav-link" href="/mytickets">My tickets</a>
-                </li>
-                <li class="nav-item" id="completed">
-                    <a class="nav-link" href="/completed">Completed tickets</a>
-                </li>
-                <li class="nav-item" id="overview">
-                    <a class="nav-link" href="/overview">All tickets</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        My Account
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
-                        <h6 class="dropdown-header">My Account</h6>
-                        <a class="dropdown-item" href="/profile">Profile</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/logout">Logout</a>
-                    </div>
+                <li class="nav-item" id="logout">
+                    <a class="nav-link" href="/logout">Logout</a>
                 </li>
                 <?php
             } else {
@@ -103,7 +95,7 @@
                     </li>
                 </ul>
                 <?php
-                if ((int)$this_user['DX_role_id'] >= 2) {
+                if (in_array($this_user['DX_role_id'], json_decode($dashboard['page_level'], true))) {
                     ?>
                     <a href="/admin/dashboard">
                         <ul class="navbar-nav">

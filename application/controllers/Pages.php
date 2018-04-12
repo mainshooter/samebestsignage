@@ -34,11 +34,13 @@ class Pages extends CI_Controller
         $this->load->model('alert');
         $this->load->model('mail');
 
-        $this->data['clients'] = $this->clients->get_all_entries();
-        $this->data['users'] = $this->user->get_all_entries();
-        $this->data['categorys'] = $this->category->get_all_entries();
-        $this->data['statuses'] = $this->status->get_all_entries();
-        $this->data['importances'] = $this->importance->get_all_entries();
+        $this->data['pages'] = $this->page->get_all_entries_by_type('front');
+        $this->data['dashboard'] = $this->page->get_entry_by_name('dashboard');
+        $this->data['clients'] = $this->clients->get_all_entries_active();
+        $this->data['users'] = $this->user->get_all_entries_active();
+        $this->data['categorys'] = $this->category->get_all_entries_active();
+        $this->data['statuses'] = $this->status->get_all_entries_active();
+        $this->data['importances'] = $this->importance->get_all_entries_active();
         $this->data['alerts'] = $this->alert->get_all_entries_user($this->session->userdata('DX_user_id'));
     }
 
@@ -72,6 +74,9 @@ class Pages extends CI_Controller
                 $this->home($id);
                 break;
         }
+
+        //Right check located in libraries
+        $this->rights->validate_rights($page);
 
         if ( ! file_exists(APPPATH.'views/pages/'.$page.'.php'))
         {

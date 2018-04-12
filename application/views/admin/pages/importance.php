@@ -1,6 +1,7 @@
 <link rel="stylesheet" type="text/css" href="<?= asset('datatables/css/dtBS4.css');?>">
 <link type="text/css" rel="stylesheet" href="<?= asset('datatables/css/rBS4.css');?>"/>
 <link type="text/css" rel="stylesheet" href="<?= asset('datatables/css/sBS4.css');?>"/>
+<link type="text/css" rel="stylesheet" href="<?= asset('css/toggle.css');?>"/>
 
 <div class="row button-row">
     <a href="/admin/importance/add" class="btn btn-outline-success">
@@ -16,6 +17,7 @@
             <th>Name</th>
             <th>Type</th>
             <th>Information</th>
+            <th>Active</th>
             <th>Color</th>
         </tr>
         </thead>
@@ -23,7 +25,7 @@
         <?php
         foreach ($array as $key => $item) {
             ?>
-            <tr category="<?= $item['importance_id'] ?>" onclick="sessionStorage.id = '<?= $item['importance_id'] ?>'">
+            <tr category="<?= $item['importance_id'] ?>" onclick="sessionStorage.id = '<?= $item['importance_id'] ?>';  $('#check-box').attr('checked', <?= ($item['importance_active'] == true)? " true" : "false"; ?>);">
                 <td>
                     <?= ucfirst($item['importance_id']) ?>
                 </td>
@@ -35,6 +37,9 @@
                 </td>
                 <td>
                     <?= $item['importance_info'] ?>
+                </td>
+                <td>
+                    <?= $item['importance_active'] == 1? 'Yes' : "No" ?>
                 </td>
                 <td style="background-color: <?= $item['importance_color'] ?>">
                     <?= $item['importance_color'] ?>
@@ -56,13 +61,14 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-footer">
-                <!--
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="agree">
-                    <label class="form-check-label" for="agree">I authorize this.</label>
+            <div class="modal-body">
+                <div class="form-check checkbox-slider--a checkbox-slider-md">
+                    <label>
+                        <input type="checkbox" id="check-box" onchange="toggleImp(sessionStorage.id)"><span></span>
+                    </label>
                 </div>
-                -->
+            </div>
+            <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
                 <button onclick="Href('edit')" class="btn btn-outline-success unset-webkit-btn modal-btn">Edit</button>
             </div>
@@ -100,6 +106,10 @@
         $(".modal-btn").attr('disabled', true);
 
         window.location.href = '/admin/importance/' + type + '/' + sessionStorage.id;
+    }
+
+    function toggleImp(id){
+        <?= ajax('POST', 'toggleImportance', '{"id": id}') ?>
     }
 </script>
 

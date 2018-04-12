@@ -386,6 +386,29 @@ class Ajax extends CI_Controller
         }
     }
 
+    public function toggleCategory()
+    {
+        $msg = $this->category->toggle_category($_POST['id']);
+        if (is_bool($msg) && $msg === false) {
+            echo json_encode(
+                array(
+                    "error" => true,
+                    "msg" => "At this moment is is not possible to toggle a category. /n Please come back later to try again.",
+                    "href" => "unset"
+                )
+            );
+        } else {
+            $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Update', 'Category no.' . $_POST['id'] . ' is turned '.$msg, 'create', '/admin/category/');
+            echo json_encode(
+                array(
+                    "error" => false,
+                    "msg" => "Success",
+                    "href" => "/admin/category"
+                )
+            );
+        }
+    }
+
     public function addStatus()
     {
         if (!empty($_POST['name'])) {
@@ -450,6 +473,29 @@ class Ajax extends CI_Controller
             );
         } else {
             $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Update', 'Status no.' . $id . ' is updated.', 'create', '/admin/status/');
+            echo json_encode(
+                array(
+                    "error" => false,
+                    "msg" => "Success",
+                    "href" => "/admin/status"
+                )
+            );
+        }
+    }
+
+    public function toggleStatus()
+    {
+        $msg = $this->status->toggle_status($_POST['id']);
+        if (is_bool($msg) && $msg === false) {
+            echo json_encode(
+                array(
+                    "error" => true,
+                    "msg" => "At this moment is is not possible to toggle a status. /n Please come back later to try again.",
+                    "href" => "unset"
+                )
+            );
+        } else {
+            $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Update', 'Status no.' . $_POST['id'] . ' is turned '.$msg, 'create', '/admin/category/');
             echo json_encode(
                 array(
                     "error" => false,
@@ -540,6 +586,114 @@ class Ajax extends CI_Controller
                     "error" => false,
                     "msg" => "Success",
                     "href" => "/admin/importance"
+                )
+            );
+        }
+    }
+
+    public function toggleImportance()
+    {
+        $msg = $this->importance->toggle_importance($_POST['id']);
+        if (is_bool($msg) && $msg === false) {
+            echo json_encode(
+                array(
+                    "error" => true,
+                    "msg" => "At this moment is is not possible to toggle a importance. /n Please come back later to try again.",
+                    "href" => "unset"
+                )
+            );
+        } else {
+            $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Update', 'Importance no.' . $_POST['id'] . ' is turned '.$msg, 'create', '/admin/category/');
+            echo json_encode(
+                array(
+                    "error" => false,
+                    "msg" => "Success",
+                    "href" => "/admin/importance"
+                )
+            );
+        }
+    }
+
+    public function addPage()
+    {
+        if (!empty($_POST['name'])) {
+            if (!empty($_POST['type'])) {
+                if (!empty($_POST['link'])) {
+                    if (!empty($_POST['rights'])) {
+                        if (!$this->page->insert_entry($_POST['name'], $_POST['type'], $_POST['link'], $_POST['rights'])) {
+                            echo json_encode(
+                                array(
+                                    "error" => true,
+                                    "msg" => "At this moment is is not possible to create a page. /n Please come back later to try again.",
+                                    "href" => "unset"
+                                )
+                            );
+                        } else {
+                            $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Created', 'Page is created.', 'add', '/admin/pages/');
+                            echo json_encode(
+                                array(
+                                    "error" => false,
+                                    "msg" => "Success",
+                                    "href" => "/admin/pages"
+                                )
+                            );
+                        }
+                    } else {
+                        echo json_encode(
+                            array(
+                                "error" => true,
+                                "msg" => "The rights are not selected",
+                                "href" => "unset"
+                            )
+                        );
+                    }
+                } else {
+                    echo json_encode(
+                        array(
+                            "error" => true,
+                            "msg" => "The rights are not selected",
+                            "href" => "unset"
+                        )
+                    );
+                }
+            } else {
+                echo json_encode(
+                    array(
+                        "error" => true,
+                        "msg" => "The type is not selected",
+                        "href" => "unset"
+                    )
+                );
+            }
+        } else {
+            echo json_encode(
+                array(
+                    "error" => true,
+                    "msg" => "Name is not filled in",
+                    "href" => "unset"
+                )
+            );
+        }
+    }
+
+
+    public function editPage($id)
+    {
+        if (!$this->page->update_entry($id, $_POST['name'], $_POST['type'], $_POST['link'], $_POST['rights'])) {
+            echo json_encode(
+                array(
+                    "error" => true,
+                    "msg" => "At this moment is is not possible to edit a page. /n Please come back later to try again.",
+                    "href" => "unset"
+                )
+            );
+        } else {
+            $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Update', 'Page no.' . $id . ' is updated.', 'create', '/admin/pages/');
+            echo json_encode(
+                array(
+                    "error" => false,
+                    "msg" => "Success",
+                    "href" => "/admin/pages"
                 )
             );
         }
@@ -684,6 +838,29 @@ class Ajax extends CI_Controller
                     )
                 );
             }
+        }
+    }
+
+    public function toggleUser()
+    {
+        $msg = $this->user->toggle_user($_POST['id']);
+        if (is_bool($msg) && $msg === false) {
+            echo json_encode(
+                array(
+                    "error" => true,
+                    "msg" => "At this moment is is not possible to toggle a user. /n Please come back later to try again.",
+                    "href" => "unset"
+                )
+            );
+        } else {
+            $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Update', 'User no.' . $_POST['id'] . ' is turned '.$msg, 'create', '/admin/category/');
+            echo json_encode(
+                array(
+                    "error" => false,
+                    "msg" => "Success",
+                    "href" => "/admin/users"
+                )
+            );
         }
     }
 
@@ -1130,6 +1307,28 @@ class Ajax extends CI_Controller
                     "error" => true,
                     "msg" => "Username not filled in",
                     "href" => "unset"
+                )
+            );
+        }
+    }
+
+    public function toggleClient(){
+        $msg = $this->clients->toggle_client($_POST['id']);
+        if (is_bool($msg) && $msg === false) {
+            echo json_encode(
+                array(
+                    "error" => true,
+                    "msg" => "At this moment is is not possible to toggle a client. /n Please come back later to try again.",
+                    "href" => "unset"
+                )
+            );
+        } else {
+            $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Update', 'Client no.' . $_POST['id'] . ' is turned '.$msg, 'create', '/admin/category/');
+            echo json_encode(
+                array(
+                    "error" => false,
+                    "msg" => "Success",
+                    "href" => "/admin/clients"
                 )
             );
         }
