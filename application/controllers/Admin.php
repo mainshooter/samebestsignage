@@ -134,6 +134,8 @@ class Admin extends CI_Controller
         }
 
         switch ($page){
+            case ('category'):
+                break;
             case ('status'):
                 $data['array'] = $this->status->get_enum();
                 break;
@@ -153,6 +155,8 @@ class Admin extends CI_Controller
                 $data['page'] = $this->page->get_all_entries();
                 $data['types'] = $this->page->get_enum();
                 $data['roles'] = $this->roles->get_all_entries();
+                break;
+            case ('template'):
                 break;
             default:
                 redirect('/home');
