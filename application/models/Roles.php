@@ -8,16 +8,28 @@
 
 class Roles extends CI_Model
 {
+    /**
+     * @return mixed
+     */
     public function get_all_entries(){
         $query = $this->db->query('SELECT * FROM roles');
         return $query->result_array();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function get_entry($id){
         $query = $this->db->query('SELECT * FROM roles WHERE role_id = '.$id);
         return $query->row_array();
     }
 
+    /**
+     * @param $nam
+     * @param $inf
+     * @return mixed
+     */
     public function insert_entry($nam, $inf){
         $query = $this->db->query('
             INSERT INTO
@@ -38,6 +50,12 @@ class Roles extends CI_Model
         return $query;
     }
 
+    /**
+     * @param $id
+     * @param $nam
+     * @param $inf
+     * @return mixed
+     */
     public function update_entry($id, $nam, $inf){
         $query = $this->db->query('
             UPDATE

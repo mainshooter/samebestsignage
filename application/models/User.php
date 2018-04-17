@@ -8,26 +8,41 @@
 
 class User extends CI_Model
 {
+    /**
+     * @return mixed
+     */
     public function get_all_entries(){
         $query = $this->db->query('SELECT id, username, email FROM users ');
         return $query->result_array();
     }
 
+    /**
+     * @return mixed
+     */
     public function get_all_entries_active(){
         $query = $this->db->query('SELECT * FROM users WHERE active = 1');
         return $query->result_array();
     }
 
+    /**
+     * @return mixed
+     */
     public function get_all_login_entries(){
         $query = $this->db->query('SELECT * FROM logins');
         return $query->result_array();
     }
 
+    /**
+     * @return mixed
+     */
     public function get_line_chart_login(){
         $query = $this->db->query('SELECT DATE_FORMAT(date, "%d-%m-%Y") AS day, COUNT(*) AS count FROM logins GROUP BY day');
         return $query->result_array();
     }
 
+    /**
+     * @return mixed
+     */
     public function get_all_entries_table(){
         $query = $this->db->query('
           SELECT
@@ -50,6 +65,10 @@ class User extends CI_Model
         return $query->result_array();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function get_single_entry($id){
         $query = $this->db->query('
           SELECT 
@@ -71,6 +90,10 @@ class User extends CI_Model
         return $query->row_array();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function get_single_entry_id($id){
         $query = $this->db->query('
           SELECT 
@@ -82,11 +105,19 @@ class User extends CI_Model
         return $query->row_array();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function get_single_entry_mail($id){
         $query = $this->db->query('SELECT username, email FROM users WHERE id = '.$this->db->escape($id));
         return $query->row_array();
     }
 
+    /**
+     * @param $email
+     * @return mixed
+     */
     public function get_single_entry_by_email_active($email){
         $query = $this->db->query('
           SELECT * FROM users as u
@@ -94,11 +125,22 @@ class User extends CI_Model
         return $query->row_array();
     }
 
+    /**
+     * @param $hash
+     * @return mixed
+     */
     public function get_single_entry_by_hash($hash){
         $query = $this->db->query('SELECT * FROM users WHERE hash = '.$this->db->escape($hash));
         return $query->row_array();
     }
 
+    /**
+     * @param $nam
+     * @param $ema
+     * @param $pas
+     * @param $rol
+     * @return mixed
+     */
     public function insert_entry($nam, $ema, $pas, $rol){
         $query = $this->db->query('
             INSERT INTO users (username, email, password, role_id) 
@@ -117,6 +159,9 @@ class User extends CI_Model
         return $query;
     }
 
+    /**
+     * @return mixed
+     */
     public function insert_super_admin(){
         //pass = AdminPassIdsignage1!
         $query = $this->db->query('
@@ -137,6 +182,13 @@ class User extends CI_Model
         return $query;
     }
 
+    /**
+     * @param $id
+     * @param $nam
+     * @param $ema
+     * @param $rol
+     * @return mixed
+     */
     public function update_entry($id, $nam, $ema, $rol){
         $query = $this->db->query('
           UPDATE users
@@ -154,6 +206,12 @@ class User extends CI_Model
         return $query;
     }
 
+    /**
+     * @param $id
+     * @param $nam
+     * @param $ema
+     * @return mixed
+     */
     public function update_entry_user($id, $nam, $ema){
         $query = $this->db->query('
           UPDATE users
@@ -170,6 +228,10 @@ class User extends CI_Model
         return $query;
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function _set_last_ip_and_last_login($id){
         $query = $this->db->query('INSERT INTO logins (user_id, ip_address, date) VALUES (' . $this->db->escape($id) . ', "'.$this->input->ip_address().'", NOW())');
 
@@ -187,6 +249,11 @@ class User extends CI_Model
         return $query;
     }
 
+    /**
+     * @param $id
+     * @param $pass
+     * @return mixed
+     */
     public function update_password($id, $pass){
         $query = $this->db->query('
           UPDATE users
@@ -197,6 +264,11 @@ class User extends CI_Model
         return $query;
     }
 
+    /**
+     * @param $email
+     * @param $hash
+     * @return mixed
+     */
     public function forgot_password($email, $hash){
         $query = $this->db->query('
           UPDATE users
@@ -207,6 +279,10 @@ class User extends CI_Model
         return $query;
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function remove_salt($id){
         $query = $this->db->query('
           UPDATE users
@@ -217,6 +293,10 @@ class User extends CI_Model
         return $query;
     }
 
+    /**
+     * @param $id
+     * @return bool|string
+     */
     public function toggle_user($id){
         $user = $this->get_single_entry($id);
 

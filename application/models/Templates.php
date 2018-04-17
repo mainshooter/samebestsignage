@@ -8,16 +8,28 @@
 
 class Templates extends CI_Model
 {
+    /**
+     * @return mixed
+     */
     public function get_all_entries(){
         $query = $this->db->query('SELECT * FROM mail_templates');
         return $query->result_array();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function get_single_entry($id){
         $query = $this->db->query('SELECT * FROM mail_templates WHERE id = '.$id);
         return $query->row_array();
     }
 
+    /**
+     * @param $sub
+     * @param $con
+     * @return mixed
+     */
     public function insert_entry($sub, $con){
         $query = $this->db->query('
           INSERT INTO mail_templates ( subject, content ) 
@@ -31,6 +43,12 @@ class Templates extends CI_Model
         return $query;
     }
 
+    /**
+     * @param $id
+     * @param $sub
+     * @param $con
+     * @return mixed
+     */
     public function update_entry($id, $sub, $con){
         $query = $this->db->query('
           UPDATE 

@@ -8,8 +8,14 @@
 
 class Admin extends CI_Controller
 {
+    /**
+     * @var array
+     */
     private $data = array();
 
+    /**
+     * Admin constructor.
+     */
     public function __construct()
     {
         parent::__construct();
@@ -33,6 +39,9 @@ class Admin extends CI_Controller
         $this->load->model('roles');
     }
 
+    /**
+     * @param string $page
+     */
     public function view($page = 'dashboard')
     {
         //Right check located in libraries
@@ -89,6 +98,10 @@ class Admin extends CI_Controller
         $this->load->view('admin/templates/footer', $data);
     }
 
+    /**
+     * @param string $page
+     * @param $id
+     */
     public function viewSingle($page = 'user', $id)
     {
         //Right check located in libraries
@@ -122,6 +135,9 @@ class Admin extends CI_Controller
         $this->load->view('admin/templates/footer', $data);
     }
 
+    /**
+     * @param string $page
+     */
     public function add($page = 'dashboard')
     {
         //Right check located in libraries
@@ -173,6 +189,10 @@ class Admin extends CI_Controller
         $this->load->view('admin/templates/footer', $data);
     }
 
+    /**
+     * @param string $page
+     * @param $id
+     */
     public function edit($page = 'dashboard', $id)
     {
         //Right check located in libraries

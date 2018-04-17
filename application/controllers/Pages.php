@@ -8,8 +8,14 @@
 
 class Pages extends CI_Controller
 {
+    /**
+     * @var
+     */
     public $data;
 
+    /**
+     * Pages constructor.
+     */
     public function __construct()
     {
         parent::__construct();
@@ -44,6 +50,9 @@ class Pages extends CI_Controller
         $this->data['alerts'] = $this->alert->get_all_entries_user($this->session->userdata('DX_user_id'));
     }
 
+    /**
+     *
+     */
     private function _check_auth(){
         if(!$this->session->userdata('is_admin')){
             $this->session->sess_destroy();
@@ -51,6 +60,10 @@ class Pages extends CI_Controller
         }
     }
 
+    /**
+     * @param string $page
+     * @param int $id
+     */
     public function view($page = 'home', $id = null)
     {
         switch ($page){
@@ -100,6 +113,9 @@ class Pages extends CI_Controller
         $this->data[$key] = $data;
     }
 
+    /**
+     * @param int $start_index
+     */
     public function home($start_index = 1){
         $this->load->library('pagination');
 
@@ -118,37 +134,33 @@ class Pages extends CI_Controller
         $this->setData('array', $this->ticket->get_current_page_records($config['per_page'], $start_index));
     }
 
-    public function completed($start_index = null){
-        //$this->load->library('pagination');
-//
-        //$count = $this->ticket->count_completed_entries();
-//
-        //$config = array (
-        //    'base_url' => base_url()."/completed/",
-        //    'total_rows' => $count,
-        //    'per_page' => 20,
-        //    'num_links' => 2,
-        //);
-//
-        //$this->pagination->initialize($config);
-//
-        //$this->setData('links', $this->pagination->create_links());
-        //$this->setData('array', $this->ticket->get_current_page_records_completed($config['per_page'], $start_index));
-
+    /**
+     *
+     */
+    public function completed(){
         $this->load->library('table');
         $this->setData('table', $this->table->generate($this->ticket->get_completed_entries()));
     }
 
+    /**
+     *
+     */
     public function overview(){
         $this->load->library('table');
         $this->setData('table', $this->table->generate($this->ticket->get_all_entries()));
     }
 
+    /**
+     *
+     */
     public function myTickets(){
         $this->load->library('table');
         $this->setData('table', $this->table->generate($this->ticket->get_my_entries()));
     }
 
+    /**
+     * @param $id
+     */
     public function ticket($id){
         $this->data['ticket'] = $this->ticket->get_single_entry($id);
 
@@ -168,6 +180,9 @@ class Pages extends CI_Controller
         }
     }
 
+    /**
+     *
+     */
     public function profile(){
         $this->data['user'] = $this->user->get_single_entry($this->session->userdata('DX_user_id'));
     }

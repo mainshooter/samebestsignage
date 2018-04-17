@@ -8,21 +8,34 @@
 
 class Importance extends CI_Model
 {
+    /**
+     * @return mixed
+     */
     public function get_all_entries(){
         $query = $this->db->query('SELECT * FROM importance_types ');
         return $query->result_array();
     }
 
+    /**
+     * @return mixed
+     */
     public function get_all_entries_active(){
         $query = $this->db->query('SELECT * FROM importance_types WHERE importance_active = 1');
         return $query->result_array();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function get_single_entry($id){
         $query = $this->db->query('SELECT * FROM importance_types WHERE importance_id = '.$this->db->escape($id));
         return $query->row_array();
     }
 
+    /**
+     * @return array
+     */
     public function get_enum(){
         $type = $this->db->query( "SHOW COLUMNS FROM importance_types WHERE Field = 'importance_level'" )->row( 0 )->Type;
         preg_match("/^enum\(\'(.*)\'\)$/", $type, $matches);
@@ -30,6 +43,13 @@ class Importance extends CI_Model
         return $enum;
     }
 
+    /**
+     * @param $nam
+     * @param $inf
+     * @param $col
+     * @param $lvl
+     * @return mixed
+     */
     public function insert_entry($nam, $inf, $col, $lvl){
         $query = $this->db->query('
           INSERT INTO importance_types (importance_name, importance_info, importance_color, importance_level)
@@ -47,6 +67,14 @@ class Importance extends CI_Model
         return $query;
     }
 
+    /**
+     * @param $id
+     * @param $nam
+     * @param $inf
+     * @param $col
+     * @param $lvl
+     * @return mixed
+     */
     public function update_entry($id, $nam, $inf, $col, $lvl){
         $query = $this->db->query('UPDATE importance_types
             SET 
@@ -64,6 +92,10 @@ class Importance extends CI_Model
         return $query;
     }
 
+    /**
+     * @param $id
+     * @return bool|string
+     */
     public function toggle_importance($id){
         $imp = $this->get_single_entry($id);
 

@@ -8,6 +8,9 @@
 
 class Ticket extends CI_Model
 {
+    /**
+     * @return mixed
+     */
     public function get_all_entries(){
         $query = $this->db->query('
           SELECT t.ticket_id, c.client_name, a.cat_name, t.ticket_problem, t.ticket_created_at, t.ticket_completed_at, s.status_name, u.email FROM tickets AS  t
@@ -19,6 +22,9 @@ class Ticket extends CI_Model
         return $query;
     }
 
+    /**
+     * @return mixed
+     */
     public function get_my_entries(){
         $query = $this->db->query('
           SELECT t.ticket_id, c.client_name, a.cat_name, t.ticket_problem, t.ticket_created_at, t.ticket_completed_at, s.status_name FROM tickets AS  t
@@ -31,6 +37,9 @@ class Ticket extends CI_Model
         return $query;
     }
 
+    /**
+     * @return mixed
+     */
     public function get_completed_entries(){
         $query = $this->db->query('
           SELECT t.ticket_id, c.client_name, a.cat_name, t.ticket_problem, t.ticket_created_at, t.ticket_completed_at, s.status_name, u.email FROM tickets AS t 
@@ -43,11 +52,19 @@ class Ticket extends CI_Model
         return $query->result_array();
     }
 
+    /**
+     * @return mixed
+     */
     public function count_pending_entries(){
         $query = $this->db->query('SELECT t.ticket_id FROM tickets AS t JOIN status_types AS s ON t.ticket_status = s.status_id WHERE t.ticket_completed_at IS NULL AND s.status_level = "pending"');
         return $query->num_rows();
     }
 
+    /**
+     * @param $limit
+     * @param $start
+     * @return bool
+     */
     public function get_current_page_records($limit, $start)
     {
         $this->db->select('*');
@@ -75,6 +92,9 @@ class Ticket extends CI_Model
         return false;
     }
 
+    /**
+     * @return mixed
+     */
     public function get_pending_entries(){
         $query = $this->db->query('
           SELECT * FROM tickets AS t 
@@ -88,11 +108,19 @@ class Ticket extends CI_Model
         return $query->result_array();
     }
 
+    /**
+     * @return mixed
+     */
     public function count_completed_entries(){
         $query = $this->db->query('SELECT ticket_id FROM tickets WHERE ticket_completed_at IS NOT NULL');
         return $query->num_rows();
     }
 
+    /**
+     * @param $limit
+     * @param $start
+     * @return bool
+     */
     public function get_current_page_records_completed($limit, $start)
     {
         $this->db->select('*');
@@ -117,6 +145,10 @@ class Ticket extends CI_Model
         return false;
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function get_single_entry($id){
         $query = $this->db->query('
           SELECT * FROM tickets AS t
@@ -131,6 +163,10 @@ class Ticket extends CI_Model
         return $query->row_array();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function get_progress($id){
         $query = $this->db->query('
           SELECT * FROM ticket_progress AS p
@@ -142,6 +178,10 @@ class Ticket extends CI_Model
         return $query->result_array();
     }
 
+    /**
+     * @param $hash
+     * @return mixed
+     */
     public function get_entry_by_hash($hash){
         $query = $this->db->query('
           SELECT * FROM tickets AS t
@@ -156,31 +196,58 @@ class Ticket extends CI_Model
         return $query->row_array();
     }
 
+    /**
+     * @return mixed
+     */
     public function get_all_ticket_no_join(){
         $query = $this->db->query('SELECT * FROM tickets');
         return $query->result_array();
     }
 
+    /**
+     * @return mixed
+     */
     public function get_line_chart_ticket(){
         $query = $this->db->query('SELECT DATE_FORMAT(ticket_created_at, "%d-%m-%Y") AS day, COUNT(*) AS count FROM tickets GROUP BY day');
         return $query->result_array();
     }
 
+    /**
+     * @return mixed
+     */
     public function get_pie_chart(){
         $query = $this->db->query('SELECT c.cat_name, COUNT(*) AS count FROM tickets AS t JOIN categorys AS c  ON t.ticket_type = c.cat_id GROUP BY c.cat_id');
         return $query->result_array();
     }
 
+    /**
+     * @return mixed
+     */
     public function get_pie_chart_client(){
         $query = $this->db->query('SELECT c.client_name FROM tickets AS t JOIN clients AS c  ON t.client_id = c.client_id');
         return $query->result_array();
     }
 
+    /**
+     * @return mixed
+     */
     public function get_pie_chart_imp(){
         $query = $this->db->query('SELECT i.importance_name FROM tickets AS t JOIN importance_types AS i  ON t.ticket_importance = i.importance_id');
         return $query->result_array();
     }
 
+    /**
+     * @param $cli
+     * @param $cat
+     * @param $sta
+     * @param $imp
+     * @param $pro
+     * @param $img
+     * @param $DX_
+     * @param $use
+     * @param $has
+     * @return mixed
+     */
     public function insert_entry($cli, $cat, $sta, $imp, $pro, $img, $DX_, $use, $has){
         $query = $this->db->query('
           INSERT INTO tickets (
@@ -212,6 +279,19 @@ class Ticket extends CI_Model
         return $query;
     }
 
+    /**
+     * @param $cli
+     * @param $cat
+     * @param $sta
+     * @param $imp
+     * @param $pro
+     * @param $op
+     * @param $img
+     * @param $DX_
+     * @param $use
+     * @param $has
+     * @return mixed
+     */
     public function insert_entry_db($cli, $cat, $sta, $imp, $pro, $op, $img, $DX_, $use, $has){
         $query = $this->db->query('
           INSERT INTO tickets (
@@ -245,6 +325,11 @@ class Ticket extends CI_Model
         return $query;
     }
 
+    /**
+     * @param $id
+     * @param $progress
+     * @return mixed
+     */
     public function insert_progress($id, $progress){
         $query = $this->db->query('
           INSERT INTO ticket_progress (
@@ -266,6 +351,12 @@ class Ticket extends CI_Model
         return $query;
     }
 
+    /**
+     * @param $id
+     * @param $sol
+     * @param $sta
+     * @return mixed
+     */
     public function complete_entry($id, $sol, $sta){
         $query = $this->db->query('
           UPDATE tickets
@@ -282,6 +373,11 @@ class Ticket extends CI_Model
         return $query;
     }
 
+    /**
+     * @param $id
+     * @param $pro
+     * @return mixed
+     */
     public function update_entry($id, $pro){
         $query = $this->db->query('
           UPDATE tickets
@@ -297,6 +393,12 @@ class Ticket extends CI_Model
         return $query;
     }
 
+    /**
+     * @param $id
+     * @param $use
+     * @param $com
+     * @return mixed
+     */
     public function update_entry_assign($id, $use, $com){
         $query = $this->db->query('
           UPDATE tickets
@@ -313,6 +415,10 @@ class Ticket extends CI_Model
         return $query;
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function restore_entry($id){
         $query = $this->db->query('
           UPDATE tickets
@@ -329,6 +435,9 @@ class Ticket extends CI_Model
         return $query;
     }
 
+    /**
+     *
+     */
     public function strip_tags(){
         $query = $this->db->query('SELECT * FROM tickets');
 

@@ -8,26 +8,44 @@
 
 class Page extends CI_Model
 {
+    /**
+     * @return mixed
+     */
     public function get_all_entries(){
         $query = $this->db->query('SELECT * FROM pages_list');
         return $query->result_array();
     }
 
+    /**
+     * @param $type
+     * @return mixed
+     */
     public function get_all_entries_by_type($type){
         $query = $this->db->query('SELECT * FROM pages_list WHERE page_type = '.$this->db->escape($type));
         return $query->result_array();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function get_entry($id){
         $query = $this->db->query('SELECT * FROM pages_list WHERE page_id = '.$id);
         return $query->row_array();
     }
 
+    /**
+     * @param $name
+     * @return mixed
+     */
     public function get_entry_by_name($name){
         $query = $this->db->query('SELECT page_level FROM pages_list WHERE page_name = '.$this->db->escape($name));
         return $query->row_array();
     }
 
+    /**
+     * @return array
+     */
     public function get_enum(){
         $type = $this->db->query( "SHOW COLUMNS FROM pages_list WHERE Field = 'page_type'" )->row( 0 )->Type;
         preg_match("/^enum\(\'(.*)\'\)$/", $type, $matches);
@@ -35,6 +53,13 @@ class Page extends CI_Model
         return $enum;
     }
 
+    /**
+     * @param $name
+     * @param $type
+     * @param $link
+     * @param $level
+     * @return mixed
+     */
     public function insert_entry($name, $type, $link, $level){
         $query = $this->db->query('
             INSERT INTO
@@ -59,6 +84,14 @@ class Page extends CI_Model
         return $query;
     }
 
+    /**
+     * @param $id
+     * @param $name
+     * @param $type
+     * @param $link
+     * @param $level
+     * @return mixed
+     */
     public function update_entry($id, $name, $type, $link, $level){
         $query = $this->db->query('
             UPDATE

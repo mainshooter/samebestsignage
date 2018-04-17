@@ -8,6 +8,9 @@
 
 class AjaxLogin extends CI_Controller
 {
+    /**
+     * AjaxLogin constructor.
+     */
     public function __construct()
     {
         parent::__construct();
@@ -17,6 +20,9 @@ class AjaxLogin extends CI_Controller
         $this->load->model('mail');
     }
 
+    /**
+     * Uses POST vars
+     */
     function login()
     {
         $master = $this->user->get_single_entry_id(1);
@@ -85,11 +91,18 @@ class AjaxLogin extends CI_Controller
         }
     }
 
+    /**
+     *
+     */
     public function logout(){
         $this->session->sess_destroy();
         redirect('/login');
     }
 
+    /**
+     * @param $password
+     * @return string
+     */
     private function _encode($password)
     {
         $majorsalt = 'UITY&O*7d8u09pasolkJGDT))polkhjg879SOI';
@@ -121,6 +134,9 @@ class AjaxLogin extends CI_Controller
         return md5($majorsalt);
     }
 
+    /**
+     * @param $data
+     */
     function _set_session($data)
     {
         // Set session data array
@@ -136,6 +152,9 @@ class AjaxLogin extends CI_Controller
         $this->session->set_userdata($user);
     }
 
+    /**
+     * Uses POST vars
+     */
     public function forgotPassword(){
         if (! $this->user->forgot_password($_POST['email'], $hash = $this->hash($_POST['email']))){
             echo $hash;
@@ -191,6 +210,11 @@ class AjaxLogin extends CI_Controller
         }
     }
 
+    /**
+     * @param $data
+     * @return mixed
+     * @throws Exception
+     */
     function hash($data){
         $majorsalt = '';
 
@@ -225,6 +249,10 @@ class AjaxLogin extends CI_Controller
         return str_replace('/', random_int(10, 55), $majorsalt);
     }
 
+    /**
+     * @param $id
+     * Uses POST vars
+     */
     public function resetPassword($id){
         if ($_POST['password'] == $_POST['confirm_password']){
             $pass = crypt($this->_encode($_POST['password']), '');

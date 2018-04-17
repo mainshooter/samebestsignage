@@ -8,6 +8,9 @@
 
 class Images extends CI_Controller{
 
+    /**
+     * Images constructor.
+     */
     public function __construct(){
         parent::__construct();
 
@@ -30,6 +33,9 @@ class Images extends CI_Controller{
         $this->data['alerts'] = $this->alert->get_all_entries_user($this->session->userdata('DX_user_id'));
     }
 
+    /**
+     * @param $hash
+     */
     public function add($hash){
         $data['ticket'] = $this->ticket->get_entry_by_hash($hash);
         if(!empty($data['ticket'])){
@@ -46,6 +52,10 @@ class Images extends CI_Controller{
         }
     }
 
+    /**
+     * @param $group
+     * @param $id
+     */
     public function insert($group, $id)
     {
         $ticket = $this->ticket->get_single_entry($id);

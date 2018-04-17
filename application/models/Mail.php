@@ -8,16 +8,39 @@
 
 class Mail extends CI_Model
 {
+    /**
+     * @return mixed
+     */
     public function get_all_entries(){
         $query = $this->db->query('SELECT * FROM mail_config WHERE id = 1');
         return $query->row_array();
     }
 
+    /**
+     * @return mixed
+     */
     public function get_default_entry(){
         $query = $this->db->query('SELECT * FROM mail_config WHERE id = 0');
         return $query->row_array();
     }
 
+    /**
+     * @param $id
+     * @param $protocol
+     * @param $smtp_host
+     * @param $smtp_user
+     * @param $smtp_pass
+     * @param $smtp_port
+     * @param $smtp_timeout
+     * @param $smtp_crypto
+     * @param $mailtype
+     * @param $newline
+     * @param $crlf
+     * @param $charset
+     * @param $validate
+     * @param $priority
+     * @return mixed
+     */
     public function update_entry(
         $id,
         $protocol,
@@ -60,6 +83,11 @@ class Mail extends CI_Model
         return $query;
     }
 
+    /**
+     * @param $key
+     * @param $item
+     * @return mixed
+     */
     public function reset_entry($key, $item){
         $query = $this->db->query('UPDATE mail_config SET ' . $key . ' = ' . $this->db->escape($item) . ' WHERE id = 1');
 

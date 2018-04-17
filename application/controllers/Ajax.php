@@ -9,6 +9,9 @@
 class Ajax extends CI_Controller
 {
 
+    /**
+     * Ajax constructor.
+     */
     public function __construct()
     {
         parent::__construct();
@@ -33,6 +36,9 @@ class Ajax extends CI_Controller
         $this->load->model('roles');
     }
 
+    /**
+     * Uses POST and FILES vars
+     */
     public function addTicket()
     {
         $config = array(
@@ -184,6 +190,9 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * @param $id
+     */
     public function shareTicket($id)
     {
         $ticket = $this->ticket->get_single_entry($id);
@@ -243,6 +252,10 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * @param $id
+     * Uses POST vars
+     */
     public function completeTicket($id)
     {
         if (!$this->ticket->complete_entry($id, $_POST['solution'], $_POST['status'])) {
@@ -265,12 +278,19 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * @param $id
+     */
     public function getLevel($id)
     {
         $row = $this->status->get_single_entry($id);
         echo $row['status_level'];
     }
 
+    /**
+     * @param $id
+     * Uses POST vars
+     */
     public function editTicket($id)
     {
         if (!empty($_POST['problem'])) {
@@ -295,6 +315,10 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * @param $id
+     * Uses POST vars
+     */
     public function assignTicket($id)
     {
         if (!empty($_POST['comment'])) {
@@ -320,6 +344,9 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * @param $id
+     */
     public function restoreTicket($id)
     {
         if (!$this->ticket->restore_entry($id)) {
@@ -342,6 +369,9 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * Uses POST vars
+     */
     public function addCategory()
     {
         if (!$this->category->insert_entry($_POST['name'], $_POST['info'])) {
@@ -364,6 +394,10 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * @param $id
+     * Uses POST vars
+     */
     public function editCategory($id)
     {
         if (!$this->category->update_entry($id, $_POST['name'], $_POST['info'])) {
@@ -386,6 +420,9 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * Uses POST vars
+     */
     public function toggleCategory()
     {
         $msg = $this->category->toggle_category($_POST['id']);
@@ -409,6 +446,9 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * Uses POST vars
+     */
     public function addStatus()
     {
         if (!empty($_POST['name'])) {
@@ -461,6 +501,9 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * @param $id
+     */
     public function editStatus($id)
     {
         if (!$this->status->update_entry($id, $_POST['name'], $_POST['level'], $_POST['info'])) {
@@ -483,6 +526,9 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * Uses POST vars
+     */
     public function toggleStatus()
     {
         $msg = $this->status->toggle_status($_POST['id']);
@@ -506,6 +552,9 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * Uses POST vars
+     */
     public function addImportance()
     {
         if (!empty($_POST['name'])) {
@@ -569,6 +618,10 @@ class Ajax extends CI_Controller
     }
 
 
+    /**
+     * @param $id
+     * Uses POST vars
+     */
     public function editImportance($id)
     {
         if (!$this->importance->update_entry($id, $_POST['name'], $_POST['info'], $_POST['color'], $_POST['level'])) {
@@ -591,6 +644,9 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * Uses POST vars
+     */
     public function toggleImportance()
     {
         $msg = $this->importance->toggle_importance($_POST['id']);
@@ -614,6 +670,9 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * Uses POST vars
+     */
     public function addPage()
     {
         if (!empty($_POST['name'])) {
@@ -677,6 +736,10 @@ class Ajax extends CI_Controller
     }
 
 
+    /**
+     * @param $id
+     * Uses POST vars
+     */
     public function editPage($id)
     {
         if (!$this->page->update_entry($id, $_POST['name'], $_POST['type'], $_POST['link'], $_POST['rights'])) {
@@ -699,6 +762,9 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * Uses POST vars
+     */
     public function addUser()
     {
         if (!$this->session->userdata('DX_logged_in')) {
@@ -748,6 +814,10 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * @param $id
+     * Uses POST vars
+     */
     public function editUser($id)
     {
         if (!$this->session->userdata('DX_logged_in')) {
@@ -841,6 +911,9 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * Uses POST vars
+     */
     public function toggleUser()
     {
         $msg = $this->user->toggle_user($_POST['id']);
@@ -864,6 +937,10 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * @param $id
+     * Uses POST vars
+     */
     public function editUserFront($id)
     {
         if (!$this->session->userdata('DX_logged_in')) {
@@ -925,6 +1002,10 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * @param $password
+     * @return string
+     */
     function _encode($password)
     {
         $majorsalt = 'UITY&O*7d8u09pasolkJGDT))polkhjg879SOI';
@@ -952,6 +1033,9 @@ class Ajax extends CI_Controller
         return md5($majorsalt);
     }
 
+    /**
+     * @param int $daysBack
+     */
     public function lineChartTicket($daysBack = 31)
     {
         $array = $this->ticket->get_line_chart_ticket();
@@ -974,6 +1058,12 @@ class Ajax extends CI_Controller
         echo $json;
     }
 
+    /**
+     * @param $needle
+     * @param $haystack
+     * @param bool $strict
+     * @return bool|int|string
+     */
     function in_array_r($needle, $haystack, $strict = false) {
         foreach ($haystack as $key => $item) {
             if (in_array($needle, $item)) {
@@ -984,6 +1074,9 @@ class Ajax extends CI_Controller
         return false;
     }
 
+    /**
+     * @param int $daysBack
+     */
     public function lineChartLogins($daysBack = 31)
     {
         $array = $this->user->get_line_chart_login();
@@ -1006,6 +1099,9 @@ class Ajax extends CI_Controller
         echo $json;
     }
 
+    /**
+     *
+     */
     public function pieChartCat()
     {
         $array = $this->ticket->get_pie_chart();
@@ -1021,33 +1117,9 @@ class Ajax extends CI_Controller
         echo $json;
     }
 
-    /*
-    public function pieChartClient()
-    {
-        $array = $this->ticket->get_pie_chart_client();
-
-        $tmp = array();
-
-        foreach ($array as $item) {
-            if (!array_key_exists($item['client_name'], $tmp)) {
-                $tmp[$item['client_name']] = 1;
-            } else {
-                $tmp[$item['client_name']] = ($tmp[$item['client_name']] + 1);
-            }
-        }
-
-        $json = '{"cols": [{"id":"","label":"Date","pattern":"","type":"string"},{"id":"","label":"Ticket","pattern":"","type":"number"}],"rows": [';
-
-        foreach ($tmp as $key => $item) {
-            $json .= '{"c":[{"v":"' . $key . '","f":null},{"v":' . $item . ',"f":null}]},';
-        }
-
-        $json .= ']}';
-
-        echo $json;
-    }
-    */
-
+    /**
+     *
+     */
     public function resetMail()
     {
         foreach ($this->mail->get_default_entry() as $key => $item) {
@@ -1074,6 +1146,9 @@ class Ajax extends CI_Controller
     }
 
 
+    /**
+     * Uses POST vars
+     */
     public function updateMail()
     {
         if (!empty($_POST['protocol'])){
@@ -1161,6 +1236,9 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * Uses POST vars
+     */
     public function addMailTemp()
     {
         if (!$this->templates->insert_entry($_POST["subject"], $_POST["content"])) {
@@ -1183,6 +1261,10 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * @param $id
+     * Uses POST vars
+     */
     public function updateMailTemp($id)
     {
         if (!empty($_POST['subject'])) {
@@ -1225,6 +1307,9 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * Uses POST vars
+     */
     public function addClient()
     {
 
@@ -1269,6 +1354,10 @@ class Ajax extends CI_Controller
 
     }
 
+    /**
+     * @param $id
+     * Uses POST vars
+     */
     public function editClient($id)
     {
         if (!empty($_POST["username"])) {
@@ -1312,6 +1401,9 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * Uses POST vars
+     */
     public function toggleClient(){
         $msg = $this->clients->toggle_client($_POST['id']);
         if (is_bool($msg) && $msg === false) {
@@ -1334,6 +1426,9 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * Uses POST vars
+     */
     public function markAsRead(){
         if ( ! $this->alert->set_read($_POST['id'])){
             echo json_encode(
@@ -1354,6 +1449,9 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     *
+     */
     public function markAsReadAll(){
         if ( ! $this->alert->set_read_all($this->session->userdata('DX_user_id'))){
             echo json_encode(
@@ -1374,6 +1472,11 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * @param $data
+     * @return mixed
+     * @throws Exception
+     */
     function hash($data){
         $majorsalt = '';
 
@@ -1408,6 +1511,9 @@ class Ajax extends CI_Controller
         return str_replace('/', random_int(10, 55), $majorsalt);
     }
 
+    /**
+     *
+     */
     public function getTicketsHome(){
         $html = '';
         $data = $this->ticket->get_pending_entries();
@@ -1419,6 +1525,9 @@ class Ajax extends CI_Controller
         echo $html;
     }
 
+    /**
+     * Uses POST vars
+     */
     public function addRightLevel(){
         if (!empty($_POST['name'])){
             if (!empty($_POST['info'])){
@@ -1459,6 +1568,10 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * @param $id
+     * Uses POST vars
+     */
     public function editRightLevel($id){
         if (!empty($_POST['name'])){
             if (!empty($_POST['info'])){
@@ -1499,6 +1612,10 @@ class Ajax extends CI_Controller
         }
     }
 
+    /**
+     * @param $id
+     * Uses POST vars
+     */
     public function insertProgress($id){
         if (!empty($_POST['reply'])){
             if (!$this->ticket->insert_progress($id, $_POST['reply'])){

@@ -8,6 +8,9 @@
 
 class Rights
 {
+    /**
+     * @param $page
+     */
     public function validate_rights($page){
         $CI =& get_instance();
 

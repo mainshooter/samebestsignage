@@ -8,6 +8,9 @@
 
 class Users extends CI_Controller
 {
+    /**
+     * Users constructor.
+     */
     public function __construct()
     {
         parent::__construct();
@@ -15,6 +18,9 @@ class Users extends CI_Controller
         $this->load->database();
     }
 
+    /**
+     *
+     */
     public function login()
     {
         $data['this_user'] = $this->session->userdata();
@@ -33,12 +39,18 @@ class Users extends CI_Controller
         }
     }
 
+    /**
+     *
+     */
     public function logout()
     {
         $this->session->sess_destroy();
         redirect('login');
     }
 
+    /**
+     *
+     */
     public function forgot(){
         if (! $this->session->userdata('DX_logged_in'))
         {
@@ -55,6 +67,9 @@ class Users extends CI_Controller
         }
     }
 
+    /**
+     * @param $hash
+     */
     public function reset($hash){
         $this->load->model('user');
         if (! $this->session->userdata('DX_logged_in')) {
