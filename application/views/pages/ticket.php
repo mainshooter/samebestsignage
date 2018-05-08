@@ -224,9 +224,12 @@ if (!empty($ticket['ticket_completed_at'])){
                             <select class="form-control" id="exampleSelect1" name="status" onchange="change($(this))" required>
                                 <?php
                                 foreach ($statuses as $status){
-                                    ?>
-                                    <option value="<?= $status['status_id'] ?>" level="<?= $status['status_level'] ?>" <?= ($status['status_name'] == $ticket['status_name'])? 'disabled selected' : '' ?>><?= $status['status_name'] ?></option>
-                                    <?php
+                                    if ($status['status_name'] != $ticket['status_name']) {
+                                        ?>
+                                        <option value="<?= $status['status_id'] ?>"
+                                                level="<?= $status['status_level'] ?>"><?= $status['status_name'] ?></option>
+                                        <?php
+                                    }
                                 }
                                 ?>
                             </select>
