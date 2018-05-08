@@ -249,6 +249,8 @@ class Ticket extends CI_Model
      * @return mixed
      */
     public function insert_entry($cli, $cat, $sta, $imp, $pro, $img, $DX_, $use, $has){
+        $this->logs->insert_entry("INSERT", "Ticket created", ($this->session->userdata('DX_user_id') != null)? $this->session->userdata('DX_user_id') : $this->input->ip_address());
+
         $query = $this->db->query('
           INSERT INTO tickets (
            client_id, 
@@ -271,10 +273,6 @@ class Ticket extends CI_Model
            '.$this->db->escape($use).',
            '.$this->db->escape($has).')
           ');
-
-        if($query){
-            $this->logs->insert_entry("INSERT", "Ticket created", ($this->session->userdata('DX_user_id') != null)? $this->session->userdata('DX_user_id') : $this->input->ip_address());
-        }
 
         return $query;
     }

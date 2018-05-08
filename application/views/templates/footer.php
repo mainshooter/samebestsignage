@@ -120,19 +120,16 @@
                     event.preventDefault();
 
                     var data = new FormData();
-                    data.append('client', $('[name="client"]').val());
-                    data.append('user', $('[name="user"]').val());
-                    data.append('category', $('[name="category"]').val());
-                    data.append('status', $('[name="ticket-status"]').val());
-                    data.append('importance', $('[name="importance"]').val());
-                    data.append('problem', $('[name="problem"]').val());
+                    data.append('client', $('#client').val());
+                    data.append('user', $('#handler').val());
+                    data.append('category', $('#category').val());
+                    data.append('status', $('#status').val());
+                    data.append('importance', $('#importance').val());
+                    data.append('problem', $('#problem').val());
 
-                    $.each($('input[name="image[]"]')[0].files, function(i, file) {
+                    $.each($('#image')[0].files, function(i, file) {
                         data.append('image[]', file);
                     });
-
-                    //console.log(JSON.stringify(data));
-                    //console.log(data);
 
                     <?= ajax('POST', 'addTicket', 'data', null, null, 'enctype: "multipart/form-data", processData: false, contentType: false, async: false, cache: false,') ?>
                 });
