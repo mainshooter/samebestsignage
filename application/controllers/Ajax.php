@@ -181,7 +181,7 @@ class Ajax extends CI_Controller
             $insertId = $this->db->insert_id();
 
             $this->load->library('email');
-            $this->load->library('mailtemplates');
+            $this->load->library( 'mailtemplates');
 
             $config = array();
 

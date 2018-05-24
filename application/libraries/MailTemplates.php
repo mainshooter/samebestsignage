@@ -10,6 +10,7 @@ class Mailtemplates
 {
     /**
      * @var
+     *
      */
     private $template;
 
