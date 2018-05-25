@@ -42,196 +42,211 @@ class Ajax extends CI_Controller
     public function addTicket()
     {
         $upload = false;
+        if (!empty($_POST['client']) &&
+            !empty($_POST['user']) &&
+            !empty($_POST['category']) &&
+            !empty($_POST['ticket-status']) &&
+            !empty($_POST['importance']) &&
+            !empty($_POST['problem'])) {
 
-        if (isset($_FILES['image']) && !empty($_FILES['image'])) {
-            $config = array(
-                'upload_path' => 'public/img/uploads/',
-                'allowed_types' => 'gif|jpg|png',
-                'file_ext_tolower' => TRUE,
-                'max_size' => 4096,
-                'max_width' => 0,
-                'max_height' => 0,
-                'max_filename' => 1000,
-            );
-
-            $this->load->library('upload');
-            $this->load->library('image_lib');
-            $this->upload->initialize($config);
-
-            $upload = true;
-
-            $files_uploaded = array();
-            $number_of_files_uploaded = count($_FILES['image']['name']);
-
-            for ($i = 0; $i < $number_of_files_uploaded; $i++) {
-
-                if ($number_of_files_uploaded == 1) {
-                    $_FILES['userfile']['name'] = $_FILES['image']['name'][0];
-                    $_FILES['userfile']['type'] = $_FILES['image']['type'][0];
-                    $_FILES['userfile']['tmp_name'] = $_FILES['image']['tmp_name'][0];
-                    $_FILES['userfile']['error'] = $_FILES['image']['error'][0];
-                    $_FILES['userfile']['size'] = $_FILES['image']['size'][0];
-
-                    if (!$this->upload->do_upload('userfile')) {
-                        echo json_encode(
-                            array(
-                                "error" => false,
-                                "msg" => "<pre>" . $this->upload->display_errors() . "</pre>",
-                                "href" => "unset"
-                            )
-                        );
-
-                        $upload = false;
-                    } else {
-                        $data = $this->upload->data();
-
-                        $config_lib = array(
-                            'image_library' => 'gd2',
-                            'source_image' => $config['upload_path'] . $data['file_name'],
-                            'create_thumb' => TRUE,
-                            'thumb_marker' => '_thumb',
-                            'maintain_ratio' => TRUE,
-                            'width' => 200,
-                            'height' => 200
-                        );
-
-                        $this->image_lib->initialize($config_lib);
-                        $this->image_lib->resize();
-
-                        $data['thumb'] = $data['raw_name'] . $config_lib['thumb_marker'] . $data['file_ext'];
-                        $data['file_path'] = $config['upload_path'];
-                        $data['file_path'] = $config['upload_path'];
-                        $data['full_path'] = $config['upload_path'] . $data['file_name'];
-                        $files_uploaded[] = $data;
-                    }
-                } else {
-                    $_FILES['userfile']['name'] = $_FILES['image']['name'][$i];
-                    $_FILES['userfile']['type'] = $_FILES['image']['type'][$i];
-                    $_FILES['userfile']['tmp_name'] = $_FILES['image']['tmp_name'][$i];
-                    $_FILES['userfile']['error'] = $_FILES['image']['error'][$i];
-                    $_FILES['userfile']['size'] = $_FILES['image']['size'][$i];
-
-                    if (!$this->upload->do_upload('userfile')) {
-                        echo json_encode(
-                            array(
-                                "error" => false,
-                                "msg" => "<pre>" . $this->upload->display_errors() . "</pre>",
-                                "href" => "unset"
-                            )
-                        );
-
-                        $upload = false;
-                    } else {
-                        $data = $this->upload->data();
-
-                        $config_lib = array(
-                            'image_library' => 'gd2',
-                            'source_image' => $config['upload_path'] . $data['file_name'],
-                            'create_thumb' => TRUE,
-                            'thumb_marker' => '_thumb',
-                            'maintain_ratio' => TRUE,
-                            'width' => 200,
-                            'height' => 200
-                        );
-
-                        $this->image_lib->initialize($config_lib);
-                        $this->image_lib->resize();
-
-                        $data['thumb'] = $data['raw_name'] . $config_lib['thumb_marker'] . $data['file_ext'];
-                        $data['file_path'] = $config['upload_path'];
-                        $data['file_path'] = $config['upload_path'];
-                        $data['full_path'] = $config['upload_path'] . $data['file_name'];
-                        $files_uploaded[] = $data;
-                    }
-                }
-            }
-        }
-
-        $group = $this->image->generate_new_group();
-
-        if ($upload != false) {
-            $insert = true;
-            foreach ($files_uploaded as $key => $item) {
-                if (!$this->image->insert_entry($group, $item['file_name'], $item['thumb'], $item['file_path'], $item['file_size'])) {
-                    $insert = false;
-                }
-            }
-
-        }
-
-        if (!$this->ticket->insert_entry(
-            $_POST['client'],
-            $_POST['category'],
-            $_POST['status'],
-            $_POST['importance'],
-            $_POST['problem'],
-            $group,
-            $this->session->userdata('DX_user_id'),
-            $_POST['user'],
-            $this->hash($_POST['category'] . $_POST['problem'])
-        )) {
-            echo json_encode(
-                array(
-                    "error" => true,
-                    "msg" => "At this moment is is not possible to create a ticket. /n Please come back later to try again.",
-                    "href" => "unset"
-                )
-            );
-        } else {
-            $insertId = $this->db->insert_id();
-
-            $this->load->library('email');
-            $this->load->library( 'mailtemplates');
-
-            $config = array();
-
-            //all config items
-            foreach ($this->mail->get_all_entries() as $key => $item) {
-                $config[$key] = $item;
-            }
-            $this->email->initialize($config);
-            $this->email->set_newline("\r\n");
-
-            $data = $this->user->get_single_entry_mail($_POST['user']);
-            $cat = $this->category->get_single_entry($_POST['category']);
-
-            $values = array(
-                '({[!TITLE!]})' => $cat['cat_name'],
-                '({[!TICKETID!]})' => $insertId,
-                '({[!PROBLEM!]})' => $_POST['problem'],
-                '({[!CATEGORY!]})' => $cat['cat_name'],
-                '({[!BASEURL!]})' => base_url(),
-            );
-
-            $this->mailtemplates->setTemplate(1);
-            $this->mailtemplates->setCustomSubject($cat['cat_name']);
-            $this->mailtemplates->writeData($values);
-
-
-            $this->email->from('info@idsignage.nl', 'IdSignage');
-            $this->email->to($data['email']);
-            $this->email->subject($this->mailtemplates->subject());
-            $this->email->message($this->mailtemplates->getData());
-
-            if ($this->email->send()) {
-                $this->alert->insert_entry($_POST['user'], 'Assigned', 'A ticket is assigned to you.', 'redo', '/ticket/' . $insertId);
-                $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Created', 'Ticket no.' . $insertId . ' is created.', 'add', '/ticket/' . $insertId);
-                echo json_encode(
-                    array(
-                        "error" => false,
-                        "msg" => "Success",
-                        "href" => "/home"
-                    )
+            if (isset($_FILES['image']) && !empty($_FILES['image'])) {
+                $config = array(
+                    'upload_path' => 'public/img/uploads/',
+                    'allowed_types' => 'gif|jpg|png',
+                    'file_ext_tolower' => TRUE,
+                    'max_size' => 4096,
+                    'max_width' => 0,
+                    'max_height' => 0,
+                    'max_filename' => 1000,
                 );
-            } else {
+
+                $this->load->library('upload');
+                $this->load->library('image_lib');
+                $this->upload->initialize($config);
+
+                $upload = true;
+
+                $files_uploaded = array();
+                $number_of_files_uploaded = count($_FILES['image']['name']);
+
+                for ($i = 0; $i < $number_of_files_uploaded; $i++) {
+
+                    if ($number_of_files_uploaded == 1) {
+                        $_FILES['userfile']['name'] = $_FILES['image']['name'][0];
+                        $_FILES['userfile']['type'] = $_FILES['image']['type'][0];
+                        $_FILES['userfile']['tmp_name'] = $_FILES['image']['tmp_name'][0];
+                        $_FILES['userfile']['error'] = $_FILES['image']['error'][0];
+                        $_FILES['userfile']['size'] = $_FILES['image']['size'][0];
+
+                        if (!$this->upload->do_upload('userfile')) {
+                            echo json_encode(
+                                array(
+                                    "error" => false,
+                                    "msg" => "<pre>" . $this->upload->display_errors() . "</pre>",
+                                    "href" => "unset"
+                                )
+                            );
+
+                            $upload = false;
+                        } else {
+                            $data = $this->upload->data();
+
+                            $config_lib = array(
+                                'image_library' => 'gd2',
+                                'source_image' => $config['upload_path'] . $data['file_name'],
+                                'create_thumb' => TRUE,
+                                'thumb_marker' => '_thumb',
+                                'maintain_ratio' => TRUE,
+                                'width' => 200,
+                                'height' => 200
+                            );
+
+                            $this->image_lib->initialize($config_lib);
+                            $this->image_lib->resize();
+
+                            $data['thumb'] = $data['raw_name'] . $config_lib['thumb_marker'] . $data['file_ext'];
+                            $data['file_path'] = $config['upload_path'];
+                            $data['file_path'] = $config['upload_path'];
+                            $data['full_path'] = $config['upload_path'] . $data['file_name'];
+                            $files_uploaded[] = $data;
+                        }
+                    } else {
+                        $_FILES['userfile']['name'] = $_FILES['image']['name'][$i];
+                        $_FILES['userfile']['type'] = $_FILES['image']['type'][$i];
+                        $_FILES['userfile']['tmp_name'] = $_FILES['image']['tmp_name'][$i];
+                        $_FILES['userfile']['error'] = $_FILES['image']['error'][$i];
+                        $_FILES['userfile']['size'] = $_FILES['image']['size'][$i];
+
+                        if (!$this->upload->do_upload('userfile')) {
+                            echo json_encode(
+                                array(
+                                    "error" => false,
+                                    "msg" => "<pre>" . $this->upload->display_errors() . "</pre>",
+                                    "href" => "unset"
+                                )
+                            );
+
+                            $upload = false;
+                        } else {
+                            $data = $this->upload->data();
+
+                            $config_lib = array(
+                                'image_library' => 'gd2',
+                                'source_image' => $config['upload_path'] . $data['file_name'],
+                                'create_thumb' => TRUE,
+                                'thumb_marker' => '_thumb',
+                                'maintain_ratio' => TRUE,
+                                'width' => 200,
+                                'height' => 200
+                            );
+
+                            $this->image_lib->initialize($config_lib);
+                            $this->image_lib->resize();
+
+                            $data['thumb'] = $data['raw_name'] . $config_lib['thumb_marker'] . $data['file_ext'];
+                            $data['file_path'] = $config['upload_path'];
+                            $data['file_path'] = $config['upload_path'];
+                            $data['full_path'] = $config['upload_path'] . $data['file_name'];
+                            $files_uploaded[] = $data;
+                        }
+                    }
+                }
+            }
+
+            $group = $this->image->generate_new_group();
+
+            if ($upload != false) {
+                $insert = true;
+                foreach ($files_uploaded as $key => $item) {
+                    if (!$this->image->insert_entry($group, $item['file_name'], $item['thumb'], $item['file_path'], $item['file_size'])) {
+                        $insert = false;
+                    }
+                }
+
+            }
+
+            if (!$this->ticket->insert_entry(
+                $_POST['client'],
+                $_POST['category'],
+                $_POST['status'],
+                $_POST['importance'],
+                $_POST['problem'],
+                $group,
+                $this->session->userdata('DX_user_id'),
+                $_POST['user'],
+                $this->hash($_POST['category'] . $_POST['problem'])
+            )) {
                 echo json_encode(
                     array(
                         "error" => true,
-                        "msg" => "<pre>" . $this->email->print_debugger() . "</pre>",
+                        "msg" => "At this moment is is not possible to create a ticket. /n Please come back later to try again.",
                         "href" => "unset"
                     )
                 );
+            } else {
+                $insertId = $this->db->insert_id();
+
+                $this->load->library('email');
+                $this->load->library('mailtemplates');
+
+                $config = array();
+
+                //all config items
+                foreach ($this->mail->get_all_entries() as $key => $item) {
+                    $config[$key] = $item;
+                }
+                $this->email->initialize($config);
+                $this->email->set_newline("\r\n");
+
+                $data = $this->user->get_single_entry_mail($_POST['user']);
+                $cat = $this->category->get_single_entry($_POST['category']);
+
+                $values = array(
+                    '({[!TITLE!]})' => $cat['cat_name'],
+                    '({[!TICKETID!]})' => $insertId,
+                    '({[!PROBLEM!]})' => $_POST['problem'],
+                    '({[!CATEGORY!]})' => $cat['cat_name'],
+                    '({[!BASEURL!]})' => base_url(),
+                );
+
+                $this->mailtemplates->setTemplate(1);
+                $this->mailtemplates->setCustomSubject($cat['cat_name']);
+                $this->mailtemplates->writeData($values);
+
+
+                $this->email->from('info@idsignage.nl', 'IdSignage');
+                $this->email->to($data['email']);
+                $this->email->subject($this->mailtemplates->subject());
+                $this->email->message($this->mailtemplates->getData());
+
+                if ($this->email->send()) {
+                    $this->alert->insert_entry($_POST['user'], 'Assigned', 'A ticket is assigned to you.', 'redo', '/ticket/' . $insertId);
+                    $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Created', 'Ticket no.' . $insertId . ' is created.', 'add', '/ticket/' . $insertId);
+                    echo json_encode(
+                        array(
+                            "error" => false,
+                            "msg" => "Success",
+                            "href" => "/home"
+                        )
+                    );
+                } else {
+                    echo json_encode(
+                        array(
+                            "error" => true,
+                            "msg" => "<pre>" . $this->email->print_debugger() . "</pre>",
+                            "href" => "unset"
+                        )
+                    );
+                }
             }
+        } else{
+            echo json_encode(
+                array(
+                    "error" => true,
+                    "msg" => "Niet alle velden zijn compleet ingevult.",
+                    "href" => "unset"
+                )
+            );
         }
     }
 

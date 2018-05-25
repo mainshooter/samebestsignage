@@ -6,12 +6,12 @@
     <form method="post">
         <div class="form-group">
             <label for="subject">Subject</label>
-            <input type="text" class="form-control" id="subject" name="subject">
+            <input type="text" class="form-control" id="subject" name="subject" required>
         </div>
 
         <div class="form-group">
             <label for="content">Content</label>
-            <textarea  type="text" class="form-control" id="content" name="content" rows="25"></textarea>
+            <textarea  type="text" class="form-control" id="content" name="content" rows="25" required></textarea>
         </div>
 
         <button type="submit" class="btn btn-outline-success">Save</button>

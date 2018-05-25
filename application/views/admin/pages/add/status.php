@@ -3,7 +3,7 @@
         <form id="form" method="post">
             <div class="form-group">
                 <label for="exampleSelect1">Name</label>
-                <input type="text" class="form-control" name="name" placeholder="Type the name here">
+                <input type="text" class="form-control" name="name" placeholder="Type the name here" required>
             </div>
 
             <div class="form-group">

@@ -3,7 +3,7 @@
         <form id="editcat" method="post">
             <div class="form-group">
                 <label for="exampleSelect1">Category Name</label>
-                <input type="text" class="form-control" name="name" placeholder="Type the category name here" value="<?= $array['cat_name'] ?>">
+                <input type="text" class="form-control" name="name" placeholder="Type the category name here" value="<?= $array['cat_name'] ?>" required>
             </div>
 
             <div class="form-group">

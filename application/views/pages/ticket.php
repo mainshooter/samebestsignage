@@ -388,7 +388,7 @@ if (!empty($ticket['ticket_completed_at'])){
                 <div class="modal-body form-group">
                     <div class="modal-msg"></div>
                     <label for="email">Sent to</label>
-                    <input type="email" name="email" id="email" class="form-control" placeholder="Email">
+                    <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>

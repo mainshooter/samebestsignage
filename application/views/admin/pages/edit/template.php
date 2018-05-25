@@ -11,14 +11,14 @@
                     ?>
                     <div class="form-group">
                         <label for="<?= $key ?>"><?= ucfirst($key) ?></label>
-                        <input type="text" class="form-control" id="<?= $key ?>" name="<?= $key ?>" value="<?= $item ?>">
+                        <input type="text" class="form-control" id="<?= $key ?>" name="<?= $key ?>" value="<?= $item ?>" required>
                     </div>
                     <?php
                 } elseif ($key == 'content'){
                     ?>
                     <div class="form-group">
                         <label for="<?= $key ?>"><?= ucfirst($key) ?></label>
-                        <textarea  type="text" class="form-control" id="<?= $key ?>" name="<?= $key ?>" rows="25"><?= $item ?></textarea>
+                        <textarea  type="text" class="form-control" id="<?= $key ?>" name="<?= $key ?>" rows="25" required><?= $item ?></textarea>
                     </div>
                     <?php
                 }

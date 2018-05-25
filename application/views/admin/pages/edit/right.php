@@ -3,7 +3,7 @@
         <form id="form" method="post">
             <div class="form-group">
                 <label for="exampleSelect1">Name</label>
-                <input type="text" class="form-control" name="name" placeholder="Type the right name here" value="<?= $role['role_name'] ?>">
+                <input type="text" class="form-control" name="name" placeholder="Type the right name here" value="<?= $role['role_name'] ?>" required>
             </div>
 
             <div class="form-group">
