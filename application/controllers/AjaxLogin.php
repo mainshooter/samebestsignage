@@ -171,6 +171,7 @@ class AjaxLogin extends CI_Controller
                 $config[$key] = $item;
             }
             $this->email->initialize($config);
+            $this->email->set_newline("\r\n");
 
             $values = array(
                 '({[!TITLE!]})' => 'Password Reset',
@@ -239,12 +240,6 @@ class AjaxLogin extends CI_Controller
                 )
             );
         }
-
-        //just some fun
-        $majorsalt .= sha1(
-            md5($majorsalt.random_int(8946, 89465)),
-            false
-            );
 
         return str_replace('/', random_int(10, 55), $majorsalt);
     }

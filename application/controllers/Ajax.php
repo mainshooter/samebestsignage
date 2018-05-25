@@ -257,6 +257,7 @@ class Ajax extends CI_Controller
         }
 
         $this->email->initialize($config);
+        $this->email->set_newline("\r\n");
 
         $data = $this->user->get_single_entry_mail(6);
 
