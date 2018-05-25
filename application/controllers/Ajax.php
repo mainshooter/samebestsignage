@@ -190,6 +190,7 @@ class Ajax extends CI_Controller
                 $config[$key] = $item;
             }
             $this->email->initialize($config);
+            $this->email->set_newline("\r\n");
 
             $data = $this->user->get_single_entry_mail($_POST['user']);
             $cat = $this->category->get_single_entry($_POST['category']);
