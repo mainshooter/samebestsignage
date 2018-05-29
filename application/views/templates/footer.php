@@ -32,7 +32,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="client">Client</label>
-                        <select class="form-control" id="client" name="client" required>
+                        <select class="form-control" id="add-client" name="add-client" required>
                             <option selected disabled>Choose a client</option>
                             <?php
                             foreach ($clients as $item){
@@ -46,7 +46,7 @@
 
                     <div class="form-group">
                         <label for="handler">Handler</label>
-                        <select class="form-control" id="handler" name="user" required>
+                        <select class="form-control" id="add-handler" name="add-user" required>
                             <option selected disabled>Choose a user</option>
                             <?php
                             foreach ($users as $item){
@@ -60,7 +60,7 @@
 
                     <div class="form-group">
                         <label for="category">Category</label>
-                        <select class="form-control" id="category" name="category" required>
+                        <select class="form-control" id="add-category" name="add-category" required>
                             <option selected disabled>Choose a category</option>
                             <?php
                             foreach ($categorys as $item){
@@ -74,7 +74,7 @@
 
                     <div class="form-group">
                         <label for="status">Status</label>
-                        <select class="form-control" id="status" name="ticket-status" required>
+                        <select class="form-control" id="add-status" name="ticket-status" required>
                             <?php
                             foreach ($statuses as $item){
                                 ?>
@@ -87,7 +87,7 @@
 
                     <div class="form-group">
                         <label for="importance">Importance</label>
-                        <select class="form-control" id="importance" name="importance" required>
+                        <select class="form-control" id="add-importance" name="importance" required>
                             <option selected disabled>Choose a level</option>
                             <?php
                             foreach ($importances as $item){
@@ -101,12 +101,12 @@
 
                     <div class="form-group">
                         <label for="image">Images</label>
-                        <input type="file" accept="image/*" class="form-control" id="image" name="image[]" multiple>
+                        <input type="file" accept="image/*" class="form-control" id="add-image" name="image[]" multiple>
                     </div>
 
                     <div class="form-group">
                         <label for="problem">Problem</label>
-                        <textarea class="form-control" id="problem" rows="3" name="problem" required></textarea>
+                        <textarea class="form-control" id="add-problem" rows="3" name="problem" required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -120,14 +120,14 @@
                     event.preventDefault();
 
                     var data = new FormData();
-                    data.append('client', $('#client').val());
-                    data.append('user', $('#handler').val());
-                    data.append('category', $('#category').val());
-                    data.append('status', $('#status').val());
-                    data.append('importance', $('#importance').val());
-                    data.append('problem', $('#problem').val());
+                    data.append('client', $('#add-client').val());
+                    data.append('user', $('#add-handler').val());
+                    data.append('category', $('#add-category').val());
+                    data.append('status', $('#add-status').val());
+                    data.append('importance', $('#add-importance').val());
+                    data.append('problem', $('#add-problem').val());
 
-                    $.each($('#image')[0].files, function(i, file) {
+                    $.each($('#add-image')[0].files, function(i, file) {
                         data.append('image[]', file);
                     });
 

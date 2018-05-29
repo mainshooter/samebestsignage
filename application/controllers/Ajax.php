@@ -45,7 +45,7 @@ class Ajax extends CI_Controller
         if (!empty($_POST['client']) &&
             !empty($_POST['user']) &&
             !empty($_POST['category']) &&
-            !empty($_POST['ticket-status']) &&
+            !empty($_POST['status']) &&
             !empty($_POST['importance']) &&
             !empty($_POST['problem'])) {
 
