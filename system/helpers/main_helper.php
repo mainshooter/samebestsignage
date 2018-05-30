@@ -69,7 +69,7 @@ if ( ! function_exists('ajax'))
         $return .= check('success', 'cached');
         $return .= '\'); animateCheck($(".check"), 0); }, success: function (data) { if (data.error === true){ $(".check, .check-content").css({"display": "none"}); setTimeout(function () { alert(data.msg); }, 100); } else{ if (data.href === "unset"){ alert(data.msg);} else{ window.location = ';
         if ($customHref != null){
-            $return .= $customHref;
+            $return .= '"'.$customHref.'"';
         } else{
             $return .= 'data.href';
         }

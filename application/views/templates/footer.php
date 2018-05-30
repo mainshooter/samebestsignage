@@ -32,6 +32,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="client">Client</label>
+                        <a href="/admin/client/add?redirect=<?= base_url().$_SERVER['REQUEST_URI']; ?>" class="float-right">Add Client</a>
                         <select class="form-control" id="add-client" name="add-client" required>
                             <option selected disabled>Choose a client</option>
                             <?php
@@ -137,6 +138,17 @@
         </div>
     </div>
 </div>
+    <?php
+    if (!empty($_GET["add"]) && $_GET["add"] == 'true'){
+        ?>
+        <script>
+            $(function () {
+                $('#add-ticket-modal').modal('show')
+            });
+        </script>
+        <?php
+    }
+    ?>
 <?php } ?>
 </body>
 </html>

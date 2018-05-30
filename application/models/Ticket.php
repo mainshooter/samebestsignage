@@ -51,6 +51,20 @@ class Ticket extends CI_Model
            WHERE t.ticket_completed_at IS NOT NULL');
         return $query->result_array();
     }
+    /**
+     * @return mixed
+     */
+    public function get_open_entries(){
+        $query = $this->db->query('
+          SELECT t.ticket_id, c.client_name, a.cat_name, t.ticket_problem, t.ticket_created_at, t.ticket_completed_at, s.status_name, u.email FROM tickets AS t 
+           JOIN categorys AS a ON t.ticket_type = a.cat_id
+           JOIN status_types AS s ON t.ticket_status = s.status_id
+           JOIN importance_types AS i ON t.ticket_importance = i.importance_id
+           JOIN clients AS c ON t.client_id = c.client_id
+           JOIN users AS u ON t.ticket_master = u.id
+           WHERE t.ticket_completed_at IS NULL');
+        return $query->result_array();
+    }
 
     /**
      * @return mixed

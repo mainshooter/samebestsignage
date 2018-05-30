@@ -82,6 +82,9 @@ class Pages extends CI_Controller
             case('profile'):
                 $this->profile();
                 break;
+            case('open'):
+                $this->open();
+                break;
             default:
                 $page = 'home';
                 $this->home($id);
@@ -140,6 +143,14 @@ class Pages extends CI_Controller
     public function completed(){
         $this->load->library('table');
         $this->setData('table', $this->table->generate($this->ticket->get_completed_entries()));
+    }
+
+    /**
+     *
+     */
+    public function open(){
+        $this->load->library('table');
+        $this->setData('table', $this->table->generate($this->ticket->get_open_entries()));
     }
 
     /**

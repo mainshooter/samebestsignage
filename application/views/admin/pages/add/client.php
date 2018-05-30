@@ -13,21 +13,23 @@
         </div>
 
         <div class="form-group">
-            <label for="email">Email*</label>
+            <label for="email">Email</label>
             <input type="email"
                    name="email"
                    id="email"
                    class="form-control"
-                   placeholder="Email">
+                   placeholder="Email"
+                   required>
         </div>
 
         <div class="form-group">
-            <label for="tel">Telephone Number*</label>
+            <label for="tel">Telephone Number</label>
             <input type="text"
                    name="tel"
                    id="tel"
                    class="form-control"
-                   placeholder="Telephone nr.">
+                   placeholder="Telephone nr."
+                   required>
         </div>
 
         <div class="form-group">
@@ -103,7 +105,11 @@
     // Set up an event listener for the contact form.
     $('form').submit(function(event) {
         event.preventDefault();
-
-        <?= ajax('POST', 'addClient', '$(this).serialize()') ?>
+        <?php
+            if (!isset($_GET["redirect"]) || empty($_GET["redirect"])){
+                $_GET["redirect"] = '';
+            }
+        ?>
+        <?= ajax('POST', 'addClient', '$(this).serialize()', null, $_GET["redirect"].'?add=true') ?>
     });
 </script>

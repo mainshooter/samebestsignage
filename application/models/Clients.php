@@ -28,6 +28,11 @@ class Clients extends CI_Model
         return $query->row_array();
     }
 
+    public function get_single_entry_mail($id){
+        $query = $this->db->query('SELECT client_email FROM clients WHERE client_id = '.$this->db->escape($id));
+        return $query->row_array();
+    }
+
     public function insert_entry($nam, $tel , $ema, $cou, $sta, $tow, $str, $num, $zip){
         $query = $this->db->query('
           INSERT INTO clients ( client_name, client_tel, client_email, client_country, client_state, client_city, client_street, client_street_number, client_zipcode ) 

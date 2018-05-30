@@ -41,6 +41,10 @@ class Ajax extends CI_Controller
      */
     public function addTicket()
     {
+        function add_leading_zero($value, $threshold = 6) {
+            return sprintf('%0' . $threshold . 's', $value);
+        }
+
         $upload = false;
         if (!empty($_POST['client']) &&
             !empty($_POST['user']) &&
@@ -185,6 +189,7 @@ class Ajax extends CI_Controller
                 );
             } else {
                 $insertId = $this->db->insert_id();
+                $insertId = add_leading_zero($insertId, 6);
 
                 $this->load->library('email');
                 $this->load->library('mailtemplates');
@@ -199,6 +204,7 @@ class Ajax extends CI_Controller
                 $this->email->set_newline("\r\n");
 
                 $data = $this->user->get_single_entry_mail($_POST['user']);
+                $client = $this->clients->get_single_entry_mail($_POST['client']);
                 $cat = $this->category->get_single_entry($_POST['category']);
 
                 $values = array(
@@ -222,13 +228,42 @@ class Ajax extends CI_Controller
                 if ($this->email->send()) {
                     $this->alert->insert_entry($_POST['user'], 'Assigned', 'A ticket is assigned to you.', 'redo', '/ticket/' . $insertId);
                     $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Created', 'Ticket no.' . $insertId . ' is created.', 'add', '/ticket/' . $insertId);
-                    echo json_encode(
-                        array(
-                            "error" => false,
-                            "msg" => "Success",
-                            "href" => "/home"
-                        )
+
+                    $values = array(
+                        '({[!TITLE!]})' => 'Uw ticket is in behandeling genomen',
+                        '({[!TICKETID!]})' => $insertId,
+                        '({[!PROBLEM!]})' => $_POST['problem'],
+                        '({[!CATEGORY!]})' => $cat['cat_name'],
+                        '({[!BASEURL!]})' => base_url(),
                     );
+
+                    $this->mailtemplates->setTemplate(4);
+                    $this->mailtemplates->setCustomSubject('Uw ticket is in behandeling genomen');
+                    $this->mailtemplates->writeData($values);
+
+
+                    $this->email->from('info@idsignage.nl', 'IdSignage');
+                    $this->email->to($client['client_email']);
+                    $this->email->subject($this->mailtemplates->subject());
+                    $this->email->message($this->mailtemplates->getData());
+
+                    if ($this->email->send()) {
+                        echo json_encode(
+                            array(
+                                "error" => false,
+                                "msg" => "Success",
+                                "href" => "/home"
+                            )
+                        );
+                    } else {
+                        echo json_encode(
+                            array(
+                                "error" => true,
+                                "msg" => "<pre>" . $this->email->print_debugger() . "</pre>",
+                                "href" => "unset"
+                            )
+                        );
+                    }
                 } else {
                     echo json_encode(
                         array(
@@ -1375,31 +1410,51 @@ class Ajax extends CI_Controller
     {
 
         if (!empty($_POST["username"])) {
-            if (!$this->clients->insert_entry(
-                $_POST["username"],
-                !empty($_POST['tel']) ? $_POST['tel'] : '',
-                !empty($_POST['email']) ? $_POST['email'] : '',
-                !empty($_POST['country']) ? $_POST['country'] : '',
-                !empty($_POST['state']) ? $_POST['state'] : '',
-                !empty($_POST['town']) ? $_POST['town'] : '',
-                !empty($_POST['street']) ? $_POST['street'] : '',
-                !empty($_POST['number']) ? $_POST['number'] : '',
-                !empty($_POST['zip']) ? $_POST['zip'] : ''
-            )) {
+            if (!empty($_POST["tel"])) {
+                if (!empty($_POST["email"])) {
+                    if (!$this->clients->insert_entry(
+                        $_POST["username"],
+                        !empty($_POST['tel']) ? $_POST['tel'] : '',
+                        !empty($_POST['email']) ? $_POST['email'] : '',
+                        !empty($_POST['country']) ? $_POST['country'] : '',
+                        !empty($_POST['state']) ? $_POST['state'] : '',
+                        !empty($_POST['town']) ? $_POST['town'] : '',
+                        !empty($_POST['street']) ? $_POST['street'] : '',
+                        !empty($_POST['number']) ? $_POST['number'] : '',
+                        !empty($_POST['zip']) ? $_POST['zip'] : ''
+                    )) {
+                        echo json_encode(
+                            array(
+                                "error" => true,
+                                "msg" => "At this moment is is not possible to create a client. /n Please come back later to try again.",
+                                "href" => "unset"
+                            )
+                        );
+                    } else {
+                        $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Created', 'Client is created.', 'add', '/admin/clients/');
+                        echo json_encode(
+                            array(
+                                "error" => false,
+                                "msg" => "Success",
+                                "href" => "/admin/clients"
+                            )
+                        );
+                    }
+                } else {
+                    echo json_encode(
+                        array(
+                            "error" => true,
+                            "msg" => "Email not filled in",
+                            "href" => "unset"
+                        )
+                    );
+                }
+            } else {
                 echo json_encode(
                     array(
                         "error" => true,
-                        "msg" => "At this moment is is not possible to create a client. /n Please come back later to try again.",
+                        "msg" => "Telephone number not filled in",
                         "href" => "unset"
-                    )
-                );
-            } else {
-                $this->alert->insert_entry($this->session->userdata('DX_user_id'), 'Created', 'Client is created.', 'add', '/admin/clients/');
-                echo json_encode(
-                    array(
-                        "error" => false,
-                        "msg" => "Success",
-                        "href" => "/admin/clients"
                     )
                 );
             }
@@ -1562,6 +1617,7 @@ class Ajax extends CI_Controller
                 )
             );
         }
+
 
         return str_replace('/', random_int(10, 55), $majorsalt);
     }
